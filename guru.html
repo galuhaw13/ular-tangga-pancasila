@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Guru - Ular Tangga Pancasila</title>
+  <link href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FFFDF7;
+      --card: #FFFFFF;
+      --primary: #5B8FB9;    /* Soft Sky Blue */
+      --secondary: #7BC9A6;  /* Mint Pastel */
+      --accent: #FFB84C;     /* Warm Marigold */
+      --danger: #F27878;     /* Soft Coral */
+      --text: #334155;
+      --muted: #64748B;
+      --border: #E2E8F0;
+    }
+    * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    
+    header {
+      background: linear-gradient(135deg, #AEE2FF 0%, #B9F3FC 100%);
+      padding: 20px 28px; border-radius: 20px; display: flex;
+      justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;
+      box-shadow: 0 6px 15px rgba(91, 143, 185, 0.12); margin-bottom: 24px;
+    }
+    header h1 { margin: 0; font-size: 1.5rem; color: #1E3A8A; }
+    header p { margin: 4px 0 0; font-size: 0.9rem; color: #334155; }
+
+    .grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 20px; }
+    @media (max-width: 850px) { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--card); border-radius: 18px; padding: 22px;
+      border: 2px solid #F1F5F9; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      margin-bottom: 20px;
+    }
+    .card h2 { margin-top: 0; font-size: 1.15rem; color: #1E293B; display: flex; align-items: center; gap: 8px; }
+
+    .pin-box {
+      background: #FEF9C3; border: 2px dashed #FACC15; border-radius: 14px;
+      padding: 16px; text-align: center; margin: 14px 0;
+    }
+    .pin-code { font-size: 2.4rem; font-weight: 800; letter-spacing: 6px; color: #CA8A04; }
+
+    .btn {
+      border: none; padding: 11px 18px; border-radius: 12px; font-weight: 700;
+      cursor: pointer; transition: 0.2s; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn:hover { transform: translateY(-2px); filter: brightness(0.97); }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-success { background: var(--secondary); color: #064E3B; }
+    .btn-warning { background: var(--accent); color: #78350F; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .badge {
+      padding: 4px 12px; border-radius: 99px; font-size: 0.8rem; font-weight: 700;
+    }
+    .badge-waiting { background: #FEF3C7; color: #B45309; }
+    .badge-playing { background: #DCFCE7; color: #15803D; }
+    .badge-paused { background: #FEE2E2; color: #B91C1C; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    th { background: #F8FAFC; color: var(--muted); font-weight: 600; }
+
+    input, textarea, select {
+      width: 100%; padding: 10px 12px; border: 1.5px solid var(--border);
+      border-radius: 10px; margin-top: 5px; margin-bottom: 12px; font-size: 0.9rem;
+    }
+    .andika-preview { font-family: 'Andika', sans-serif; }
+    .q-list { max-height: 360px; overflow-y: auto; padding-right: 6px; }
+    .q-item {
+      background: #F8FAFC; padding: 12px; border-radius: 12px; margin-bottom: 10px;
+      border-left: 4px solid var(--primary);
+    }
+    .q-item * { font-family: 'Andika', sans-serif; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div>
+      <h1>🎲 Portal Guru: Ular Tangga Pancasila</h1>
+      <p>Kelas 5 SD • Pengendali Sesi, Bank Soal Stimulus & Papan Pantau Langsung</p>
+    </div>
+    <div>
+      Status Room: <span id="statusBadge" class="badge badge-waiting">BELUM DIBUAT</span>
+    </div>
+  </header>
+
+  <div class="grid">
+    <!-- KOLOM KIRI: KONTROL ROOM & TAMBAH SOAL -->
+    <div>
+      <div class="card">
+        <h2>🔑 1. Manajemen Sesi & Kontrol Game</h2>
+        <button class="btn btn-primary" onclick="createRoom()">✨ Buat Room & PIN Baru</button>
+        
+        <div class="pin-box">
+          <div style="font-size:0.85rem; color:#854D0E; font-weight:600;">KODE PIN SISWA</div>
+          <div class="pin-code" id="pinDisplay">------</div>
+          <div style="font-size:0.8rem; color:#713F12;">Bagikan PIN ini agar siswa masuk ke papan permainan</div>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-success" onclick="setGameStatus('playing')">▶️ Mulai / Lanjut</button>
+          <button class="btn btn-warning" onclick="setGameStatus('paused')">⏸️ Jeda (Pause)</button>
+          <button class="btn btn-danger" onclick="setGameStatus('ended')">⏹️ Akhiri Sesi</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>➕ 2. Tambah Soal Baru ke Bank Soal</h2>
+        <label>Teks Stimulus (Cerita / Kasus Singkat)</label>
+        <textarea id="inStimulus" rows="2" class="andika-preview" placeholder="Contoh: Rina melihat temannya kesulitan membawa tumpukan buku di koridor sekolah..."></textarea>
+        
+        <label>Pertanyaan</label>
+        <input type="text" id="inQuestion" class="andika-preview" placeholder="Tulis pertanyaan berdasarkan stimulus di atas...">
+
+        <label>Tipe Soal</label>
+        <select id="inType" onchange="toggleOptions()">
+          <option value="pg">Pilihan Ganda</option>
+          <option value="isian">Isian Singkat</option>
+        </select>
+
+        <div id="pgFields">
+          <input type="text" id="optA" class="andika-preview" placeholder="Pilihan A">
+          <input type="text" id="optB" class="andika-preview" placeholder="Pilihan B">
+          <input type="text" id="optC" class="andika-preview" placeholder="Pilihan C">
+          <input type="text" id="optD" class="andika-preview" placeholder="Pilihan D">
+        </div>
+
+        <label>Kunci Jawaban (Untuk PG tulis A/B/C/D, untuk Isian tulis kata kunci)</label>
+        <input type="text" id="inAnswer" class="andika-preview" placeholder="Contoh: A atau Musyawarah">
+
+        <button class="btn btn-primary" onclick="addQuestion()">💾 Simpan ke Room Aktif</button>
+      </div>
+    </div>
+
+    <!-- KOLOM KANAN: LEADERBOARD & BANK SOAL -->
+    <div>
+      <div class="card">
+        <h2>🏆 3. Papan Pantau Live (Leaderboard)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Peringkat</th>
+              <th>Nama Siswa</th>
+              <th>Petak (Target 36)</th>
+              <th>Skor</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboardBody">
+            <tr><td colspan="5" style="text-align:center; color:#94A3B8;">Buat room terlebih dahulu untuk memantau siswa...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>📚 4. Bank Soal Terpasang (<span id="qCount">50</span> Soal)</h2>
+        <p style="font-size:0.82rem; color:var(--muted); margin-top:-6px;">
+          Otomatis memuat 50 soal Pendidikan Pancasila Kelas 5 (Sejarah, Nilai Pancasila, Norma, Hak & Kewajiban, Hak Berpendapat) dengan font <b>Andika</b>.
+        </p>
+        <div class="q-list" id="questionList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FIREBASE SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+
+  // ==========================================
+  // TEMPEL KONFIGURASI FIREBASE KAMU DI SINI
+  // ==========================================
+  const firebaseConfig = {
+    apiKey: "AIzaSyBzmaKuR6FoK97Zk86pRaZBv8JiknBieHI",
+    authDomain: "ular-tangga-pancasila-9b4d0.firebaseapp.com",
+    databaseURL: "https://ular-tangga-pancasila-9b4d0-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "ular-tangga-pancasila-9b4d0",
+    storageBucket: "ular-tangga-pancasila-9b4d0.firebasestorage.app",
+    messagingSenderId: "321666313754",
+    appId: "1:321666313754:web:55e8d8c7009214ad13eba3"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  let currentPin = null;
+
+  // ==========================================
+  // 50 BANK SOAL PENDIDIKAN PANCASILA KELAS 5
+  // ==========================================
+  const defaultQuestions = [
+    // 1-10: SEJARAH KELAHIRAN PANCASILA
+    { type:"pg", stimulus:"Pada tanggal 29 Mei hingga 1 Juni 1945, para tokoh bangsa berkumpul dalam sidang pertama BPUPKI untuk merumuskan dasar negara Indonesia merdeka.", question:"Siapakah tokoh yang menyampaikan pidato gagasan dasar negara dengan istilah 'Pancasila' pada tanggal 1 Juni 1945?", options:["A. Drs. Moh. Hatta","B. Ir. Soekarno","C. Mr. Soepomo","D. Moh. Yamin"], answer:"B" },
+    { type:"pg", stimulus:"Sebelum membentuk panitia kecil, sidang BPUPKI pertama membahas dasar negara. Setelah sidang selesai, dibentuk Panitia Sembilan yang bertugas menyusun rancangan pembukaan hukum dasar.", question:"Dokumen hasil rumusan Panitia Sembilan pada tanggal 22 Juni 1945 dikenal dengan nama...", options:["A. Piagam Jakarta","B. Dekrit Presiden","C. Sumpah Pemuda","D. Proklamasi"], answer:"A" },
+    { type:"pg", stimulus:"Dalam Piagam Jakarta terdapat rumusan sila pertama yang berbunyi 'Ketuhanan dengan kewajiban menjalankan syariat Islam bagi pemeluk-pemeluknya'. Demi menjaga persatuan bangsa Indonesia yang beragam, kalimat tersebut diubah sebelum disahkan.", question:"Siapakah tokoh yang mengusulkan perubahan kalimat pada sila pertama tersebut demi persatuan bangsa?", options:["A. Ahmad Soebardjo","B. Agus Salim","C. Drs. Moh. Hatta","D. Abikoesno"], answer:"C" },
+    { type:"pg", stimulus:"Setelah Jepang menyerah kepada Sekutu, PPKI mengadakan sidang pada tanggal 18 Agustus 1945 untuk menetapkan Undang-Undang Dasar Negara dan memilih pemimpin negara.", question:"Pada tanggal berapakah rumusan Pancasila yang sah dan final ditetapkan dalam Pembukaan UUD 1945?", options:["A. 1 Juni 1945","B. 22 Juni 1945","C. 17 Agustus 1945","D. 18 Agustus 1945"], answer:"D" },
+    { type:"pg", stimulus:"Para perumus Pancasila memiliki latar belakang suku, agama, dan daerah yang berbeda-beda. Meskipun sering terjadi perbedaan pendapat saat sidang, mereka tetap mengutamakan kepentingan bangsa.", question:"Nilai keteladanan utama yang dapat kita tiru dari para tokoh perumus Pancasila adalah...", options:["A. Memaksakan kehendak","B. Rela berkorban dan mengutamakan persatuan","C. Mencari keuntungan pribadi","D. Menghindari diskusi"], answer:"B" },
+    { type:"isian", stimulus:"BPUPKI dibentuk untuk menyelidiki usaha-usaha persiapan kemerdekaan Indonesia. Lembaga ini diketuai oleh seorang tokoh dokter sekaligus pejuang bangsa.", question:"Siapakah nama ketua BPUPKI?", answer:"Radjiman","Rajiman" },
+    { type:"pg", stimulus:"Ir. Soekarno menjelaskan bahwa 'Panca' berarti lima dan 'Sila' berarti asas atau dasar. Jika kelima sila tersebut diperas menjadi satu inti, Soekarno menyebutnya dengan istilah gotong royong.", question:"Makna utama dari istilah 'Pancasila' adalah...", options:["A. Lima tujuan perang","B. Lima dasar negara","C. Lima wilayah negara","D. Lima aturan adat"], answer:"B" },
+    { type:"pg", stimulus:"Pada sidang tanggal 31 Mei 1945, seorang ahli hukum menyampaikan gagasan dasar negara yang menekankan konsep negara integralistik (persatuan antara pemimpin dan rakyat).", question:"Tokoh yang menyampaikan gagasan dasar negara pada tanggal 31 Mei 1945 adalah...", options:["A. Mr. Soepomo","B. Ir. Soekarno","C. Ki Hadjar Dewantara","D. Sayuti Melik"], answer:"A" },
+    { type:"pg", stimulus:"Setiap tanggal 1 Juni, bangsa Indonesia memperingati Hari Lahir Pancasila dengan mengadakan upacara dan kegiatan kebangsaan di sekolah maupun instansi.", question:"Tujuan utama memperingati Hari Lahir Pancasila setiap tahun adalah...", options:["A. Sekadar libur sekolah","B. Mengenang jasa dan mengamalkan nilai Pancasila","C. Menghafal tanggal saja","D. Lomba menghias kelas"], answer:"B" },
+    { type:"isian", stimulus:"Setelah BPUPKI dibubarkan pada 7 Agustus 1945, dibentuklah panitia baru yang bertugas mempersiapkan kemerdekaan Indonesia secara langsung.", question:"Apa singkatan nama panitia yang mengesahkan Pancasila pada 18 Agustus 1945?", answer:"PPKI" },
+
+    // 11-20: PENERAPAN NILAI-NILAI PANCASILA
+    { type:"pg", stimulus:"Di kelas 5 terdapat siswa yang beragama Islam, Kristen, Hindu, dan Buddha. Saat jam istirahat, Rudi tidak mengganggu Edo yang sedang berdoa sebelum makan.", question:"Sikap Rudi tersebut mencerminkan pengamalan Pancasila terutama sila ke-...", options:["A. Pertama","B. Kedua","C. Ketiga","D. Kelima"], answer:"A" },
+    { type:"pg", stimulus:"Bencana banjir melanda desa tetangga. Siswa kelas 5 sepakat mengumpulkan sumbangan berupa pakaian layak pakai, buku tulis, dan makanan ringan untuk membantu korban.", question:"Tindakan siswa kelas 5 tersebut sesuai dengan nilai Pancasila sila kedua yaitu...", options:["A. Ketuhanan","B. Kemanusiaan yang adil dan beradab","C. Persatuan","D. Kerakyatan"], answer:"B" },
+    { type:"pg", stimulus:"Dalam acara pentas seni sekolah, kelompok tari kelas 5 menampilkan tarian daerah dari Sumatra Barat meskipun sebagian besar anggota kelompoknya berasal dari Jawa Tengah.", question:"Perilaku tersebut menunjukkan sikap bangga terhadap budaya bangsa yang sesuai dengan sila ke-...", options:["A. Satu","B. Dua","C. Tiga","D. Empat"], answer:"C" },
+    { type:"pg", stimulus:"Warga RT 04 mengadakan rapat untuk menentukan jadwal ronda malam dan kerja bakti membersihkan selokan. Semua warga diberi kesempatan menyampaikan usul sebelum diambil keputusan bersama.", question:"Cara pengambilan keputusan pada cerita tersebut merupakan wujud pengamalan sila ke-...", options:["A. Kedua","B. Ketiga","C. Keempat","D. Kelima"], answer:"C" },
+    { type:"pg", stimulus:"Ibu membagi tugas membersihkan rumah secara adil kepada kakak dan adik sesuai kemampuan masing-masing. Tidak ada anak yang dibebani pekerjaan terlalu berat sendirian.", question:"Sikap adil yang ditunjukkan oleh Ibu mencerminkan nilai Pancasila sila ke-...", options:["A. Pertama","B. Ketiga","C. Keempat","D. Kelima"], answer:"D" },
+    { type:"pg", stimulus:"Siti lebih memilih membeli sepatu buatan pengrajin lokal Indonesia daripada sepatu merek luar negeri karena kualitasnya bagus dan dapat membantu perekonomian bangsa.", question:"Tindakan Siti merupakan contoh nyata pengamalan nilai...", options:["A. Cinta tanah air (Sila ke-3)","B. Keadilan sosial (Sila ke-5)","C. Musyawarah (Sila ke-4)","D. Toleransi beragama (Sila ke-1)"], answer:"A" },
+    { type:"isian", stimulus:"Lambang sila keempat Pancasila adalah kepala banteng. Banteng dikenal sebagai hewan sosial yang suka berkumpul dan bekerja sama.", question:"Cara pengambilan keputusan bersama untuk mencapai mufakat disebut...", answer:"Musyawarah" },
+    { type:"pg", stimulus:"Saat bermain sepak bola di lapangan sekolah, Bima tidak sengaja menyenggol Dimas hingga terjatuh. Bima segera menghentikan permainan, meminta maaf, dan membantu Dimas berdiri.", question:"Sikap Bima menunjukkan nilai kemanusiaan dan tenggang rasa yang sesuai dengan sila...", options:["A. Pertama","B. Kedua","C. Keempat","D. Kelima"], answer:"B" },
+    { type:"pg", stimulus:"Kelima sila dalam Pancasila saling berkaitan dan tidak dapat dipisahkan. Sila pertama menjiwai sila kedua, ketiga, keempat, dan kelima.", question:"Kedudukan Pancasila bagi bangsa Indonesia adalah sebagai...", options:["A. Hiasan dinding kelas","B. Dasar negara dan pandangan hidup bangsa","C. Peraturan lalu lintas","D. Sejarah masa lalu saja"], answer:"B" },
+    { type:"pg", stimulus:"Nadia rajin menabung sebagian uang jajannya setiap hari dan tidak suka pamer barang mewah kepada teman-temannya di kelas.", question:"Perilaku hidup hemat dan tidak bergaya hidup mewah sesuai dengan nilai sila ke-...", options:["A. Satu","B. Dua","C. Tiga","D. Lima"], answer:"D" },
+
+    // 21-30: NORMA DALAM KEHIDUPAN BERMASYARAKAT
+    { type:"pg", stimulus:"Setiap pagi sebelum berangkat ke sekolah, Dafa selalu berpamitan dan mencium tangan kedua orang tuanya dengan sopan.", question:"Perilaku Dafa merupakan contoh penerapan norma...", options:["A. Hukum","B. Kesopanan","C. Agama","D. Lalu lintas"], answer:"B" },
+    { type:"pg", stimulus:"Seorang pengendara sepeda motor diberhentikan polisi karena menerobos lampu merah di perempatan jalan. Pengendara tersebut kemudian dikenai sanksi tilang.", question:"Aturan yang dilanggar oleh pengendara motor tersebut termasuk dalam jenis norma...", options:["A. Norma kesusilaan","B. Norma kesopanan","C. Norma hukum","D. Norma adat"], answer:"C" },
+    { type:"pg", stimulus:"Saat ulangan matematika berlangsung, Juun tergoda untuk menyontek buku catatannya. Namun hati kecilnya berkata bahwa menyontek adalah perbuatan tidak jujur sehingga Juun mengurungkan niatnya.", question:"Suara hati nurani yang mencegah Juun berbuat curang berasal dari norma...", options:["A. Kesusilaan","B. Hukum","C. Kesopanan","D. Adat istiadat"], answer:"A" },
+    { type:"pg", stimulus:"Di lingkungan tempat tinggal Ian, setiap warga diwajibkan melapor kepada ketua RT jika ada tamu yang menginap lebih dari 1x24 jam demi keamanan bersama.", question:"Manfaat utama adanya aturan atau norma di lingkungan masyarakat adalah...", options:["A. Membatasi kebebasan warga","B. Menciptakan ketertiban dan keamanan","C. Menyulitkan tamu yang datang","D. Menghukum warga yang bersalah"], answer:"B" },
+    { type:"pg", stimulus:"Norma agama bersumber dari wahyu Tuhan Yang Maha Esa yang terdapat dalam kitab suci masing-masing agama.", question:"Sanksi bagi seseorang yang melanggar norma agama umumnya bersifat...", options:["A. Denda uang tunai","B. Hukuman penjara","C. Dosa dan balasan dari Tuhan","D. Dikucilkan tetangga"], answer:"C" },
+    { type:"isian", stimulus:"Di antara empat jenis norma yang berlaku di masyarakat, terdapat satu norma yang bersifat memaksa, dibuat oleh lembaga resmi negara, dan memiliki sanksi tegas seperti denda atau penjara.", question:"Norma apakah yang memiliki sanksi paling tegas dan mengikat seluruh warga negara? (Norma ...)", answer:"Hukum" },
+    { type:"pg", stimulus:"Ketika berjalan melewati sekumpulan orang tua yang sedang duduk di teras rumah, Fajar menundukkan badan sedikit sambil mengucapkan 'Permisi, Pak, Bu'.", question:"Sanksi yang diterima seseorang jika melanggar norma seperti pada perilaku Fajar adalah...", options:["A. Denda jutaan rupiah","B. Teguran atau celaan dari masyarakat","C. Hukuman kurungan","D. Dosa besar"], answer:"B" },
+    { type:"pg", stimulus:"Aturan tata tertib sekolah melarang siswa membuang sampah sembarangan di laci meja maupun halaman sekolah.", question:"Jika seluruh siswa mematuhi norma tata tertib sekolah tersebut, maka akibatnya adalah...", options:["A. Petugas kebersihan tidak punya pekerjaan","B. Lingkungan sekolah menjadi bersih, sehat, dan nyaman belajar","C. Siswa mendapat hadiah uang","D. Jam istirahat menjadi lebih lama"], answer:"B" },
+    { type:"pg", stimulus:"Setiap daerah di Indonesia memiliki tradisi yang dihormati warganya, seperti tradisi Subak di Bali atau tradisi gotong royong membangun rumah di beberapa daerah.", question:"Aturan yang tumbuh dan dipertahankan secara turun-temurun dalam masyarakat tertentu disebut...", options:["A. Adat istiadat","B. Undang-undang","C. Peraturan sekolah","D. Keputusan presiden"], answer:"A" },
+    { type:"pg", stimulus:"Jujur dalam perkataan, tidak mengambil barang milik teman, dan mau meminta maaf jika berbuat salah adalah contoh perilaku terpuji.", question:"Perilaku tersebut bersumber dari hati nurani manusia yang disebut norma...", options:["A. Hukum","B. Kesusilaan","C. Kesopanan","D. Ekonomi"], answer:"B" },
+
+    // 31-40: HAK DAN KEWAJIBAN ANAK DI RUMAH, SEKOLAH & MASYARAKAT
+    { type:"pg", stimulus:"Setiap hari Senin hingga Sabtu, siswa kelas 5 mendapatkan pelajaran dari guru serta menggunakan fasilitas perpustakaan sekolah untuk membaca buku.", question:"Mendapatkan pengajaran dan menggunakan fasilitas perpustakaan merupakan contoh...", options:["A. Kewajiban siswa","B. Hak siswa di sekolah","C. Hukuman sekolah","D. Tugas piket"], answer:"B" },
+    { type:"pg", stimulus:"Sebelum meminta uang saku atau waktu bermain gawai kepada orang tua, Putri selalu merapikan tempat tidurnya dan menyelesaikan pekerjaan rumah (PR) terlebih dahulu.", question:"Sikap Putri menunjukkan pemahaman yang benar bahwa...", options:["A. Hak harus dituntut lebih dulu","B. Kewajiban harus dilaksanakan dengan tanggung jawab sebelum menuntut hak","C. Kewajiban tidak perlu dilakukan","D. Hak dan kewajiban tidak berhubungan"], answer:"B" },
+    { type:"pg", stimulus:"Di lingkungan perumahan, warga bersama-sama menjaga kebersihan taman bermain agar anak-anak dapat bermain dengan aman dan nyaman.", question:"Kewajiban anak terhadap fasilitas taman bermain di lingkungan masyarakat adalah...", options:["A. Merusak ayunan","B. Membuang sampah plastik di rumput","C. Menjaga kebersihan dan tidak merusak fasilitas","D. Melarang anak lain ikut bermain"], answer:"C" },
+    { type:"pg", stimulus:"Menurut Konvensi Hak Anak, setiap anak berhak mendapatkan nama, kewarganegaraan, makanan bergizi, perlindungan, serta waktu bermain.", question:"Selain mendapatkan kasih sayang dan perlindungan di rumah, kewajiban seorang anak kepada orang tua adalah...", options:["A. Menghormati, mematuhi nasihat, dan membantu orang tua","B. Bekerja mencari nafkah utama","C. Membiarkan rumah berantakan","D. Membantah saat dinasihati"], answer:"A" },
+    { type:"pg", stimulus:"Pada hari Rabu, regu piket kelas 5 datang lebih awal untuk menyapu lantai, menghapus papan tulis, dan merapikan meja guru sebelum bel masuk berbunyi.", question:"Melaksanakan tugas piket kelas merupakan contoh...", options:["A. Hak siswa","B. Kewajiban siswa di sekolah","C. Hadiah dari guru","D. Kegiatan ekstrakurikuler"], answer:"B" },
+    { type:"isian", stimulus:"Segala sesuatu yang mutlak menjadi milik kita dan penggunaannya tergantung kepada kita sendiri disebut hak.", question:"Sesuatu yang harus kita lakukan dengan penuh rasa tanggung jawab disebut...", answer:"Kewajiban" },
+    { type:"pg", stimulus:"Seorang siswa menuntut agar nilai ulangannya bagus, tetapi ia tidak pernah mau belajar dan sering tidak mengerjakan tugas dari guru.", question:"Masalah yang terjadi pada siswa tersebut adalah...", options:["A. Melaksanakan kewajiban berlebihan","B. Menuntut hak tanpa melaksanakan kewajiban","C. Guru tidak adil","D. Soal terlalu sulit"], answer:"B" },
+    { type:"pg", stimulus:"Dalam penggunaan jalan raya, pejalan kaki berhak berjalan dengan aman di trotoar tanpa terganggu oleh sepeda motor yang melintas di atas trotoar.", question:"Kewajiban pejalan kaki saat hendak menyeberang jalan raya adalah...", options:["A. Berlari sembarangan di tengah jalan","B. Menyeberang melalui zebra cross atau jembatan penyeberangan","C. Sambil bermain ponsel","D. Menghadang kendaraan yang melaju"], answer:"B" },
+    { type:"pg", stimulus:"Setiap siswa berhak mendapatkan perlakuan yang sama dari guru tanpa membeda-bedakan latar belakang keluarga maupun suku bangsa.", question:"Agar suasana belajar tetap tenang dan hak teman lain tidak terganggu, kewajiban kita saat guru menjelaskan pelajaran adalah...", options:["A. Mengobrol dengan teman sebangku","B. Mendengarkan dengan tertib dan fokus","C. Bermain kertas","D. Tidur di meja"], answer:"B" },
+    { type:"pg", stimulus:"Air bersih dan udara segar merupakan kebutuhan penting bagi kehidupan semua warga masyarakat.", question:"Salah satu kewajiban kita untuk menjaga ketersediaan air bersih di rumah adalah...", options:["A. Membiarkan keran air terbuka terus","B. Menghemat penggunaan air dan menutup keran setelah dipakai","C. Membuang sampah ke saluran air","D. Bermain air setiap hari"], answer:"B" },
+
+    // 41-50: HAK BERPENDAPAT & MUSYAWARAH
+    { type:"pg", stimulus:"Kelas 5 mengadakan musyawarah untuk memilih ketua kelas yang baru. Ani ingin mengusulkan nama calon ketua kelas kepada wali kelas dan teman-temannya.", question:"Cara menyampaikan pendapat yang baik dalam musyawarah kelas adalah...", options:["A. Berteriak agar didengar semua orang","B. Mengangkat tangan terlebih dahulu dan berbicara dengan bahasa yang sopan","C. Memotong pembicaraan teman","D. Memaksa teman memilih calonnya"], answer:"B" },
+    { type:"pg", stimulus:"Dalam rapat penentuan tujuan karya wisata kelas, usul Bayu untuk pergi ke museum tidak terpilih karena mayoritas siswa memilih pergi ke kebun binatang.", question:"Sikap yang seharusnya ditunjukkan Bayu terhadap hasil keputusan musyawarah tersebut adalah...", options:["A. Marah dan tidak mau ikut karya wisata","B. Menerima hasil keputusan dengan lapang dada dan melaksanakannya","C. Mengejek pilihan teman-teman","D. Mengajak teman membatalkan acara"], answer:"B" },
+    { type:"pg", stimulus:"Kebebasan menyampaikan pendapat di muka umum dijamin oleh Undang-Undang Dasar 1945 Pasal 28E ayat (3). Namun kebebasan tersebut tetap memiliki batasan.", question:"Batasan utama saat kita menggunakan hak berpendapat adalah...", options:["A. Tidak boleh berbeda dengan teman","B. Harus disertai tanggung jawab dan tidak menghina orang lain","C. Hanya boleh dilakukan oleh ketua kelas","D. Harus selalu disetujui semua orang"], answer:"B" },
+    { type:"pg", stimulus:"Saat diskusi kelompok IPA, Tono sedang menjelaskan ide percobaannya. Rina memiliki ide lain yang menurutnya lebih praktis.", question:"Tindakan Rina yang tepat saat Tono masih berbicara adalah...", options:["A. Langsung menyela pembicaraan Tono","B. Mendengarkan Tono sampai selesai baru menyampaikan idenya","C. Menertawakan ide Tono","D. Meninggalkan kelompok"], answer:"B" },
+    { type:"pg", stimulus:"Dalam sebuah musyawarah, sering kali muncul berbagai usulan yang berbeda-beda dari para peserta rapat.", question:"Tujuan utama dilakukannya musyawarah adalah untuk mencapai...", options:["A. Kemenangan kelompok tertentu","B. Mufakat atau kesepakatan bersama","C. Pertengkaran antaranggota","D. Keputusan yang menguntungkan ketua"], answer:"B" },
+    { type:"isian", stimulus:"Apabila dalam musyawarah sudah dilakukan diskusi mendalam tetapi belum juga tercapai kata mufakat, maka keputusan dapat diambil melalui pemungutan suara terbanyak.", question:"Istilah lain dari pengambilan keputusan berdasarkan suara terbanyak adalah...", answer:"Voting" },
+    { type:"pg", stimulus:"Di rumah, Ayah mengajak ibu dan anak-anak berdiskusi tentang rencana kegiatan liburan akhir pekan. Adik mengusulkan pergi ke taman kota.", question:"Sikap Ayah dan Ibu yang mendengarkan usul adik menunjukkan bahwa...", options:["A. Anak-anak juga memiliki hak berpendapat di keluarga","B. Anak-anak harus selalu dituruti semua keinginannya","C. Orang tua tidak punya rencana","D. Adik adalah pemimpin keluarga"], answer:"A" },
+    { type:"pg", stimulus:"Ketika menyampaikan kritik atau saran kepada teman yang melakukan kesalahan saat piket, kita harus memilih kata-kata yang tepat.", question:"Kritik yang baik dan membangun sebaiknya disampaikan dengan cara...", options:["A. Mengejek di depan kelas","B. Santun, jujur, dan memberikan solusi","C. Marah-marah dengan nada tinggi","D. Menyebarkan keburukan teman"], answer:"B" },
+    { type:"pg", stimulus:"Mading (Majalah Dinding) sekolah menyediakan kotak saran agar siswa dapat menuliskan ide atau masukan untuk kemajuan sekolah.", question:"Menulis ide perbaikan fasilitas sekolah melalui kotak saran merupakan wujud...", options:["A. Pelanggaran tata tertib","B. Penggunaan hak berpendapat secara tertib dan santun","C. Sikap tidak puas terhadap sekolah","D. Tugas wajib setiap hari"], answer:"B" },
+    { type:"pg", stimulus:"Hasil musyawarah kelas menyepakati bahwa setiap hari Jumat siswa wajib membawa tempat minum sendiri untuk mengurangi sampah plastik.", question:"Setelah keputusan musyawarah disepakati bersama, maka keputusan tersebut wajib dilaksanakan oleh...", options:["A. Ketua kelas saja","B. Siswa yang setuju saja","C. Seluruh anggota kelas dengan penuh tanggung jawab","D. Wali kelas saja"], answer:"C" }
+  ];
+
+  function renderQuestions(list) {
+    const container = document.getElementById("questionList");
+    document.getElementById("qCount").innerText = list.length;
+    container.innerHTML = list.map((q, idx) => `
+      <div class="q-item">
+        <div style="font-size:0.78rem; color:#64748B; font-weight:bold;">Soal #${idx + 1} (${q.type === 'pg' ? 'Pilihan Ganda' : 'Isian'})</div>
+        <div style="font-size:0.88rem; color:#334155; margin:4px 0; background:#EFF6FF; padding:6px 8px; border-radius:8px;">
+          <i>"${q.stimulus}"</i>
+        </div>
+        <div style="font-weight:700; font-size:0.92rem;">${q.question}</div>
+        <div style="font-size:0.82rem; color:#15803D; margin-top:4px;">Kunci: <b>${q.answer}</b></div>
+      </div>
+    `).join("");
+  }
+  renderQuestions(defaultQuestions);
+
+  // ==========================================
+  // FUNGSI KONTROL ROOM & REALTIME
+  // ==========================================
+  window.createRoom = async () => {
+    const pin = Math.floor(100000 + Math.random() * 900000).toString();
+    currentPin = pin;
+    document.getElementById("pinDisplay").innerText = pin;
+    updateBadge("waiting");
+
+    await set(ref(db, `rooms/${pin}`), {
+      status: "waiting",
+      createdAt: Date.now(),
+      questions: defaultQuestions,
+      players: {}
+    });
+
+    listenToRoom(pin);
+    alert(`Room berhasil dibuat dengan PIN: ${pin}`);
+  };
+
+  window.setGameStatus = async (newStatus) => {
+    if (!currentPin) return alert("Buat Room terlebih dahulu!");
+    await update(ref(db, `rooms/${currentPin}`), { status: newStatus });
+    updateBadge(newStatus);
+  };
+
+  function updateBadge(status) {
+    const badge = document.getElementById("statusBadge");
+    badge.className = "badge";
+    if (status === "waiting") { badge.classList.add("badge-waiting"); badge.innerText = "MENUNGGU SISWA"; }
+    if (status === "playing") { badge.classList.add("badge-playing"); badge.innerText = "SEDANG BERMAIN"; }
+    if (status === "paused")  { badge.classList.add("badge-paused"); badge.innerText = "DIJEDA (PAUSE)"; }
+    if (status === "ended")   { badge.classList.add("badge-paused"); badge.innerText = "SESI SELESAI"; }
+  }
+
+  function listenToRoom(pin) {
+    onValue(ref(db, `rooms/${pin}`), (snapshot) => {
+      const data = snapshot.val();
+      if (!data) return;
+      updateBadge(data.status);
+
+      if (data.questions) {
+        const qArr = Array.isArray(data.questions) ? data.questions : Object.values(data.questions);
+        renderQuestions(qArr);
+      }
+
+      const tbody = document.getElementById("leaderboardBody");
+      if (!data.players) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#94A3B8;">Menunggu siswa bergabung dengan PIN <b>${pin}</b>...</td></tr>`;
+        return;
+      }
+
+      const players = Object.values(data.players).sort((a, b) => {
+        if (b.pos !== a.pos) return b.pos - a.pos;
+        return b.score - a.score;
+      });
+
+      tbody.innerHTML = players.map((p, i) => `
+        <tr>
+          <td><b>#${i + 1}</b></td>
+          <td>${p.avatar || '🐰'} <b>${p.name}</b> ${p.shield ? '🛡️' : ''}</td>
+          <td>Petak <b>${p.pos}</b> / 36</td>
+          <td>${p.score} pts</td>
+          <td>${p.pos >= 36 ? '🏆 Juara!' : 'Bermain'}</td>
+        </tr>
+      `).join("");
+    });
+  }
+
+  window.toggleOptions = () => {
+    const type = document.getElementById("inType").value;
+    document.getElementById("pgFields").style.display = type === "pg" ? "block" : "none";
+  };
+
+  window.addQuestion = async () => {
+    if (!currentPin) return alert("Buat Room terlebih dahulu sebelum menambah soal!");
+    const stimulus = document.getElementById("inStimulus").value.trim();
+    const question = document.getElementById("inQuestion").value.trim();
+    const type = document.getElementById("inType").value;
+    const answer = document.getElementById("inAnswer").value.trim();
+
+    if (!stimulus || !question || !answer) return alert("Lengkapi stimulus, pertanyaan, dan kunci jawaban!");
+
+    const newQ = { stimulus, question, type, answer };
+    if (type === "pg") {
+      newQ.options = [
+        "A. " + document.getElementById("optA").value.trim(),
+        "B. " + document.getElementById("optB").value.trim(),
+        "C. " + document.getElementById("optC").value.trim(),
+        "D. " + document.getElementById("optD").value.trim()
+      ];
+    }
+
+    await push(ref(db, `rooms/${currentPin}/questions`), newQ);
+    document.getElementById("inStimulus").value = "";
+    document.getElementById("inQuestion").value = "";
+    document.getElementById("inAnswer").value = "";
+    alert("Soal berhasil ditambahkan ke room!");
+  };
+</script>
+</body>
+</html>

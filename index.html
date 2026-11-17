@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ular Tangga Pancasila - Kelas 5</title>
+  <link href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FFFDF7;
+      --primary: #5B8FB9;
+      --mint: #B8E8FC;
+      --soft-green: #C8F2D6;
+      --soft-yellow: #FFF3B0;
+      --soft-pink: #FFD6E0;
+      --soft-purple: #E5D4FF;
+      --text: #334155;
+    }
+    * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+    }
+
+    /* LAYAR JOIN (MASUK PIN) */
+    #joinScreen {
+      max-width: 430px; width: 92%; margin: auto; background: white;
+      padding: 32px 26px; border-radius: 26px; text-align: center;
+      box-shadow: 0 12px 30px rgba(91, 143, 185, 0.14); border: 3px solid #E0F2FE;
+    }
+    .logo-badge {
+      background: #FEF9C3; display: inline-block; padding: 8px 18px;
+      border-radius: 99px; font-weight: 700; color: #A16207; font-size: 0.85rem; margin-bottom: 10px;
+    }
+    #joinScreen h1 { margin: 6px 0; font-size: 1.65rem; color: #1E3A8A; }
+    .avatar-picker { display: flex; justify-content: center; gap: 10px; margin: 14px 0; }
+    .avatar-opt {
+      font-size: 1.8rem; padding: 8px; border-radius: 14px; cursor: pointer;
+      border: 2px solid transparent; background: #F8FAFC; transition: 0.2s;
+    }
+    .avatar-opt.selected { border-color: #5B8FB9; background: #E0F2FE; transform: scale(1.1); }
+
+    input.join-input {
+      width: 100%; padding: 14px; border-radius: 14px; border: 2px solid #CBD5E1;
+      font-size: 1.05rem; text-align: center; font-weight: 700; margin-bottom: 12px;
+    }
+    .btn-play {
+      width: 100%; padding: 15px; border: none; border-radius: 16px;
+      background: linear-gradient(135deg, #6BCB77 0%, #4D96FF 100%);
+      color: white; font-size: 1.1rem; font-weight: 800; cursor: pointer;
+      box-shadow: 0 6px 16px rgba(77, 150, 255, 0.3); transition: 0.2s;
+    }
+    .btn-play:hover { transform: translateY(-2px); }
+
+    /* LAYAR ARENA PERMAINAN */
+    #gameScreen { display: none; width: 100%; max-width: 1120px; padding: 16px; }
+    .top-bar {
+      background: white; padding: 12px 20px; border-radius: 18px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04); margin-bottom: 16px; border: 2px solid #F1F5F9;
+    }
+    .game-layout { display: grid; grid-template-columns: 1.35fr 0.85fr; gap: 20px; }
+    @media (max-width: 860px) { .game-layout { grid-template-columns: 1fr; } }
+
+    /* PAPAN ULAR TANGGA 6x6 (36 PETAK) */
+    .board-wrapper {
+      position: relative; background: white; padding: 12px; border-radius: 22px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06); border: 3px solid #BAE6FD;
+    }
+    .board {
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;
+      aspect-ratio: 1 / 1; position: relative;
+    }
+    .cell {
+      border-radius: 12px; padding: 6px; position: relative;
+      display: flex; flex-direction: column; justify-content: space-between;
+      font-weight: 700; font-size: 0.85rem; border: 1.5px solid rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
+    .cell-num { font-size: 0.8rem; opacity: 0.75; }
+    .cell-icon { font-size: 1.25rem; text-align: center; }
+    .cell-tag { font-size: 0.65rem; text-align: center; font-weight: 700; border-radius: 6px; padding: 1px 4px; }
+
+    /* Warna-warni Pastel Ceria */
+    .c-0 { background: #FFF3B0; }
+    .c-1 { background: #C8F2D6; }
+    .c-2 { background: #D7ECFF; }
+    .c-3 { background: #FFE3EC; }
+    .c-finish { background: linear-gradient(135deg, #FDE047, #FB923C); color: #7C2D12; }
+
+    /* BIDAK PEMAIN */
+    .tokens-area {
+      display: flex; flex-wrap: wrap; gap: 2px; justify-content: center; z-index: 5;
+    }
+    .token {
+      font-size: 1.35rem; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* PANEL KONTROL KANAN */
+    .control-panel {
+      background: white; border-radius: 22px; padding: 20px;
+      border: 2px solid #F1F5F9; box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .dice-box {
+      background: #F0F9FF; border-radius: 18px; padding: 18px; text-align: center;
+      border: 2px dashed #7DD3FC;
+    }
+    .dice-face {
+      font-size: 3.6rem; margin: 4px 0; display: inline-block;
+      transition: transform 0.3s;
+    }
+    .dice-shake { animation: shake 0.4s infinite; }
+    @keyframes shake {
+      0% { transform: rotate(0deg) scale(1.1); }
+      25% { transform: rotate(15deg) scale(1.1); }
+      50% { transform: rotate(-15deg) scale(1.1); }
+      75% { transform: rotate(10deg) scale(1.1); }
+      100% { transform: rotate(0deg) scale(1.1); }
+    }
+
+    .btn-roll {
+      width: 100%; padding: 14px; border: none; border-radius: 14px;
+      background: #FFB84C; color: #78350F; font-weight: 800; font-size: 1.05rem;
+      cursor: pointer; box-shadow: 0 5px 0 #D97706; transition: 0.15s;
+    }
+    .btn-roll:active { transform: translateY(3px); box-shadow: 0 2px 0 #D97706; }
+    .btn-roll:disabled { background: #E2E8F0; color: #94A3B8; box-shadow: none; cursor: not-allowed; }
+
+    .log-box {
+      background: #F8FAFC; border-radius: 12px; padding: 10px 12px;
+      font-size: 0.85rem; min-height: 54px; border-left: 4px solid #7BC9A6;
+    }
+
+    /* MODAL KUIS STIMULUS (FONT ANDIKA) */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55);
+      display: none; align-items: center; justify-content: center; padding: 16px; z-index: 100;
+    }
+    .modal-card {
+      background: white; max-width: 560px; width: 100%; border-radius: 24px;
+      padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 4px solid #BAE6FD;
+      animation: popIn 0.25s ease-out;
+    }
+    @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .modal-badge {
+      display: inline-block; padding: 5px 14px; border-radius: 99px;
+      font-weight: 700; font-size: 0.85rem; margin-bottom: 10px;
+    }
+    /* KHUSUS SOAL DAN STIMULUS MENGGUNAKAN FONT ANDIKA */
+    .quiz-andika, .quiz-andika * {
+      font-family: 'Andika', sans-serif !important;
+    }
+    .stimulus-box {
+      background: #FFFBEB; border-left: 5px solid #F59E0B; padding: 14px;
+      border-radius: 12px; font-size: 1.02rem; line-height: 1.6; color: #1E293B; margin-bottom: 14px;
+    }
+    .question-text {
+      font-size: 1.12rem; font-weight: 700; color: #0F172A; margin-bottom: 14px; line-height: 1.5;
+    }
+    .opt-btn {
+      width: 100%; text-align: left; padding: 12px 16px; margin-bottom: 8px;
+      border-radius: 12px; border: 2px solid #E2E8F0; background: #F8FAFC;
+      font-size: 1rem; cursor: pointer; transition: 0.15s;
+    }
+    .opt-btn:hover { background: #E0F2FE; border-color: #38BDF8; }
+
+    /* OVERLAY STATUS PAUSE / MENUNGGU */
+    .status-banner {
+      background: #FEF3C7; color: #92400E; padding: 10px 16px; border-radius: 12px;
+      text-align: center; font-weight: 700; font-size: 0.9rem; margin-bottom: 12px; display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. HALAMAN MASUK (INPUT PIN & NAMA) -->
+  <div id="joinScreen">
+    <div class="logo-badge">🇮🇩 PPKn Kelas 5 SD</div>
+    <h1>Ular Tangga Pancasila</h1>
+    <p style="font-size:0.9rem; color:#64748B;">Masukkan PIN dari Bapak/Ibu Guru untuk langsung masuk ke papan permainan!</p>
+
+    <div class="avatar-picker" id="avatarPicker">
+      <div class="avatar-opt selected" onclick="selectAvatar(this, '🦁')">🦁</div>
+      <div class="avatar-opt" onclick="selectAvatar(this, '🐰')">🐰</div>
+      <div class="avatar-opt" onclick="selectAvatar(this, '🐼')">🐼</div>
+      <div class="avatar-opt" onclick="selectAvatar(this, '🦊')">🦊</div>
+      <div class="avatar-opt" onclick="selectAvatar(this, '🐸')">🐸</div>
+    </div>
+
+    <input type="text" id="pinInput" class="join-input" placeholder="Masukkan 6 Digit PIN" maxlength="6" />
+    <input type="text" id="nameInput" class="join-input" placeholder="Nama Panggilanmu" maxlength="15" />
+    <button class="btn-play" onclick="joinGame()">🚀 Masuk ke Papan Permainan</button>
+  </div>
+
+  <!-- 2. HALAMAN ARENA PAPAN ULAR TANGGA -->
+  <div id="gameScreen">
+    <div class="top-bar">
+      <div>
+        <span style="font-weight:800; color:#1E3A8A; font-size:1.1rem;">🎲 Ular Tangga Pancasila</span>
+        <span style="background:#E0F2FE; color:#0369A1; padding:3px 10px; border-radius:99px; font-size:0.8rem; font-weight:700; margin-left:8px;">
+          PIN: <span id="activePinLabel">-</span>
+        </span>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span id="myStats" style="font-weight:700; font-size:0.9rem;">🦁 Pemain • Petak 1 • 0 Poin</span>
+        <button onclick="toggleBgm()" id="bgmBtn" style="border:none; background:#FEF3C7; padding:6px 12px; border-radius:10px; cursor:pointer; font-weight:700;">🔇 Musik</button>
+      </div>
+    </div>
+
+    <div id="statusBanner" class="status-banner">⏳ Menunggu Guru menekan tombol MULAI...</div>
+
+    <div class="game-layout">
+      <!-- PAPAN 36 PETAK -->
+      <div class="board-wrapper">
+        <div class="board" id="boardGrid"></div>
+      </div>
+
+      <!-- PANEL DADU & INFO -->
+      <div class="control-panel">
+        <div class="dice-box">
+          <div style="font-size:0.85rem; font-weight:700; color:#0369A1;">GILIRANMU MELANGKAH</div>
+          <div class="dice-face" id="diceDisplay">🎲</div>
+          <div id="powerupStatus" style="font-size:0.82rem; font-weight:700; color:#059669; min-height:20px; margin-bottom:8px;"></div>
+          <button class="btn-roll" id="rollBtn" onclick="rollDice()">🎲 Kocok Dadu!</button>
+        </div>
+
+        <div>
+          <div style="font-weight:700; font-size:0.9rem; margin-bottom:6px;">📢 Kabar Permainan:</div>
+          <div class="log-box" id="gameLog">Selamat datang! Siap-siap mencapai petak 36 tercepat!</div>
+        </div>
+
+        <div>
+          <div style="font-weight:700; font-size:0.9rem; margin-bottom:6px;">Legenda Papan:</div>
+          <div style="font-size:0.8rem; color:#475569; line-height:1.7;">
+            🪜 <b>Tangga:</b> Jawab benar = Naik cepat!<br>
+            🐍 <b>Ular:</b> Jawab benar = Selamat dari gigitan!<br>
+            🎁 <b>Kotak Misteri:</b> Tameng Ular / Dadu 2x / Tukar Posisi!
+          </div>
+        </div>
+
+        <div>
+          <div style="font-weight:700; font-size:0.9rem; margin-bottom:6px;">👥 Pemain di Ruangan:</div>
+          <div id="playerChips" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. MODAL PERTANYAAN STIMULUS (FONT ANDIKA) -->
+  <div class="modal-overlay" id="quizModal">
+    <div class="modal-card quiz-andika">
+      <div id="modalHeaderBadge" class="modal-badge">🪜 TANTANGAN TANGGA!</div>
+      <div class="stimulus-box" id="modalStimulus"></div>
+      <div class="question-text" id="modalQuestion"></div>
+      <div id="modalOptionsArea"></div>
+    </div>
+  </div>
+
+  <!-- FIREBASE & GAME ENGINE -->
+  <script type="module">
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+	import { getDatabase, ref, set, update, get, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+  // SALIN DAN TEMPEL CONFIG FIREBASE MILIKMU DI SINI:
+	const firebaseConfig = {
+		apiKey: "AIzaSyBzmaKuR6FoK97Zk86pRaZBv8JiknBieHI",
+		authDomain: "ular-tangga-pancasila-9b4d0.firebaseapp.com",
+		databaseURL: "https://ular-tangga-pancasila-9b4d0-default-rtdb.asia-southeast1.firebasedatabase.app",
+		projectId: "ular-tangga-pancasila-9b4d0",
+		storageBucket: "ular-tangga-pancasila-9b4d0.firebasestorage.app",
+		messagingSenderId: "321666313754",
+		appId: "1:321666313754:web:55e8d8c7009214ad13eba3"
+	};
+
+	const app = initializeApp(firebaseConfig);
+	const db = getDatabase(app);
+
+    // ==========================================
+    // KONFIGURASI PAPAN 36 PETAK (ULAR, TANGGA, MISTERI)
+    // ==========================================
+    const ladders = { 3: 14, 8: 19, 15: 27, 21: 32 }; // Naik
+    const snakes  = { 13: 4, 20: 9, 29: 17, 34: 23 }; // Turun
+    const mystery = [5, 11, 18, 25, 31];              // Kotak Power-Up
+
+    let roomPin = "";
+    let playerId = "p_" + Math.random().toString(36).substring(2, 9);
+    let myAvatar = "🦁";
+    let myData = { id: playerId, name: "", avatar: "🦁", pos: 1, score: 0, shield: false, doubleDice: false };
+    let allPlayers = {};
+    let questionBank = [];
+    let gameStatus = "waiting";
+    let isBusy = false;
+
+    // ==========================================
+    // EFEK SUARA CERIA (WEB AUDIO API - TANPA FILE MP3)
+    // ==========================================
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let bgmInterval = null;
+
+    function playTone(freq, type, duration, delay = 0) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+      gain.gain.setValueAtTime(0.12, audioCtx.currentTime + delay);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(audioCtx.currentTime + delay);
+      osc.stop(audioCtx.currentTime + delay + duration);
+    }
+
+    const sfx = {
+      dice: () => { for(let i=0; i<5; i++) playTone(200 + i*60, 'triangle', 0.06, i*0.06); },
+      step: () => playTone(520, 'sine', 0.08),
+      ladder: () => { [523, 659, 784, 1046].forEach((f, i) => playTone(f, 'triangle', 0.18, i*0.1)); },
+      snake: () => { [440, 370, 311, 220].forEach((f, i) => playTone(f, 'sawtooth', 0.2, i*0.12)); },
+      mystery: () => { [587, 740, 880, 1174].forEach((f, i) => playTone(f, 'sine', 0.15, i*0.08)); },
+      win: () => { [523, 659, 784, 1046, 784, 1046].forEach((f, i) => playTone(f, 'triangle', 0.22, i*0.14)); }
+    };
+
+    window.toggleBgm = () => {
+      const btn = document.getElementById("bgmBtn");
+      if (bgmInterval) {
+        clearInterval(bgmInterval);
+        bgmInterval = null;
+        btn.innerText = "🔇 Musik";
+      } else {
+        const notes = [523, 659, 784, 659, 587, 698, 880, 698];
+        let step = 0;
+        bgmInterval = setInterval(() => {
+          playTone(notes[step % notes.length], 'sine', 0.22);
+          step++;
+        }, 420);
+        btn.innerText = "🔊 Musik ON";
+      }
+    };
+
+    // ==========================================
+    // PILIH AVATAR & JOIN ROOM
+    // ==========================================
+    window.selectAvatar = (el, emoji) => {
+      document.querySelectorAll(".avatar-opt").forEach(e => e.classList.remove("selected"));
+      el.classList.add("selected");
+      myAvatar = emoji;
+    };
+
+    window.joinGame = async () => {
+      const pin = document.getElementById("pinInput").value.trim();
+      const name = document.getElementById("nameInput").value.trim();
+      if (pin.length < 4 || !name) return alert("Masukkan kode PIN dan nama panggilanmu ya!");
+
+      const roomSnap = await get(ref(db, `rooms/${pin}`));
+      if (!roomSnap.exists()) return alert("Kode PIN tidak ditemukan! Cek kembali PIN dari gurumu.");
+
+      roomPin = pin;
+      myData.name = name;
+      myData.avatar = myAvatar;
+
+      await set(ref(db, `rooms/${roomPin}/players/${playerId}`), myData);
+
+      // Langsung masuk ke tampilan Ular Tangga!
+      document.getElementById("joinScreen").style.display = "none";
+      document.getElementById("gameScreen").style.display = "block";
+      document.getElementById("activePinLabel").innerText = roomPin;
+
+      buildBoard();
+      listenRoomRealtime();
+    };
+
+    // ==========================================
+    // MEMBANGUN PAPAN ULAR TANGGA 6x6 (ZIG-ZAG 1-36)
+    // ==========================================
+    function buildBoard() {
+      const board = document.getElementById("boardGrid");
+      board.innerHTML = "";
+
+      // Baris 6 (atas: 31-36) sampai Baris 1 (bawah: 1-6)
+      for (let row = 5; row >= 0; row--) {
+        let cellsInRow = [];
+        for (let col = 0; col < 6; col++) {
+          let num = row * 6 + col + 1;
+          cellsInRow.push(num);
+        }
+        // Zig-zag pada baris ganjil (row 1, 3, 5)
+        if (row % 2 === 1) cellsInRow.reverse();
+
+        cellsInRow.forEach(num => {
+          const cell = document.createElement("div");
+          cell.className = `cell ${num === 36 ? 'c-finish' : 'c-' + (num % 4)}`;
+          cell.id = `cell-${num}`;
+
+          let specialHtml = "";
+          if (num === 36) specialHtml = `<div class="cell-icon">🏆</div><div class="cell-tag">FINISH</div>`;
+          else if (ladders[num]) specialHtml = `<div class="cell-icon">🪜</div><div class="cell-tag" style="background:#DCFCE7;color:#166534;">Naik ${ladders[num]}</div>`;
+          else if (snakes[num]) specialHtml = `<div class="cell-icon">🐍</div><div class="cell-tag" style="background:#FEE2E2;color:#991B1B;">Turun ${snakes[num]}</div>`;
+          else if (mystery.includes(num)) specialHtml = `<div class="cell-icon">🎁</div><div class="cell-tag" style="background:#F3E8FF;color:#6B21A8;">Misteri</div>`;
+
+          cell.innerHTML = `
+            <div class="cell-num">${num}</div>
+            ${specialHtml}
+            <div class="tokens-area" id="tokens-${num}"></div>
+          `;
+          board.appendChild(cell);
+        });
+      }
+    }
+
+    // ==========================================
+    // SINKRONISASI REAL-TIME FIREBASE
+    // ==========================================
+    function listenRoomRealtime() {
+      onValue(ref(db, `rooms/${roomPin}`), (snapshot) => {
+        const data = snapshot.val();
+        if (!data) return;
+
+        gameStatus = data.status;
+        if (data.questions) {
+          questionBank = Array.isArray(data.questions) ? data.questions : Object.values(data.questions);
+        }
+
+        // Kontrol status game dari guru
+        const banner = document.getElementById("statusBanner");
+        const rollBtn = document.getElementById("rollBtn");
+        if (gameStatus === "waiting") {
+          banner.style.display = "block";
+          banner.innerText = "⏳ Menunggu Bapak/Ibu Guru memulai permainan...";
+          rollBtn.disabled = true;
+        } else if (gameStatus === "paused") {
+          banner.style.display = "block";
+          banner.innerText = "⏸️ Permainan sedang dijeda sementara oleh Guru.";
+          rollBtn.disabled = true;
+        } else if (gameStatus === "ended") {
+          banner.style.display = "block";
+          banner.innerText = "🏁 Sesi permainan telah diakhiri oleh Guru!";
+          rollBtn.disabled = true;
+        } else {
+          banner.style.display = "none";
+          if (!isBusy && myData.pos < 36) rollBtn.disabled = false;
+        }
+
+        // Update posisi bidak semua siswa di papan
+        if (data.players) {
+          allPlayers = data.players;
+          if (allPlayers[playerId]) myData = allPlayers[playerId];
+          renderAllTokens();
+        }
+      });
+    }
+
+    function renderAllTokens() {
+      // Bersihkan semua slot bidak
+      for (let i = 1; i <= 36; i++) {
+        const slot = document.getElementById(`tokens-${i}`);
+        if (slot) slot.innerHTML = "";
+      }
+
+      const chips = document.getElementById("playerChips");
+      chips.innerHTML = "";
+
+      Object.values(allPlayers).forEach(p => {
+        const targetSlot = document.getElementById(`tokens-${p.pos}`);
+        if (targetSlot) {
+          const span = document.createElement("span");
+          span.className = "token";
+          span.title = `${p.name} (Petak ${p.pos})`;
+          span.innerText = p.avatar;
+          targetSlot.appendChild(span);
+        }
+
+        chips.innerHTML += `
+          <span style="background:#F1F5F9; padding:4px 10px; border-radius:99px; font-size:0.78rem; font-weight:600;">
+            ${p.avatar} ${p.name} (${p.pos})
+          </span>
+        `;
+      });
+
+      document.getElementById("myStats").innerText = `${myData.avatar} ${myData.name} • Petak ${myData.pos} • ${myData.score} Poin`;
+      let puText = [];
+      if (myData.shield) puText.push("🛡️ Tameng Aktif");
+      if (myData.doubleDice) puText.push("✨ Dadu 2x Aktif");
+      document.getElementById("powerupStatus").innerText = puText.join(" | ");
+    }
+
+    // ==========================================
+    // MEKANIK DADU & PERGERAKAN BIDAK
+    // ==========================================
+    window.rollDice = async () => {
+      if (isBusy || gameStatus !== "playing") return;
+      isBusy = true;
+      document.getElementById("rollBtn").disabled = true;
+
+      const diceEl = document.getElementById("diceDisplay");
+      diceEl.classList.add("dice-shake");
+      sfx.dice();
+
+      await new Promise(r => setTimeout(r, 650));
+      diceEl.classList.remove("dice-shake");
+
+      let roll = Math.floor(Math.random() * 6) + 1;
+      const diceIcons = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+      diceEl.innerText = diceIcons[roll - 1];
+
+      if (myData.doubleDice) {
+        roll = roll * 2;
+        myData.doubleDice = false;
+        setLog(`✨ Dadu 2x aktif! Kamu maju ${roll} langkah!`);
+      } else {
+        setLog(`🎲 Dadu menunjukkan angka ${roll}. Melangkah...`);
+      }
+
+      // Animasi jalan langkah demi langkah
+      let targetPos = Math.min(36, myData.pos + roll);
+      for (let step = myData.pos + 1; step <= targetPos; step++) {
+        myData.pos = step;
+        sfx.step();
+        await syncMyState();
+        await new Promise(r => setTimeout(r, 260));
+      }
+
+      // Cek Menang
+      if (myData.pos === 36) {
+        sfx.win();
+        myData.score += 100;
+        await syncMyState();
+        setLog("🏆 SELAMAT! Kamu menjadi yang tercepat mencapai Petak 36!");
+        alert("🎉 LUAR BIASA! Kamu berhasil mencapai Petak 36 dan menang!");
+        return;
+      }
+
+      // Cek Kotak Spesial
+      if (ladders[myData.pos]) {
+        triggerQuiz("ladder", ladders[myData.pos]);
+      } else if (snakes[myData.pos]) {
+        if (myData.shield) {
+          myData.shield = false;
+          await syncMyState();
+          setLog("🛡️ Tameng melindungimu dari gigitan ular! Kamu aman di petak ini.");
+          finishTurn();
+        } else {
+          triggerQuiz("snake", snakes[myData.pos]);
+        }
+      } else if (mystery.includes(myData.pos)) {
+        triggerMysteryBox();
+      } else {
+        finishTurn();
+      }
+    };
+
+    // ==========================================
+    // KUIS STIMULUS UNTUK TANGGA & ULAR
+    // ==========================================
+    function triggerQuiz(mode, destination) {
+      const q = questionBank[Math.floor(Math.random() * questionBank.length)];
+      const modal = document.getElementById("quizModal");
+      const badge = document.getElementById("modalHeaderBadge");
+
+      if (mode === "ladder") {
+        badge.style.background = "#DCFCE7"; badge.style.color = "#166534";
+        badge.innerText = `🪜 KOTAK TANGGA! Jawab benar untuk naik ke petak ${destination}!`;
+      } else {
+        badge.style.background = "#FEE2E2"; badge.style.color = "#991B1B";
+        badge.innerText = `🐍 KOTAK ULAR! Jawab benar agar selamat dari turun ke petak ${destination}!`;
+      }
+
+      document.getElementById("modalStimulus").innerText = q.stimulus;
+      document.getElementById("modalQuestion").innerText = q.question;
+
+      const optArea = document.getElementById("modalOptionsArea");
+      optArea.innerHTML = "";
+
+      if (q.type === "pg" && q.options) {
+        q.options.forEach(optText => {
+          const btn = document.createElement("button");
+          btn.className = "opt-btn";
+          btn.innerText = optText;
+          btn.onclick = () => checkAnswer(optText.charAt(0).toUpperCase(), q.answer.toUpperCase(), mode, destination);
+          optArea.appendChild(btn);
+        });
+      } else {
+        optArea.innerHTML = `
+          <input type="text" id="shortAnsInput" placeholder="Ketik jawabanmu di sini..." style="width:100%; padding:12px; border-radius:12px; border:2px solid #CBD5E1; font-size:1rem; margin-bottom:10px;">
+          <button class="btn-play" onclick="submitShortAns('${q.answer}', '${mode}', ${destination})">Kirim Jawaban</button>
+        `;
+      }
+
+      modal.style.display = "flex";
+    }
+
+    window.submitShortAns = (correctAns, mode, destination) => {
+      const userAns = document.getElementById("shortAnsInput").value.trim().toLowerCase();
+      checkAnswer(userAns, correctAns.trim().toLowerCase(), mode, destination);
+    };
+
+    async function checkAnswer(userAns, correctAns, mode, destination) {
+      document.getElementById("quizModal").style.display = "none";
+      const isCorrect = userAns === correctAns;
+
+      if (mode === "ladder") {
+        if (isCorrect) {
+          sfx.ladder();
+          myData.pos = destination;
+          myData.score += 20;
+          setLog(`🎉 Jawaban BENAR (+20 poin)! Kamu menaiki tangga ke petak ${destination}!`);
+        } else {
+          setLog(`😅 Kurang tepat! Kamu tetap bertahan di petak ${myData.pos}.`);
+        }
+      } else if (mode === "snake") {
+        if (isCorrect) {
+          sfx.ladder();
+          myData.score += 20;
+          setLog(`🦸 Hebat! Jawaban BENAR (+20 poin)! Kamu selamat dari ular!`);
+        } else {
+          sfx.snake();
+          myData.pos = destination;
+          setLog(`🐍 Yah, kurang tepat! Ular menggigitmu dan kamu merosot ke petak ${destination}.`);
+        }
+      }
+
+      await syncMyState();
+      finishTurn();
+    }
+
+    // ==========================================
+    // KOTAK MISTERI / POWER-UP
+    // ==========================================
+    async function triggerMysteryBox() {
+      sfx.mystery();
+      const powerType = Math.floor(Math.random() * 3);
+
+      if (powerType === 0) {
+        myData.shield = true;
+        setLog("🎁 Kotak Misteri: Kamu mendapat KARTU TAMENG 🛡️ (Kebal 1x gigitan ular)!");
+      } else if (powerType === 1) {
+        myData.doubleDice = true;
+        setLog("🎁 Kotak Misteri: Kamu mendapat DADU GANDA ✨ (Lemparan berikutnya dikali 2)!");
+      } else {
+        const others = Object.values(allPlayers).filter(p => p.id !== playerId && p.pos > myData.pos && p.pos < 36);
+        if (others.length > 0) {
+          const target = others[Math.floor(Math.random() * others.length)];
+          const oldPos = myData.pos;
+          myData.pos = target.pos;
+          await update(ref(db, `rooms/${roomPin}/players/${target.id}`), { pos: oldPos });
+          setLog(`🎁 Kotak Misteri: TUKAR POSISI 🔄! Kamu bertukar tempat dengan ${target.name} ke petak ${myData.pos}!`);
+        } else {
+          myData.score += 15;
+          setLog("🎁 Kotak Misteri: Bonus +15 Poin Pancasila!");
+        }
+      }
+
+      await syncMyState();
+      finishTurn();
+    }
+
+    async function syncMyState() {
+      await update(ref(db, `rooms/${roomPin}/players/${playerId}`), myData);
+    }
+
+    function finishTurn() {
+      isBusy = false;
+      if (gameStatus === "playing" && myData.pos < 36) {
+        document.getElementById("rollBtn").disabled = false;
+      }
+    }
+
+    function setLog(msg) {
+      document.getElementById("gameLog").innerText = msg;
+    }
+  </script>
+</body>
+</html>
