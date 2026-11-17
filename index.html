@@ -20,67 +20,67 @@
     body {
       margin: 0; background: var(--bg); color: var(--text);
       min-height: 100vh; display: flex; flex-direction: column; align-items: center;
-      padding: 10px;
+      padding: 8px;
     }
 
     /* LAYAR JOIN */
     #joinScreen {
-      max-width: 430px; width: 92%; margin: auto; background: white;
-      padding: 32px 26px; border-radius: 26px; text-align: center;
+      max-width: 420px; width: 92%; margin: auto; background: white;
+      padding: 28px 24px; border-radius: 24px; text-align: center;
       box-shadow: 0 12px 30px rgba(91, 143, 185, 0.14); border: 3px solid #E0F2FE;
     }
     .logo-badge {
-      background: #FEF9C3; display: inline-block; padding: 8px 18px;
-      border-radius: 99px; font-weight: 700; color: #A16207; font-size: 0.85rem; margin-bottom: 10px;
+      background: #FEF9C3; display: inline-block; padding: 6px 16px;
+      border-radius: 99px; font-weight: 700; color: #A16207; font-size: 0.8rem; margin-bottom: 8px;
     }
-    #joinScreen h1 { margin: 6px 0; font-size: 1.65rem; color: #1E3A8A; }
-    .avatar-picker { display: flex; justify-content: center; gap: 10px; margin: 14px 0; }
+    #joinScreen h1 { margin: 4px 0; font-size: 1.5rem; color: #1E3A8A; }
+    .avatar-picker { display: flex; justify-content: center; gap: 8px; margin: 12px 0; }
     .avatar-opt {
-      font-size: 1.8rem; padding: 8px; border-radius: 14px; cursor: pointer;
+      font-size: 1.7rem; padding: 6px; border-radius: 12px; cursor: pointer;
       border: 2px solid transparent; background: #F8FAFC; transition: 0.2s;
     }
     .avatar-opt.selected { border-color: #5B8FB9; background: #E0F2FE; transform: scale(1.1); }
 
     input.join-input {
-      width: 100%; padding: 14px; border-radius: 14px; border: 2px solid #CBD5E1;
-      font-size: 1.05rem; text-align: center; font-weight: 700; margin-bottom: 12px;
+      width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #CBD5E1;
+      font-size: 1rem; text-align: center; font-weight: 700; margin-bottom: 10px;
     }
     .btn-play {
-      width: 100%; padding: 15px; border: none; border-radius: 16px;
+      width: 100%; padding: 14px; border: none; border-radius: 14px;
       background: linear-gradient(135deg, #6BCB77 0%, #4D96FF 100%);
-      color: white; font-size: 1.1rem; font-weight: 800; cursor: pointer;
-      box-shadow: 0 6px 16px rgba(77, 150, 255, 0.3); transition: 0.2s;
+      color: white; font-size: 1.05rem; font-weight: 800; cursor: pointer;
+      box-shadow: 0 5px 14px rgba(77, 150, 255, 0.3); transition: 0.2s;
     }
     .btn-play:hover { transform: translateY(-2px); }
 
-    /* LAYAR ARENA PERMAINAN */
-    #gameScreen { display: none; width: 100%; max-width: 1250px; padding: 10px; }
+    /* LAYAR ARENA PERMAINAN (FULL & RESPONSIF) */
+    #gameScreen { display: none; width: 100%; max-width: 1300px; padding: 8px; }
     .top-bar {
-      background: white; padding: 10px 18px; border-radius: 16px;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04); margin-bottom: 12px; border: 2px solid #F1F5F9;
+      background: white; padding: 8px 16px; border-radius: 14px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04); margin-bottom: 10px; border: 2px solid #F1F5F9;
     }
-    .game-layout { display: grid; grid-template-columns: 1.5fr 0.8fr; gap: 16px; align-items: start; }
-    @media (max-width: 950px) { .game-layout { grid-template-columns: 1fr; } }
+    .game-layout { display: grid; grid-template-columns: 1.6fr 0.8fr; gap: 14px; align-items: start; }
+    @media (max-width: 900px) { .game-layout { grid-template-columns: 1fr; } }
 
-    /* PAPAN 10x5 (50 PETAK) UTUH */
+    /* PAPAN 50 PETAK FULL (TIDAK KEPOTONG) */
     .board-wrapper {
-      background: white; padding: 10px; border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06); border: 3px solid #BAE6FD;
+      background: white; padding: 8px; border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06); border: 3px solid #BAE6FD;
       width: 100%; overflow-x: auto;
     }
     .board {
-      display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px;
-      width: 100%; min-width: 580px;
+      display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px;
+      width: 100%; min-width: 520px;
     }
     .cell {
-      aspect-ratio: 1 / 1; border-radius: 6px; padding: 2px; position: relative;
+      aspect-ratio: 1 / 1; border-radius: 5px; padding: 2px; position: relative;
       display: flex; flex-direction: column; justify-content: space-between;
-      font-weight: 700; font-size: 0.7rem; border: 1px solid rgba(0,0,0,0.08);
+      font-weight: 700; font-size: 0.65rem; border: 1px solid rgba(0,0,0,0.08);
     }
-    .cell-num { font-size: 0.6rem; opacity: 0.8; font-weight: 800; }
-    .cell-icon { font-size: 0.9rem; text-align: center; }
-    .cell-tag { font-size: 0.48rem; text-align: center; font-weight: 700; border-radius: 2px; padding: 1px; }
+    .cell-num { font-size: 0.55rem; opacity: 0.8; font-weight: 800; }
+    .cell-icon { font-size: 0.85rem; text-align: center; }
+    .cell-tag { font-size: 0.45rem; text-align: center; font-weight: 700; border-radius: 2px; padding: 1px; }
 
     .c-0 { background: #FFF3B0; }
     .c-1 { background: #C8F2D6; }
@@ -93,34 +93,34 @@
       display: flex; flex-wrap: wrap; gap: 1px; justify-content: center; z-index: 5;
     }
     .token {
-      font-size: 1rem; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
+      font-size: 0.95rem; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     /* PANEL KONTROL KANAN */
     .control-panel {
-      background: white; border-radius: 20px; padding: 16px;
-      border: 2px solid #F1F5F9; box-shadow: 0 6px 18px rgba(0,0,0,0.04);
-      display: flex; flex-direction: column; gap: 12px;
+      background: white; border-radius: 18px; padding: 14px;
+      border: 2px solid #F1F5F9; box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+      display: flex; flex-direction: column; gap: 10px;
     }
     .dice-box {
-      background: #F0F9FF; border-radius: 16px; padding: 14px; text-align: center;
+      background: #F0F9FF; border-radius: 14px; padding: 12px; text-align: center;
       border: 2px dashed #7DD3FC;
     }
     .dice-face {
-      font-size: 3rem; margin: 2px 0; display: inline-block;
+      font-size: 2.8rem; margin: 2px 0; display: inline-block;
     }
     .btn-action {
-      width: 100%; padding: 12px; border: none; border-radius: 14px;
-      background: #FFB84C; color: #78350F; font-weight: 800; font-size: 1rem;
+      width: 100%; padding: 12px; border: none; border-radius: 12px;
+      background: #FFB84C; color: #78350F; font-weight: 800; font-size: 0.95rem;
       cursor: pointer; box-shadow: 0 4px 0 #D97706; transition: 0.15s;
     }
     .btn-action:active { transform: translateY(2px); box-shadow: 0 2px 0 #D97706; }
     .btn-action:disabled { background: #E2E8F0; color: #94A3B8; box-shadow: none; cursor: not-allowed; }
 
     .log-box {
-      background: #F8FAFC; border-radius: 12px; padding: 10px;
-      font-size: 0.82rem; min-height: 50px; border-left: 4px solid #7BC9A6;
+      background: #F8FAFC; border-radius: 10px; padding: 8px;
+      font-size: 0.8rem; min-height: 48px; border-left: 4px solid #7BC9A6;
     }
 
     /* MODAL KUIS */
@@ -129,30 +129,30 @@
       display: none; align-items: center; justify-content: center; padding: 16px; z-index: 100;
     }
     .modal-card {
-      background: white; max-width: 560px; width: 100%; border-radius: 24px;
-      padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 4px solid #BAE6FD;
+      background: white; max-width: 540px; width: 100%; border-radius: 22px;
+      padding: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 4px solid #BAE6FD;
     }
     .modal-badge {
-      display: inline-block; padding: 5px 14px; border-radius: 99px;
-      font-weight: 700; font-size: 0.85rem; margin-bottom: 10px;
+      display: inline-block; padding: 4px 12px; border-radius: 99px;
+      font-weight: 700; font-size: 0.8rem; margin-bottom: 8px;
     }
     .quiz-andika, .quiz-andika * { font-family: 'Andika', sans-serif !important; }
     .stimulus-box {
-      background: #FFFBEB; border-left: 5px solid #F59E0B; padding: 14px;
-      border-radius: 12px; font-size: 1.02rem; line-height: 1.6; color: #1E293B; margin-bottom: 14px;
+      background: #FFFBEB; border-left: 5px solid #F59E0B; padding: 12px;
+      border-radius: 10px; font-size: 0.98rem; line-height: 1.5; color: #1E293B; margin-bottom: 12px;
     }
     .question-text {
-      font-size: 1.12rem; font-weight: 700; color: #0F172A; margin-bottom: 14px; line-height: 1.5;
+      font-size: 1.05rem; font-weight: 700; color: #0F172A; margin-bottom: 12px; line-height: 1.4;
     }
     .opt-btn {
-      width: 100%; text-align: left; padding: 12px 16px; margin-bottom: 8px;
-      border-radius: 12px; border: 2px solid #E2E8F0; background: #F8FAFC;
-      font-size: 1rem; cursor: pointer; transition: 0.15s;
+      width: 100%; text-align: left; padding: 10px 14px; margin-bottom: 6px;
+      border-radius: 10px; border: 2px solid #E2E8F0; background: #F8FAFC;
+      font-size: 0.95rem; cursor: pointer; transition: 0.15s;
     }
     .opt-btn:hover { background: #E0F2FE; border-color: #38BDF8; }
     .status-banner {
-      background: #FEF3C7; color: #92400E; padding: 10px 16px; border-radius: 12px;
-      text-align: center; font-weight: 700; font-size: 0.9rem; margin-bottom: 12px; display: none;
+      background: #FEF3C7; color: #92400E; padding: 8px 14px; border-radius: 10px;
+      text-align: center; font-weight: 700; font-size: 0.85rem; margin-bottom: 10px; display: none;
     }
   </style>
 </head>
@@ -162,7 +162,7 @@
   <div id="joinScreen">
     <div class="logo-badge">🇮🇩 PPKn Kelas 5 SD</div>
     <h1>Ular Tangga (50 Petak)</h1>
-    <p style="font-size:0.9rem; color:#64748B;">Pilih avatarmu dan masukkan PIN dari guru!</p>
+    <p style="font-size:0.85rem; color:#64748B;">Pilih avatarmu dan masukkan PIN dari guru!</p>
 
     <div class="avatar-picker" id="avatarPicker">
       <div class="avatar-opt selected" data-avatar="🦁">🦁</div>
@@ -181,42 +181,42 @@
   <div id="gameScreen">
     <div class="top-bar">
       <div>
-        <span style="font-weight:800; color:#1E3A8A; font-size:1.05rem;">🎲 Ular Tangga Pancasila (50 Petak)</span>
-        <span style="background:#E0F2FE; color:#0369A1; padding:3px 10px; border-radius:99px; font-size:0.78rem; font-weight:700; margin-left:6px;">
+        <span style="font-weight:800; color:#1E3A8A; font-size:1rem;">🎲 Ular Tangga Pancasila (50 Petak)</span>
+        <span style="background:#E0F2FE; color:#0369A1; padding:2px 8px; border-radius:99px; font-size:0.75rem; font-weight:700; margin-left:6px;">
           PIN: <span id="activePinLabel">-</span>
         </span>
       </div>
-      <div style="display:flex; align-items:center; gap:10px;">
-        <span id="myStats" style="font-weight:700; font-size:0.85rem;">🦁 Pemain • Petak 1 • 0 Poin</span>
-        <button id="bgmBtn" style="border:none; background:#FEF3C7; padding:5px 10px; border-radius:8px; cursor:pointer; font-weight:700; font-size:0.8rem;">🔇 Musik</button>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span id="myStats" style="font-weight:700; font-size:0.8rem;">🦁 Pemain • Petak 1 • 0 Poin</span>
+        <button id="bgmBtn" style="border:none; background:#FEF3C7; padding:4px 8px; border-radius:6px; cursor:pointer; font-weight:700; font-size:0.75rem;">🔇 Musik</button>
       </div>
     </div>
 
     <div id="statusBanner" class="status-banner">⏳ Menunggu Guru menekan tombol MULAI...</div>
 
     <div class="game-layout">
-      <!-- PAPAN 50 PETAK -->
+      <!-- PAPAN 50 PETAK FULL -->
       <div class="board-wrapper">
         <div class="board" id="boardGrid"></div>
       </div>
 
-      <!-- PANEL KONTROL -->
+      <!-- PANEL KONTROL (BEBAS GILIRAN) -->
       <div class="control-panel">
         <div class="dice-box">
-          <div style="font-size:0.82rem; font-weight:700; color:#0369A1;" id="turnIndicator">SIAP BERMAIN</div>
+          <div style="font-size:0.8rem; font-weight:700; color:#0369A1;">⚡ AREA AKSI KILAT (BEBAS JALAN)</div>
           <div class="dice-face" id="diceDisplay">🎯</div>
-          <div id="powerupStatus" style="font-size:0.78rem; font-weight:700; color:#059669; min-height:18px; margin-bottom:6px;"></div>
+          <div id="powerupStatus" style="font-size:0.75rem; font-weight:700; color:#059669; min-height:16px; margin-bottom:4px;"></div>
           <button class="btn-action" id="actionBtn">❓ Jawab Soal & Kocok Dadu!</button>
         </div>
 
         <div>
-          <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">📢 Info Permainan:</div>
-          <div class="log-box" id="gameLog">Jawab soal Pancasila dengan benar untuk membuka kocokan dadu!</div>
+          <div style="font-weight:700; font-size:0.8rem; margin-bottom:3px;">📢 Info Permainan:</div>
+          <div class="log-box" id="gameLog">Siapa cepat dia dapat! Jawab soal untuk mengocok dadu.</div>
         </div>
 
         <div>
-          <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">Legenda Papan:</div>
-          <div style="font-size:0.75rem; color:#475569; line-height:1.5;">
+          <div style="font-weight:700; font-size:0.8rem; margin-bottom:3px;">Legenda Papan:</div>
+          <div style="font-size:0.72rem; color:#475569; line-height:1.4;">
             🪜 <b>6 Tangga:</b> Naik Cepat!<br>
             🐍 <b>10 Ular:</b> Merosot Panjang!<br>
             🎁 <b>14 Kotak Misteri (?):</b> Tameng / Dadu Ganda / Teleport / Mundur / Istirahat
@@ -224,8 +224,8 @@
         </div>
 
         <div>
-          <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">👥 Pemain di Ruangan:</div>
-          <div id="playerChips" style="display:flex; flex-wrap:wrap; gap:5px;"></div>
+          <div style="font-weight:700; font-size:0.8rem; margin-bottom:3px;">👥 Pemain di Ruangan:</div>
+          <div id="playerChips" style="display:flex; flex-wrap:wrap; gap:4px;"></div>
         </div>
       </div>
     </div>
@@ -241,7 +241,7 @@
     </div>
   </div>
 
-  <!-- FIREBASE & GAME ENGINE (MANDIRI & TANPA TUNGGU GILIRAN ORANG LAIN) -->
+  <!-- FIREBASE & GAME ENGINE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getDatabase, ref, set, update, get, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
@@ -269,7 +269,7 @@
     let roomPin = "";
     let playerId = "p_" + Math.random().toString(36).substring(2, 9);
     let myAvatar = "🦁";
-    let myData = { id: playerId, name: "", avatar: "🦁", pos: 1, score: 0, shield: false, doubleDice: false, skipTurn: false };
+    let myData = { id: playerId, name: "", avatar: "🦁", pos: 1, score: 0, shieldCount: 0, doubleDice: false, skipTurn: false };
     let allPlayers = {};
     let questionBank = [];
     let gameStatus = "waiting";
@@ -417,12 +417,13 @@
         } else {
           banner.style.display = "none";
           if (myData.skipTurn) {
-            setLog("⏸️ Alhamdulillah, istirahat sejenak. Silakan lanjut jawab soal berikutnya!");
+            setLog("⏸️ Alhamdulillah, istirahat sejenak. Giliran dilewati dengan sabar!");
             myData.skipTurn = false;
             syncMyState();
+          } else {
+            actionBtn.disabled = false;
+            actionBtn.innerText = pendingRoll ? "🎲 Kocok Dadu Sekarang!" : "❓ Jawab Soal & Kocok Dadu!";
           }
-          actionBtn.disabled = false;
-          actionBtn.innerText = pendingRoll ? "🎲 Kocok Dadu Sekarang!" : "❓ Jawab Soal & Kocok Dadu!";
         }
 
         if (data.players) {
@@ -453,14 +454,14 @@
         }
 
         chips.innerHTML += `
-          <span style="background:#F1F5F9; padding:3px 8px; border-radius:99px; font-size:0.75rem; font-weight:600;">
+          <span style="background:#F1F5F9; padding:3px 8px; border-radius:99px; font-size:0.72rem; font-weight:600;">
             ${p.avatar} ${p.name} (${p.pos})
           </span>
         `;
       });
 
       let statusInfo = [];
-      if (myData.shield) statusInfo.push("🛡️ Tameng (1x Ular)");
+      if (myData.shieldCount > 0) statusInfo.push(`🛡️ Tameng (${myData.shieldCount})`);
       if (myData.doubleDice) statusInfo.push("✨ Dadu Ganda");
       document.getElementById("myStats").innerText = `${myData.avatar} ${myData.name} • Petak ${myData.pos} • ${myData.score} Poin`;
       document.getElementById("powerupStatus").innerText = statusInfo.join(" | ");
@@ -518,14 +519,14 @@
               if (userChoice === correctChoice) {
                 resolveQuiz(true, "🎉 MasyaAllah Benar (+20 Poin)! Silakan kocok dadu.");
               } else {
-                resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi pada soal berikutnya!`);
+                resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi di kesempatan berikutnya!`);
               }
             };
             optArea.appendChild(btn);
           });
         } else {
           optArea.innerHTML = `
-            <input type="text" id="shortAnsInput" placeholder="Ketik kata kunci jawaban..." style="width:100%; padding:12px; border-radius:12px; border:2px solid #CBD5E1; font-size:1rem; margin-bottom:10px;">
+            <input type="text" id="shortAnsInput" placeholder="Ketik kata kunci jawaban..." style="width:100%; padding:10px; border-radius:10px; border:2px solid #CBD5E1; font-size:0.95rem; margin-bottom:10px;">
             <button class="btn-play" id="btnSubmitAns">Kirim Jawaban</button>
           `;
           document.getElementById("btnSubmitAns").onclick = () => {
@@ -533,7 +534,7 @@
             if (userAns === q.answer.trim().toLowerCase()) {
               resolveQuiz(true, "🎉 MasyaAllah Benar! Silakan kocok dadu.");
             } else {
-              resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi pada soal berikutnya!`);
+              resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi ya!`);
             }
           };
         }
@@ -573,30 +574,30 @@
       const diceIcons = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
       diceEl.innerText = roll <= 6 ? diceIcons[roll - 1] : "🎲";
 
-      setLog(`🎲 Melangkah sebanyak ${roll} petak...`);
+      setLog(`🎲 Melangkah sebanyak ${roll} petak... bikin deg-degan!`);
 
-      // Aturan Pantul Mundur jika Melebihi Petak 50 (Bikin Deg-Degan!)
+      // Mekanik Pantul Mundur Jika Melebihi Petak 50
       let targetPos = myData.pos + roll;
       if (targetPos > 50) {
         let excess = targetPos - 50;
         targetPos = 50 - excess;
-        setLog(`⚠️ Wah, kelebihan angka! Memantul mundur ${excess} petak ke nomor ${targetPos}!`);
+        setLog(`⚠️ Wah, kelebihan langkah! Memantul mundur ke petak ${targetPos}!`);
       }
 
-      for (let step = myData.pos + 1; step <= targetPos; step++) {
+      for (let step = myData.pos + 1; step <= Math.max(myData.pos, targetPos); step++) {
         myData.pos = step;
         sfx.step();
         await syncMyState();
-        await new Promise(r => setTimeout(r, 200));
+        await new Promise(r => setTimeout(r, 180));
       }
 
-      // Jika memantul mundur karena kelebihan dari petak di atas 50
-      if (myData.pos < targetPos) {
-        for (let step = 50 - 1; step >= targetPos; step--) {
+      // Jika memantul mundur
+      if (myData.pos > targetPos) {
+        for (let step = myData.pos - 1; step >= targetPos; step--) {
           myData.pos = step;
           sfx.step();
           await syncMyState();
-          await new Promise(r => setTimeout(r, 200));
+          await new Promise(r => setTimeout(r, 180));
         }
       }
 
@@ -616,9 +617,9 @@
         setLog(`🪜 Alhamdulillah! Menemukan Tangga, melesat naik ke petak ${dest}!`);
         await syncMyState();
       } else if (snakes[myData.pos]) {
-        if (myData.shield) {
-          myData.shield = false; // Tameng habis setelah melindungi 1 ular
-          setLog("🛡️ Alhamdulillah! Kartu Tameng melindungimu dari gigitan ular (Tameng habis dipakai).");
+        if (myData.shieldCount > 0) {
+          myData.shieldCount -= 1;
+          setLog(`🛡️ Alhamdulillah! Tameng Melindungimu (Sisa tameng: ${myData.shieldCount}).`);
         } else {
           let startSnake = myData.pos;
           let destSnake = snakes[myData.pos];
@@ -644,7 +645,7 @@
       const type = Math.floor(Math.random() * 5);
 
       if (type === 0) {
-        myData.shield = true;
+        myData.shieldCount += 1;
         setLog("🎁 Kotak Misteri (?): Subhanallah! Mendapat KARTU TAMENG 🛡️ (Melindungi 1x gigitan ular)!");
       } else if (type === 1) {
         myData.doubleDice = true;
@@ -657,7 +658,7 @@
         setLog("🎁 Kotak Misteri (?): Aduh, harus MUNDUR 1 PETAK ⏪! Kurang teliti sedikit.");
       } else {
         myData.skipTurn = true;
-        setLog("🎁 Kotak Misteri (?): ISTIRAHAT SEJENAK ⏸️! Istirahat sebentar sebelum lanjut menjawab soal.");
+        setLog("🎁 Kotak Misteri (?): ISTIRAHAT SEJENAK ⏸️! Melewatkan 1 giliran untuk bersabar.");
       }
       await syncMyState();
     }
