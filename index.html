@@ -3,12 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ular Tangga Pancasila - Kelas 5 SD</title>
+  <title>Ular Tangga Pancasila - Kelas 5</title>
   <link href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #FFFDF7;
       --primary: #5B8FB9;
+      --mint: #B8E8FC;
+      --soft-green: #C8F2D6;
+      --soft-yellow: #FFF3B0;
+      --soft-pink: #FFD6E0;
+      --soft-purple: #E5D4FF;
       --text: #334155;
     }
     * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -17,6 +22,7 @@
       min-height: 100vh; display: flex; flex-direction: column; align-items: center;
     }
 
+    /* LAYAR JOIN */
     #joinScreen {
       max-width: 430px; width: 92%; margin: auto; background: white;
       padding: 32px 26px; border-radius: 26px; text-align: center;
@@ -46,6 +52,7 @@
     }
     .btn-play:hover { transform: translateY(-2px); }
 
+    /* LAYAR ARENA PERMAINAN */
     #gameScreen { display: none; width: 100%; max-width: 1120px; padding: 16px; }
     .top-bar {
       background: white; padding: 12px 20px; border-radius: 18px;
@@ -55,6 +62,7 @@
     .game-layout { display: grid; grid-template-columns: 1.35fr 0.85fr; gap: 20px; }
     @media (max-width: 860px) { .game-layout { grid-template-columns: 1fr; } }
 
+    /* PAPAN 6x6 (36 PETAK) */
     .board-wrapper {
       position: relative; background: white; padding: 12px; border-radius: 22px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.06); border: 3px solid #BAE6FD;
@@ -68,9 +76,9 @@
       display: flex; flex-direction: column; justify-content: space-between;
       font-weight: 700; font-size: 0.85rem; border: 1.5px solid rgba(0,0,0,0.05);
     }
-    .cell-num { font-size: 0.8rem; opacity: 0.75; }
+    .cell-num { font-size: 0.75rem; opacity: 0.75; }
     .cell-icon { font-size: 1.15rem; text-align: center; }
-    .cell-tag { font-size: 0.6rem; text-align: center; font-weight: 700; border-radius: 6px; padding: 1px 3px; }
+    .cell-tag { font-size: 0.58rem; text-align: center; font-weight: 700; border-radius: 4px; padding: 1px 2px; }
 
     .c-0 { background: #FFF3B0; }
     .c-1 { background: #C8F2D6; }
@@ -78,12 +86,16 @@
     .c-3 { background: #FFE3EC; }
     .c-finish { background: linear-gradient(135deg, #FDE047, #FB923C); color: #7C2D12; }
 
-    .tokens-area { display: flex; flex-wrap: wrap; gap: 2px; justify-content: center; z-index: 5; }
+    /* BIDAK PEMAIN */
+    .tokens-area {
+      display: flex; flex-wrap: wrap; gap: 2px; justify-content: center; z-index: 5;
+    }
     .token {
-      font-size: 1.35rem; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
-      transition: all 0.3s ease-in-out;
+      font-size: 1.3rem; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
+    /* PANEL KONTROL KANAN */
     .control-panel {
       background: white; border-radius: 22px; padding: 20px;
       border: 2px solid #F1F5F9; box-shadow: 0 6px 18px rgba(0,0,0,0.04);
@@ -93,46 +105,43 @@
       background: #F0F9FF; border-radius: 18px; padding: 18px; text-align: center;
       border: 2px dashed #7DD3FC;
     }
-    .dice-face { font-size: 3.6rem; margin: 4px 0; display: inline-block; }
-    .dice-shake { animation: shake 0.4s infinite; }
-    @keyframes shake {
-      0% { transform: rotate(0deg) scale(1.1); }
-      25% { transform: rotate(15deg) scale(1.1); }
-      50% { transform: rotate(-15deg) scale(1.1); }
-      100% { transform: rotate(0deg) scale(1.1); }
+    .dice-face {
+      font-size: 3.4rem; margin: 4px 0; display: inline-block;
     }
-
-    .btn-roll {
+    .btn-action {
       width: 100%; padding: 14px; border: none; border-radius: 14px;
       background: #FFB84C; color: #78350F; font-weight: 800; font-size: 1.05rem;
       cursor: pointer; box-shadow: 0 5px 0 #D97706; transition: 0.15s;
     }
-    .btn-roll:active { transform: translateY(3px); box-shadow: 0 2px 0 #D97706; }
-    .btn-roll:disabled { background: #E2E8F0; color: #94A3B8; box-shadow: none; cursor: not-allowed; }
+    .btn-action:active { transform: translateY(3px); box-shadow: 0 2px 0 #D97706; }
+    .btn-action:disabled { background: #E2E8F0; color: #94A3B8; box-shadow: none; cursor: not-allowed; }
 
     .log-box {
       background: #F8FAFC; border-radius: 12px; padding: 10px 12px;
       font-size: 0.85rem; min-height: 54px; border-left: 4px solid #7BC9A6;
     }
 
+    /* MODAL KUIS STIMULUS (FONT ANDIKA) */
     .modal-overlay {
-      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55);
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
       display: none; align-items: center; justify-content: center; padding: 16px; z-index: 100;
     }
     .modal-card {
       background: white; max-width: 560px; width: 100%; border-radius: 24px;
       padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 4px solid #BAE6FD;
-      animation: popIn 0.25s ease-out;
     }
-    @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-    .modal-badge { display: inline-block; padding: 5px 14px; border-radius: 99px; font-weight: 700; font-size: 0.85rem; margin-bottom: 10px; }
+    .modal-badge {
+      display: inline-block; padding: 5px 14px; border-radius: 99px;
+      font-weight: 700; font-size: 0.85rem; margin-bottom: 10px;
+    }
     .quiz-andika, .quiz-andika * { font-family: 'Andika', sans-serif !important; }
     .stimulus-box {
       background: #FFFBEB; border-left: 5px solid #F59E0B; padding: 14px;
       border-radius: 12px; font-size: 1.02rem; line-height: 1.6; color: #1E293B; margin-bottom: 14px;
     }
-    .question-text { font-size: 1.12rem; font-weight: 700; color: #0F172A; margin-bottom: 14px; line-height: 1.5; }
+    .question-text {
+      font-size: 1.12rem; font-weight: 700; color: #0F172A; margin-bottom: 14px; line-height: 1.5;
+    }
     .opt-btn {
       width: 100%; text-align: left; padding: 12px 16px; margin-bottom: 8px;
       border-radius: 12px; border: 2px solid #E2E8F0; background: #F8FAFC;
@@ -147,10 +156,11 @@
 </head>
 <body>
 
+  <!-- 1. HALAMAN MASUK (JOIN) -->
   <div id="joinScreen">
     <div class="logo-badge">🇮🇩 PPKn Kelas 5 SD</div>
     <h1>Ular Tangga Pancasila</h1>
-    <p style="font-size:0.9rem; color:#64748B;">Masukkan PIN dari Guru & siap-siap jawab tantangan seru!</p>
+    <p style="font-size:0.9rem; color:#64748B;">Jawab soal dulu, baru jalan! Siapa cepat sampai petak 36 menang!</p>
 
     <div class="avatar-picker" id="avatarPicker">
       <div class="avatar-opt selected" onclick="selectAvatar(this, '🦁')">🦁</div>
@@ -162,9 +172,10 @@
 
     <input type="text" id="pinInput" class="join-input" placeholder="Masukkan 6 Digit PIN" maxlength="6" />
     <input type="text" id="nameInput" class="join-input" placeholder="Nama Panggilanmu" maxlength="15" />
-    <button class="btn-play" onclick="joinGame()">🚀 Masuk ke Papan Permainan</button>
+    <button class="btn-play" onclick="joinGame()">🚀 Masuk ke Arena</button>
   </div>
 
+  <!-- 2. HALAMAN ARENA PERMAINAN -->
   <div id="gameScreen">
     <div class="top-bar">
       <div>
@@ -182,29 +193,32 @@
     <div id="statusBanner" class="status-banner">⏳ Menunggu Guru menekan tombol MULAI...</div>
 
     <div class="game-layout">
+      <!-- PAPAN 36 PETAK -->
       <div class="board-wrapper">
         <div class="board" id="boardGrid"></div>
       </div>
 
+      <!-- PANEL KONTROL -->
       <div class="control-panel">
         <div class="dice-box">
-          <div style="font-size:0.85rem; font-weight:700; color:#0369A1;">GILIRANMU MELANGKAH</div>
-          <div class="dice-face" id="diceDisplay">🎲</div>
+          <div style="font-size:0.85rem; font-weight:700; color:#0369A1;" id="turnIndicator">GILIRAN BERMAIN</div>
+          <div class="dice-face" id="diceDisplay">🎯</div>
           <div id="powerupStatus" style="font-size:0.82rem; font-weight:700; color:#059669; min-height:20px; margin-bottom:8px;"></div>
-          <button class="btn-roll" id="rollBtn" onclick="rollDice()">🎲 Kocok Dadu!</button>
+          <!-- ATURAN BARU: TOMBOL JAWAB SOAL DULU SEBELUM KOCOK DADU -->
+          <button class="btn-action" id="actionBtn" onclick="startTurnAction()">❓ Jawab Soal & Kocok Dadu!</button>
         </div>
 
         <div>
           <div style="font-weight:700; font-size:0.9rem; margin-bottom:6px;">📢 Info Permainan:</div>
-          <div class="log-box" id="gameLog">Aturan Baru: Jawab benar dulu, baru boleh maju! Waspada ular & kotak misteri (?)!</div>
+          <div class="log-box" id="gameLog">Jawab soal Pancasila dengan benar untuk membuka kocokan dadu!</div>
         </div>
 
         <div>
-          <div style="font-weight:700; font-size:0.9rem; margin-bottom:6px;">Legenda Papan Diperkaya:</div>
-          <div style="font-size:0.8rem; color:#475569; line-height:1.6;">
-            🪜 <b>Tangga:</b> Jawab benar = Naik kilat!<br>
-            🐍 <b>Ular:</b> Merosot bertahap kotak demi kotak!<br>
-            ❓ <b>Kotak Misteri:</b> Kartu Tameng / Mundur / Tukar / Truth or Dare!
+          <div style="font-weight:700; font-size:0.9rem; margin-bottom:6px;">Legenda Papan:</div>
+          <div style="font-size:0.8rem; color:#475569; line-height:1.7;">
+            🪜 <b>Tangga (Sedikit):</b> Jalan Pintas Naik!<br>
+            🐍 <b>Ular (Banyak & Panjang):</b> Waspada Merosot Turun!<br>
+            🎁 <b>Kotak Misteri (?):</b> Tameng / Mundur / Truth or Dare!
           </div>
         </div>
 
@@ -216,19 +230,24 @@
     </div>
   </div>
 
+  <!-- 3. MODAL KUIS STIMULUS / TRUTH OR DARE (FONT ANDIKA) -->
   <div class="modal-overlay" id="quizModal">
     <div class="modal-card quiz-andika">
-      <div id="modalHeaderBadge" class="modal-badge">🪜 TANTANGAN SOAL!</div>
+      <div id="modalHeaderBadge" class="modal-badge">❓ TANTANGAN SOAL PANCASILA</div>
       <div class="stimulus-box" id="modalStimulus"></div>
       <div class="question-text" id="modalQuestion"></div>
       <div id="modalOptionsArea"></div>
     </div>
   </div>
 
+  <!-- FIREBASE & GAME ENGINE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getDatabase, ref, set, update, get, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
+    // ==========================================
+    // TEMPEL KONFIGURASI FIREBASE KAMU DI SINI
+    // ==========================================
     const firebaseConfig = {
       apiKey: "AIzaSyBzmaKuR6FoK97Zk86pRaZBv8JiknBieHI",
       authDomain: "ular-tangga-pancasila-9b4d0.firebaseapp.com",
@@ -242,10 +261,12 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // PAPAN DIPERBANYAK ULAR & TANGGAGNYA + KOTAK MISTERI (?)
-    const ladders = { 2: 12, 7: 19, 14: 28, 22: 34 }; 
-    const snakes  = { 13: 3, 21: 11, 30: 18, 35: 23 }; 
-    const mystery = [5, 9, 16, 25, 31];               
+    // ==========================================
+    // CONFIG PAPAN: TANGGA DISEDIKAN SEDIKIT, ULAR DIPERBANYAK & PANJANG
+    // ==========================================
+    const ladders = { 5: 14, 12: 22 };                   // Tangga sedikit
+    const snakes  = { 11: 3, 19: 7, 26: 15, 33: 16, 35: 8 }; // Ular banyak & panjang meluncur
+    const mystery = [4, 9, 17, 24, 30];                 // Kotak Misteri / Truth or Dare (?)
 
     let roomPin = "";
     let playerId = "p_" + Math.random().toString(36).substring(2, 9);
@@ -254,8 +275,11 @@
     let allPlayers = {};
     let questionBank = [];
     let gameStatus = "waiting";
-    let isBusy = false;
+    let turnPlayerId = "";
+    let isMyTurn = false;
+    let pendingRoll = false;
 
+    // Web Audio API Sound Effects
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     let bgmInterval = null;
 
@@ -276,7 +300,7 @@
       dice: () => { for(let i=0; i<5; i++) playTone(200 + i*60, 'triangle', 0.06, i*0.06); },
       step: () => playTone(520, 'sine', 0.08),
       ladder: () => { [523, 659, 784, 1046].forEach((f, i) => playTone(f, 'triangle', 0.18, i*0.1)); },
-      snake: () => { [440, 370, 311, 220].forEach((f, i) => playTone(f, 'sawtooth', 0.15, i*0.1)); },
+      snake: () => { [440, 370, 311, 220].forEach((f, i) => playTone(f, 'sawtooth', 0.2, i*0.12)); },
       mystery: () => { [587, 740, 880, 1174].forEach((f, i) => playTone(f, 'sine', 0.15, i*0.08)); },
       win: () => { [523, 659, 784, 1046, 784, 1046].forEach((f, i) => playTone(f, 'triangle', 0.22, i*0.14)); }
     };
@@ -307,10 +331,10 @@
     window.joinGame = async () => {
       const pin = document.getElementById("pinInput").value.trim();
       const name = document.getElementById("nameInput").value.trim();
-      if (pin.length < 4 || !name) return alert("Masukkan kode PIN dan nama panggilanmu ya!");
+      if (pin.length < 4 || !name) return alert("Masukkan kode PIN dan namamu ya!");
 
       const roomSnap = await get(ref(db, `rooms/${pin}`));
-      if (!roomSnap.exists()) return alert("Kode PIN tidak ditemukan! Cek kembali PIN dari gurumu.");
+      if (!roomSnap.exists()) return alert("Kode PIN tidak ditemukan!");
 
       roomPin = pin;
       myData.name = name;
@@ -347,7 +371,7 @@
           if (num === 36) specialHtml = `<div class="cell-icon">🏆</div><div class="cell-tag">FINISH</div>`;
           else if (ladders[num]) specialHtml = `<div class="cell-icon">🪜</div><div class="cell-tag" style="background:#DCFCE7;color:#166534;">Naik ${ladders[num]}</div>`;
           else if (snakes[num]) specialHtml = `<div class="cell-icon">🐍</div><div class="cell-tag" style="background:#FEE2E2;color:#991B1B;">Turun ${snakes[num]}</div>`;
-          else if (mystery.includes(num)) specialHtml = `<div class="cell-icon">❓</div><div class="cell-tag" style="background:#F3E8FF;color:#6B21A8;">Misteri</div>`;
+          else if (mystery.includes(num)) specialHtml = `<div class="cell-icon">🎁</div><div class="cell-tag" style="background:#F3E8FF;color:#6B21A8;">Kotak (?)</div>`;
 
           cell.innerHTML = `
             <div class="cell-num">${num}</div>
@@ -365,27 +389,47 @@
         if (!data) return;
 
         gameStatus = data.status;
+        turnPlayerId = data.turnPlayerId || "";
         if (data.questions) {
           questionBank = Array.isArray(data.questions) ? data.questions : Object.values(data.questions);
         }
 
         const banner = document.getElementById("statusBanner");
-        const rollBtn = document.getElementById("rollBtn");
+        const actionBtn = document.getElementById("actionBtn");
+
         if (gameStatus === "waiting") {
           banner.style.display = "block";
-          banner.innerText = "⏳ Menunggu Bapak/Ibu Guru memulai permainan...";
-          rollBtn.disabled = true;
+          banner.innerText = "⏳ Menunggu Guru memulai permainan...";
+          actionBtn.disabled = true;
         } else if (gameStatus === "paused") {
           banner.style.display = "block";
-          banner.innerText = "⏸️ Permainan sedang dijeda sementara oleh Guru.";
-          rollBtn.disabled = true;
+          banner.innerText = "⏸️ Permainan sedang dijeda oleh Guru.";
+          actionBtn.disabled = true;
         } else if (gameStatus === "ended") {
           banner.style.display = "block";
-          banner.innerText = "🏁 Sesi permainan telah diakhiri oleh Guru!";
-          rollBtn.disabled = true;
+          banner.innerText = "🏁 Permainan telah selesai!";
+          actionBtn.disabled = true;
         } else {
           banner.style.display = "none";
-          if (!isBusy && myData.pos < 36) rollBtn.disabled = false;
+          // Aturan Giliran (Turn-Based)
+          if (!turnPlayerId) {
+            const firstPId = Object.keys(data.players || {})[0];
+            if (firstPId) update(ref(db, `rooms/${roomPin}`), { turnPlayerId: firstPId });
+          }
+
+          isMyTurn = (turnPlayerId === playerId);
+          if (isMyTurn) {
+            document.getElementById("turnIndicator").innerText = "⭐ GILIRANMU BERMAIN!";
+            document.getElementById("turnIndicator").style.color = "#D97706";
+            actionBtn.disabled = false;
+            actionBtn.innerText = pendingRoll ? "🎲 Kocok Dadu Sekarang!" : "❓ Jawab Soal & Kocok Dadu!";
+          } else {
+            const currentP = data.players && data.players[turnPlayerId] ? data.players[turnPlayerId].name : "Teman";
+            document.getElementById("turnIndicator").innerText = `⏳ Giliran: ${currentP}`;
+            document.getElementById("turnIndicator").style.color = "#0369A1";
+            actionBtn.disabled = true;
+            actionBtn.innerText = `Menunggu ${currentP} bermain...`;
+          }
         }
 
         if (data.players) {
@@ -423,168 +467,207 @@
       });
 
       document.getElementById("myStats").innerText = `${myData.avatar} ${myData.name} • Petak ${myData.pos} • ${myData.score} Poin`;
-      document.getElementById("powerupStatus").innerText = myData.shield ? "🛡️ Kartu Tameng Aktif" : "";
+      document.getElementById("powerupStatus").innerText = myData.shield ? "🛡️ Tameng Aktif" : "";
     }
 
-    // ATURAN BARU: KOCOK DADU -> MUNCUL SOAL DULU SEBELUM MAJU
-    window.rollDice = async () => {
-      if (isBusy || gameStatus !== "playing") return;
-      isBusy = true;
-      document.getElementById("rollBtn").disabled = true;
+    // ==========================================
+    // ALUR UTAMA: JAWAB SOAL DULU SEBELUM KOKOH DADU
+    // ==========================================
+    window.startTurnAction = () => {
+      if (!isMyTurn || gameStatus !== "playing") return;
+
+      if (!pendingRoll) {
+        // TAHAP 1: WAJIB JAWAB SOAL / TRUTH OR DARE DULU
+        triggerQuizOrDare();
+      } else {
+        // TAHAP 2: SETELAH BENAR, KOCOK DADU
+        executeRollDice();
+      }
+    };
+
+    function triggerQuizOrDare() {
+      const q = questionBank[Math.floor(Math.random() * questionBank.length)];
+      const modal = document.getElementById("quizModal");
+      const badge = document.getElementById("modalHeaderBadge");
+
+      // 20% peluang mendapat Truth or Dare khusus
+      const isDare = Math.random() < 0.2;
+
+      if (isDare) {
+        badge.style.background = "#F3E8FF"; badge.style.color = "#6B21A8";
+        badge.innerText = "🎯 TRUTH OR DARE PANCASILA!";
+        document.getElementById("modalStimulus.innerText"] = "Tantangan Khusus Kelas 5!";
+        document.getElementById("modalQuestion").innerText = "Sebutkan bunyi Sila ke-3 Pancasila dan beri contoh sikapnya di kelas! (Pilih opsi yang benar di bawah):";
+        
+        const optArea = document.getElementById("modalOptionsArea");
+        optArea.innerHTML = `
+          <button class="opt-btn" onclick="resolveQuiz(true, 'Benar! Kamu hebat menjalankan tantangan Truth or Dare!')">A. Persatuan Indonesia - Piket kelas bersama walau beda suku</button>
+          <button class="opt-btn" onclick="resolveQuiz(false, 'Kurang tepat! Coba ingat kembali materi sila ke-3.')">B. Keadilan Sosial - Hanya bermain dengan teman dekat</button>
+        `;
+      } else {
+        badge.style.background = "#DCFCE7"; badge.style.color = "#166534";
+        badge.innerText = "❓ JAWAB SOAL UNTUK DOKO&K Buka Dadu!";
+        document.getElementById("modalStimulus").innerText = q.stimulus;
+        document.getElementById("modalQuestion").innerText = q.question;
+
+        const optArea = document.getElementById("modalOptionsArea");
+        optArea.innerHTML = "";
+
+        if (q.type === "pg" && q.options) {
+          q.options.forEach(optText => {
+            const btn = document.createElement("button");
+            btn.className = "opt-btn";
+            const userChoice = optText.charAt(0).toUpperCase();
+            const correctChoice = q.answer.toUpperCase();
+            btn.innerText = optText;
+            btn.onclick = () => {
+              if (userChoice === correctChoice) {
+                resolveQuiz(true, `🎉 Benar (+20 Poin)! Silakan kocok dadu.`);
+              } else {
+                resolveQuiz(false, `❌ Salah! Kunci jawaban: ${q.answer}. Giliranmu habis.`);
+              }
+            };
+            optArea.appendChild(btn);
+          });
+        } else {
+          optArea.innerHTML = `
+            <input type="text" id="shortAnsInput" placeholder="Ketik kata kunci jawaban..." style="width:100%; padding:12px; border-radius:12px; border:2px solid #CBD5E1; font-size:1rem; margin-bottom:10px;">
+            <button class="btn-play" onclick="checkShortAnswer('${q.answer}')">Kirim Jawaban</button>
+          `;
+        }
+      }
+
+      modal.style.display = "flex";
+    }
+
+    window.checkShortAnswer = (correctAns) => {
+      const userAns = document.getElementById("shortAnsInput").value.trim().toLowerCase();
+      if (userAns === correctAns.trim().toLowerCase()) {
+        resolveQuiz(true, "🎉 Jawaban Benar! Silakan kocok dadu.");
+      } else {
+        resolveQuiz(false, `❌ Kurang tepat. Kunci jawaban: ${correctAns}. Giliran habis.`);
+      }
+    };
+
+    async function resolveQuiz(isCorrect, message) {
+      document.getElementById("quizModal").style.display = "none";
+      setLog(message);
+
+      if (isCorrect) {
+        myData.score += 20;
+        pendingRoll = true;
+        document.getElementById("actionBtn").innerText = "🎲 Kocok Dadu Sekarang!";
+        await syncMyState();
+      } else {
+        // Jawaban salah, langsung oper giliran ke pemain berikutnya
+        pendingRoll = false;
+        passTurnToNext();
+      }
+    }
+
+    // ==========================================
+    // EKSEKUSI KOKOH DADU & ANIMASI ULAR MEROSOT
+    // ==========================================
+    async function executeRollDice() {
+      pendingRoll = false;
+      document.getElementById("actionBtn").disabled = true;
 
       const diceEl = document.getElementById("diceDisplay");
-      diceEl.classList.add("dice-shake");
       sfx.dice();
-
-      await new Promise(r => setTimeout(r, 650));
-      diceEl.classList.remove("dice-shake");
 
       let roll = Math.floor(Math.random() * 6) + 1;
       const diceIcons = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
       diceEl.innerText = diceIcons[roll - 1];
 
-      setLog(`🎲 Dadu keluar angka ${roll}! Jawab pertanyaan tantangan untuk melangkah...`);
+      setLog(`🎲 Dadu menunjukkan angka ${roll}. Melangkah...`);
 
-      // Munculkan soal kuis terlebih dahulu sebelum jalan
-      triggerGeneralQuiz(roll);
-    };
-
-    function triggerGeneralQuiz(rollNum) {
-      const q = questionBank[Math.floor(Math.random() * questionBank.length)];
-      const modal = document.getElementById("quizModal");
-      const badge = document.getElementById("modalHeaderBadge");
-
-      badge.style.background = "#E0F2FE"; badge.style.color = "#0369A1";
-      badge.innerText = `🎯 TANTANGAN MELANGKAH (${rollNum} Petak)! Jawab benar untuk maju!`;
-
-      document.getElementById("modalStimulus").innerText = q.stimulus;
-      document.getElementById("modalQuestion").innerText = q.question;
-
-      const optArea = document.getElementById("modalOptionsArea");
-      optArea.innerHTML = "";
-
-      if (q.type === "pg" && q.options) {
-        q.options.forEach(optText => {
-          const btn = document.createElement("button");
-          btn.className = "opt-btn";
-          btn.innerText = optText;
-          btn.onclick = () => evaluateMoveAnswer(optText.charAt(0).toUpperCase(), q.answer.toUpperCase(), rollNum);
-          optArea.appendChild(btn);
-        });
-      } else {
-        optArea.innerHTML = `
-          <input type="text" id="shortAnsInput" placeholder="Ketik jawaban singkat..." style="width:100%; padding:12px; border-radius:12px; border:2px solid #CBD5E1; font-size:1rem; margin-bottom:10px;">
-          <button class="btn-play" onclick="submitMoveShortAns('${q.answer}', ${rollNum})">Kirim Jawaban</button>
-        `;
-      }
-      modal.style.display = "flex";
-    }
-
-    window.submitMoveShortAns = (correctAns, rollNum) => {
-      const userAns = document.getElementById("shortAnsInput").value.trim().toLowerCase();
-      evaluateMoveAnswer(userAns, correctAns.trim().toLowerCase(), rollNum);
-    };
-
-    async function evaluateMoveAnswer(userAns, correctAns, rollNum) {
-      document.getElementById("quizModal").style.display = "none";
-      const isCorrect = userAns === correctAns;
-
-      if (isCorrect) {
-        setLog(`🎉 Benar! (+15 Poin) Maju ${rollNum} langkah!`);
-        myData.score += 15;
-        
-        // Langkah maju bertahap
-        let targetPos = Math.min(36, myData.pos + rollNum);
-        for (let step = myData.pos + 1; step <= targetPos; step++) {
-          myData.pos = step;
-          sfx.step();
-          await syncMyState();
-          await new Promise(r => setTimeout(r, 240));
-        }
-
-        // Cek Menang
-        if (myData.pos === 36) {
-          sfx.win();
-          myData.score += 100;
-          await syncMyState();
-          setLog("🏆 SELAMAT! Kamu juara pertama mencapai Petak 36!");
-          alert("🎉 LUAR BIASA! Kamu menang!");
-          return;
-        }
-
-        // Cek Kotak Pendaratan (Tangga, Ular, atau Misteri)
-        if (ladders[myData.pos]) {
-          let dest = ladders[myData.pos];
-          sfx.ladder();
-          setLog(`🪜 Hore! Menemukan Tangga! Naik ke petak ${dest}!`);
-          myData.pos = dest;
-          await syncMyState();
-        } else if (snakes[myData.pos]) {
-          let dest = snakes[myData.pos];
-          if (myData.shield) {
-            myData.shield = false;
-            setLog(`🛡️ Kartu Tameng melindungimu dari gigitan ular! Kamu selamat.`);
-          } else {
-            setLog(`🐍 Kena Ular! Merosot turun secara bertahap...`);
-            await animateSnakeSlide(myData.pos, dest);
-          }
-        } else if (mystery.includes(myData.pos)) {
-          await triggerMysteryCard();
-        }
-
-        finishTurn();
-      } else {
-        sfx.snake();
-        setLog(`❌ Kurang tepat! Sayang sekali kamu tidak jadi maju pada giliran ini.`);
-        finishTurn();
-      }
-    }
-
-    // ANIMASI MEROSOT ULAR KOTAK DEMI KOTAK
-    async function animateSnakeSlide(fromPos, toPos) {
-      for (let step = fromPos - 1; step >= toPos; step--) {
+      let targetPos = Math.min(36, myData.pos + roll);
+      for (let step = myData.pos + 1; step <= targetPos; step++) {
         myData.pos = step;
-        sfx.snake();
+        sfx.step();
         await syncMyState();
-        await new Promise(r => setTimeout(r, 220));
+        await new Promise(r => setTimeout(r, 260));
       }
+
+      // Cek Menang
+      if (myData.pos === 36) {
+        sfx.win();
+        myData.score += 100;
+        await syncMyState();
+        setLog("🏆 SELAMAT! Kamu Menang Mencapai Petak 36!");
+        alert("🎉 LUAR BIASA! Kamu mencapai garis akhir dan MENANG!");
+        return;
+      }
+
+      // Cek Tangga
+      if (ladders[myData.pos]) {
+        let dest = ladders[myData.pos];
+        sfx.ladder();
+        myData.pos = dest;
+        setLog(`🪜 Hore! Menemukan Tangga, melesat naik ke petak ${dest}!`);
+        await syncMyState();
+      }
+      // Cek Ular (Animasi merosot kotak demi kotak yang panjang)
+      else if (snakes[myData.pos]) {
+        if (myData.shield) {
+          myData.shield = false;
+          setLog("🛡️ Tameng Melindungimu! Gigihan ular berhasil ditangkis.");
+        } else {
+          let startSnake = myData.pos;
+          let destSnake = snakes[myData.pos];
+          sfx.snake();
+          setLog(`🐍 Kena Ular! Merosot turun perlahan dari petak ${startSnake}...`);
+          
+          // Animasi merosot turun bertahap
+          for (let s = startSnake - 1; s >= destSnake; s--) {
+            myData.pos = s;
+            await syncMyState();
+            await new Promise(r => setTimeout(r, 180));
+          }
+          setLog(`💥 Terperosok turun sampai ke petak ${destSnake}!`);
+        }
+      }
+      // Cek Kotak Misteri (?)
+      else if (mystery.includes(myData.pos)) {
+        triggerMysteryBox();
+      }
+
+      // Selesai giliran, oper ke pemain berikutnya
+      passTurnToNext();
     }
 
-    // KOTAK MISTERI (KARTU ? & TRUTH OR DARE)
-    async function triggerMysteryCard() {
+    async function triggerMysteryBox() {
       sfx.mystery();
-      const events = [
-        { type: "shield", text: "🎁 Kotak Misteri (?): Mendapatkan KARTU TAMENG KEBAL ULAR 🛡️!" },
-        { type: "retreat", text: "🎁 Kotak Misteri (?): Duh, harus MUNDUR 2 petak karena salah jalan!" },
-        { type: "truthOrDare", text: "🎁 Kotak Misteri (?): TRUTH OR DARE PANCASILA! Sebutkan contoh sila ke-3 dalam 5 detik!" },
-        { type: "bonus", text: "🎁 Kotak Misteri (?): Bonus Poin Keaktifan +25 Poin! ✨" }
-      ];
-
-      const ev = events[Math.floor(Math.random() * events.length)];
-      setLog(ev.text);
-
-      if (ev.type === "shield") {
+      const type = Math.floor(Math.random() * 3);
+      if (type === 0) {
         myData.shield = true;
-      } else if (ev.type === "retreat") {
+        setLog("🎁 Kotak Misteri (?): Mendapat KARTU TAMENG 🛡️ (Kebal gigitan ular)!");
+      } else if (type === 1) {
         myData.pos = Math.max(1, myData.pos - 2);
-      } else if (ev.type === "bonus") {
-        myData.score += 25;
-      } else if (ev.type === "truthOrDare") {
-        alert("🃏 KARTU TRUTH OR DARE: Sebutkan satu contoh sikap menjaga persatuan di sekolah!");
-        myData.score += 20;
+        setLog("🎁 Kotak Misteri (?): Sial! Kartu memerintahkan Mundur 2 langkah.");
+      } else {
+        myData.score += 30;
+        setLog("🎁 Kotak Misteri (?): Bonus Spesial +30 Poin Pancasila!");
       }
       await syncMyState();
     }
 
-    async function syncMyState() {
-      await update(ref(db, `rooms/${roomPin}/players/${playerId}`), myData);
+    async function passTurnToNext() {
+      const pIds = Object.keys(allPlayers);
+      if (pIds.length <= 1) {
+        document.getElementById("actionBtn").disabled = false;
+        return;
+      }
+      let currentIndex = pIds.indexOf(playerId);
+      let nextIndex = (currentIndex + 1) % pIds.length;
+      let nextId = pIds[nextIndex];
+
+      await update(ref(db, `rooms/${roomPin}`), { turnPlayerId: nextId });
+      document.getElementById("actionBtn").disabled = false;
     }
 
-    function finishTurn() {
-      isBusy = false;
-      if (gameStatus === "playing" && myData.pos < 36) {
-        document.getElementById("rollBtn").disabled = false;
-      }
+    async function syncMyState() {
+      await update(ref(db, `rooms/${roomPin}/players/${playerId}`), myData);
     }
 
     function setLog(msg) {
