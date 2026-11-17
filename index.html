@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ular Tangga Pancasila - Kelas 5</title>
+  <title>Ular Tangga Pancasila (50 Petak) - Kelas 5</title>
   <link href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -53,32 +53,33 @@
     .btn-play:hover { transform: translateY(-2px); }
 
     /* LAYAR ARENA PERMAINAN */
-    #gameScreen { display: none; width: 100%; max-width: 1120px; padding: 16px; }
+    #gameScreen { display: none; width: 100%; max-width: 1200px; padding: 16px; }
     .top-bar {
       background: white; padding: 12px 20px; border-radius: 18px;
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.04); margin-bottom: 16px; border: 2px solid #F1F5F9;
     }
-    .game-layout { display: grid; grid-template-columns: 1.35fr 0.85fr; gap: 20px; }
-    @media (max-width: 860px) { .game-layout { grid-template-columns: 1fr; } }
+    .game-layout { display: grid; grid-template-columns: 1.4fr 0.8fr; gap: 20px; }
+    @media (max-width: 900px) { .game-layout { grid-template-columns: 1fr; } }
 
-    /* PAPAN 6x6 (36 PETAK) */
+    /* PAPAN 10x5 (50 PETAK) */
     .board-wrapper {
-      position: relative; background: white; padding: 12px; border-radius: 22px;
+      position: relative; background: white; padding: 10px; border-radius: 22px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.06); border: 3px solid #BAE6FD;
+      overflow-x: auto;
     }
     .board {
-      display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;
-      aspect-ratio: 1 / 1; position: relative;
+      display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px;
+      position: relative; min-width: 520px;
     }
     .cell {
-      border-radius: 12px; padding: 6px; position: relative;
+      aspect-ratio: 1 / 1; border-radius: 8px; padding: 3px; position: relative;
       display: flex; flex-direction: column; justify-content: space-between;
-      font-weight: 700; font-size: 0.85rem; border: 1.5px solid rgba(0,0,0,0.05);
+      font-weight: 700; font-size: 0.72rem; border: 1.2px solid rgba(0,0,0,0.05);
     }
-    .cell-num { font-size: 0.75rem; opacity: 0.75; }
-    .cell-icon { font-size: 1.15rem; text-align: center; }
-    .cell-tag { font-size: 0.58rem; text-align: center; font-weight: 700; border-radius: 4px; padding: 1px 2px; }
+    .cell-num { font-size: 0.65rem; opacity: 0.75; }
+    .cell-icon { font-size: 0.95rem; text-align: center; }
+    .cell-tag { font-size: 0.5rem; text-align: center; font-weight: 700; border-radius: 3px; padding: 1px; }
 
     .c-0 { background: #FFF3B0; }
     .c-1 { background: #C8F2D6; }
@@ -88,10 +89,10 @@
 
     /* BIDAK PEMAIN */
     .tokens-area {
-      display: flex; flex-wrap: wrap; gap: 2px; justify-content: center; z-index: 5;
+      display: flex; flex-wrap: wrap; gap: 1px; justify-content: center; z-index: 5;
     }
     .token {
-      font-size: 1.3rem; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+      font-size: 1.1rem; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.25));
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -102,11 +103,11 @@
       display: flex; flex-direction: column; gap: 14px;
     }
     .dice-box {
-      background: #F0F9FF; border-radius: 18px; padding: 18px; text-align: center;
+      background: #F0F9FF; border-radius: 18px; padding: 16px; text-align: center;
       border: 2px dashed #7DD3FC;
     }
     .dice-face {
-      font-size: 3.4rem; margin: 4px 0; display: inline-block;
+      font-size: 3.2rem; margin: 4px 0; display: inline-block;
     }
     .btn-action {
       width: 100%; padding: 14px; border: none; border-radius: 14px;
@@ -159,7 +160,7 @@
   <!-- 1. HALAMAN JOIN -->
   <div id="joinScreen">
     <div class="logo-badge">🇮🇩 PPKn Kelas 5 SD</div>
-    <h1>Ular Tangga Pancasila</h1>
+    <h1>Ular Tangga (50 Petak)</h1>
     <p style="font-size:0.9rem; color:#64748B;">Pilih avatarmu dan masukkan PIN dari guru!</p>
 
     <div class="avatar-picker" id="avatarPicker">
@@ -179,7 +180,7 @@
   <div id="gameScreen">
     <div class="top-bar">
       <div>
-        <span style="font-weight:800; color:#1E3A8A; font-size:1.1rem;">🎲 Ular Tangga Pancasila</span>
+        <span style="font-weight:800; color:#1E3A8A; font-size:1.1rem;">🎲 Ular Tangga Pancasila (50 Petak)</span>
         <span style="background:#E0F2FE; color:#0369A1; padding:3px 10px; border-radius:99px; font-size:0.8rem; font-weight:700; margin-left:8px;">
           PIN: <span id="activePinLabel">-</span>
         </span>
@@ -193,7 +194,7 @@
     <div id="statusBanner" class="status-banner">⏳ Menunggu Guru menekan tombol MULAI...</div>
 
     <div class="game-layout">
-      <!-- PAPAN 36 PETAK -->
+      <!-- PAPAN 50 PETAK -->
       <div class="board-wrapper">
         <div class="board" id="boardGrid"></div>
       </div>
@@ -213,11 +214,11 @@
         </div>
 
         <div>
-          <div style="font-weight:700; font-size:0.9rem; margin-bottom:6px;">Legenda Papan:</div>
-          <div style="font-size:0.8rem; color:#475569; line-height:1.7;">
-            🪜 <b>Tangga:</b> Jalan Pintas Naik!<br>
-            🐍 <b>Ular:</b> Waspada Merosot Turun!<br>
-            🎁 <b>Kotak Misteri (?):</b> Tameng / Mundur / Bonus!
+          <div style="font-weight:700; font-size:0.9rem; margin-bottom:6px;">Legenda Papan (50 Petak):</div>
+          <div style="font-size:0.78rem; color:#475569; line-height:1.6;">
+            🪜 <b>6 Tangga:</b> Naik Cepat!<br>
+            🐍 <b>10 Ular:</b> Waspada Merosot Panjang!<br>
+            🎁 <b>14 Kotak Misteri (?):</b> Tameng / Dadu Ganda / Teleport / Mundur / Istirahat
           </div>
         </div>
 
@@ -260,14 +261,17 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    const ladders = { 5: 14, 12: 22 };
-    const snakes  = { 11: 3, 19: 7, 26: 15, 33: 16, 35: 8 };
-    const mystery = [4, 9, 17, 24, 30];
+    // ==========================================
+    // KONFIGURASI 50 PETAK (6 Tangga, 10 Ular, 14 Kotak Misteri)
+    // ==========================================
+    const ladders = { 3: 16, 12: 28, 22: 37, 31: 44, 38: 48, 8: 24 };
+    const snakes  = { 15: 4, 25: 10, 34: 18, 42: 27, 49: 30, 20: 5, 32: 13, 41: 21, 47: 33, 39: 22 };
+    const mystery = [4, 7, 11, 14, 19, 23, 26, 29, 35, 38, 40, 43, 46, 48];
 
     let roomPin = "";
     let playerId = "p_" + Math.random().toString(36).substring(2, 9);
     let myAvatar = "🦁";
-    let myData = { id: playerId, name: "", avatar: "🦁", pos: 1, score: 0, shield: false };
+    let myData = { id: playerId, name: "", avatar: "🦁", pos: 1, score: 0, shield: false, doubleDice: false, skipTurn: false };
     let allPlayers = {};
     let questionBank = [];
     let gameStatus = "waiting";
@@ -275,7 +279,7 @@
     let isMyTurn = false;
     let pendingRoll = false;
 
-    // Event Klik Avatar Secara Aman
+    // Event Pilih Avatar
     document.querySelectorAll(".avatar-opt").forEach(el => {
       el.onclick = () => {
         document.querySelectorAll(".avatar-opt").forEach(e => e.classList.remove("selected"));
@@ -285,7 +289,7 @@
       };
     });
 
-    // Web Audio API
+    // Web Audio API Sound Effects
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     let bgmInterval = null;
 
@@ -338,7 +342,7 @@
         const roomRef = ref(db, `rooms/${pin}`);
         const roomSnap = await get(roomRef);
         if (!roomSnap.exists()) {
-          return alert("Kode PIN tidak ditemukan! Pastikan gurumu sudah membuat room di portal guru.");
+          return alert("Kode PIN tidak ditemukan! Pastikan gurumu sudah membuat room.");
         }
 
         roomPin = pin;
@@ -354,30 +358,31 @@
         buildBoard();
         listenRoomRealtime();
       } catch (err) {
-        alert("Gagal terhubung ke database. Periksa koneksi internet atau Firebase Rules Anda.");
+        alert("Gagal terhubung ke database. Periksa koneksi internet.");
         console.error(err);
       }
     };
 
+    // Membangun Papan 50 Petak (Grid 10 Kolom x 5 Baris, Zig-Zag)
     function buildBoard() {
       const board = document.getElementById("boardGrid");
       board.innerHTML = "";
 
-      for (let row = 5; row >= 0; row--) {
+      for (let row = 4; row >= 0; row--) {
         let cellsInRow = [];
-        for (let col = 0; col < 6; col++) {
-          let num = row * 6 + col + 1;
+        for (let col = 0; col < 10; col++) {
+          let num = row * 10 + col + 1;
           cellsInRow.push(num);
         }
         if (row % 2 === 1) cellsInRow.reverse();
 
         cellsInRow.forEach(num => {
           const cell = document.createElement("div");
-          cell.className = `cell ${num === 36 ? 'c-finish' : 'c-' + (num % 4)}`;
+          cell.className = `cell ${num === 50 ? 'c-finish' : 'c-' + (num % 4)}`;
           cell.id = `cell-${num}`;
 
           let specialHtml = "";
-          if (num === 36) specialHtml = `<div class="cell-icon">🏆</div><div class="cell-tag">FINISH</div>`;
+          if (num === 50) specialHtml = `<div class="cell-icon">🏆</div><div class="cell-tag">FINISH</div>`;
           else if (ladders[num]) specialHtml = `<div class="cell-icon">🪜</div><div class="cell-tag" style="background:#DCFCE7;color:#166534;">Naik ${ladders[num]}</div>`;
           else if (snakes[num]) specialHtml = `<div class="cell-icon">🐍</div><div class="cell-tag" style="background:#FEE2E2;color:#991B1B;">Turun ${snakes[num]}</div>`;
           else if (mystery.includes(num)) specialHtml = `<div class="cell-icon">🎁</div><div class="cell-tag" style="background:#F3E8FF;color:#6B21A8;">Kotak (?)</div>`;
@@ -427,6 +432,14 @@
 
           isMyTurn = (turnPlayerId === playerId);
           if (isMyTurn) {
+            if (myData.skipTurn) {
+              setLog("⏸️ Kamu sedang menjalani hukuman 'Istirahat Sejenak'. Giliran dilewati!");
+              myData.skipTurn = false;
+              syncMyState();
+              passTurnToNext();
+              return;
+            }
+
             document.getElementById("turnIndicator").innerText = "⭐ GILIRANMU BERMAIN!";
             document.getElementById("turnIndicator").style.color = "#D97706";
             actionBtn.disabled = false;
@@ -449,7 +462,7 @@
     }
 
     function renderAllTokens() {
-      for (let i = 1; i <= 36; i++) {
+      for (let i = 1; i <= 50; i++) {
         const slot = document.getElementById(`tokens-${i}`);
         if (slot) slot.innerHTML = "";
       }
@@ -474,8 +487,11 @@
         `;
       });
 
+      let statusInfo = [];
+      if (myData.shield) statusInfo.push("🛡️ Tameng");
+      if (myData.doubleDice) statusInfo.push("✨ Dadu Ganda");
       document.getElementById("myStats").innerText = `${myData.avatar} ${myData.name} • Petak ${myData.pos} • ${myData.score} Poin`;
-      document.getElementById("powerupStatus").innerText = myData.shield ? "🛡️ Tameng Aktif" : "";
+      document.getElementById("powerupStatus").innerText = statusInfo.join(" | ");
     }
 
     document.getElementById("actionBtn").onclick = () => {
@@ -500,18 +516,18 @@
         badge.style.background = "#F3E8FF"; badge.style.color = "#6B21A8";
         badge.innerText = "🎯 TRUTH OR DARE PANCASILA!";
         document.getElementById("modalStimulus").innerText = "Tantangan Khusus Kelas 5!";
-        document.getElementById("modalQuestion").innerText = "Sebutkan bunyi Sila ke-3 Pancasila dan beri contoh sikapnya di kelas! Pilih opsi yang benar:";
+        document.getElementById("modalQuestion").innerText = "Sebutkan bunyi Sila ke-4 Pancasila dan contoh sikap musyawarah! Pilih opsi yang benar:";
         
         const b1 = document.createElement("button");
         b1.className = "opt-btn";
-        b1.innerText = "A. Persatuan Indonesia - Piket kelas bersama walau beda suku";
+        b1.innerText = "A. Kerakyatan yang dipimpin... - Mengutamakan mufakat dalam pemilihan ketua kelas";
         b1.onclick = () => resolveQuiz(true, "🎉 Benar! Tantangan Truth or Dare berhasil! Silakan kocok dadu.");
         optArea.appendChild(b1);
 
         const b2 = document.createElement("button");
         b2.className = "opt-btn";
-        b2.innerText = "B. Keadilan Sosial - Hanya bermain dengan teman dekat saja";
-        b2.onclick = () => resolveQuiz(false, "❌ Kurang tepat! Sila ke-3 berkaitan dengan persatuan.");
+        b2.innerText = "B. Keadilan sosial... - Memaksakan pendapat sendiri kepada teman";
+        b2.onclick = () => resolveQuiz(false, "❌ Kurang tepat! Sila ke-4 berkaitan dengan musyawarah.");
         optArea.appendChild(b2);
       } else {
         badge.style.background = "#DCFCE7"; badge.style.color = "#166534";
@@ -530,7 +546,7 @@
               if (userChoice === correctChoice) {
                 resolveQuiz(true, "🎉 Jawaban Benar (+20 Poin)! Silakan kocok dadu.");
               } else {
-                resolveQuiz(false, `❌ Salah! Kunci jawaban: ${q.answer}. Giliranmu habis.`);
+                resolveQuiz(false, `❌ Salah! Kunci: ${q.answer}. Giliranmu habis.`);
               }
             };
             optArea.appendChild(btn);
@@ -577,35 +593,45 @@
       sfx.dice();
 
       let roll = Math.floor(Math.random() * 6) + 1;
+      if (myData.doubleDice) {
+        roll = roll * 2;
+        myData.doubleDice = false;
+        setLog(`✨ Dadu Ganda aktif! Angka dadu dikali dua menjadi ${roll}!`);
+      }
+
       const diceIcons = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
-      diceEl.innerText = diceIcons[roll - 1];
+      diceEl.innerText = roll <= 6 ? diceIcons[roll - 1] : "🎲";
 
-      setLog(`🎲 Dadu menunjukkan angka ${roll}. Melangkah...`);
+      setLog(`🎲 Melangkah sebanyak ${roll} petak...`);
 
-      let targetPos = Math.min(36, myData.pos + roll);
+      let targetPos = Math.min(50, myData.pos + roll);
       for (let step = myData.pos + 1; step <= targetPos; step++) {
         myData.pos = step;
         sfx.step();
         await syncMyState();
-        await new Promise(r => setTimeout(r, 260));
+        await new Promise(r => setTimeout(r, 220));
       }
 
-      if (myData.pos === 36) {
+      // Cek Menang di Petak 50
+      if (myData.pos === 50) {
         sfx.win();
         myData.score += 100;
         await syncMyState();
-        setLog("🏆 SELAMAT! Kamu Menang Mencapai Petak 36!");
-        alert("🎉 LUAR BIASA! Kamu mencapai garis akhir dan MENANG!");
+        setLog("🏆 SELAMAT! Kamu Menang Mencapai Petak 50!");
+        alert("🎉 LUAR BIASA! Kamu mencapai garis akhir petak 50 dan MENANG!");
         return;
       }
 
+      // Cek Tangga
       if (ladders[myData.pos]) {
         let dest = ladders[myData.pos];
         sfx.ladder();
         myData.pos = dest;
         setLog(`🪜 Hore! Menemukan Tangga, melesat naik ke petak ${dest}!`);
         await syncMyState();
-      } else if (snakes[myData.pos]) {
+      } 
+      // Cek Ular (Animasi merosot turun bertahap)
+      else if (snakes[myData.pos]) {
         if (myData.shield) {
           myData.shield = false;
           setLog("🛡️ Tameng Melindungimu! Gigitan ular berhasil ditangkis.");
@@ -613,16 +639,18 @@
           let startSnake = myData.pos;
           let destSnake = snakes[myData.pos];
           sfx.snake();
-          setLog(`🐍 Kena Ular! Merosot turun perlahan dari petak ${startSnake}...`);
+          setLog(`🐍 Kena Ular! Merosot turun dari petak ${startSnake}...`);
           
           for (let s = startSnake - 1; s >= destSnake; s--) {
             myData.pos = s;
             await syncMyState();
-            await new Promise(r => setTimeout(r, 180));
+            await new Promise(r => setTimeout(r, 140));
           }
           setLog(`💥 Terperosok turun sampai ke petak ${destSnake}!`);
         }
-      } else if (mystery.includes(myData.pos)) {
+      } 
+      // Cek Kotak Misteri (?)
+      else if (mystery.includes(myData.pos)) {
         triggerMysteryBox();
       }
 
@@ -631,16 +659,24 @@
 
     async function triggerMysteryBox() {
       sfx.mystery();
-      const type = Math.floor(Math.random() * 3);
+      // Variasi 5 jenis Kotak Misteri
+      const type = Math.floor(Math.random() * 5);
+
       if (type === 0) {
         myData.shield = true;
         setLog("🎁 Kotak Misteri (?): Mendapat KARTU TAMENG 🛡️ (Kebal gigitan ular)!");
       } else if (type === 1) {
-        myData.pos = Math.max(1, myData.pos - 2);
-        setLog("🎁 Kotak Misteri (?): Sial! Kartu memerintahkan Mundur 2 langkah.");
+        myData.doubleDice = true;
+        setLog("🎁 Kotak Misteri (?): Mendapat DADU GANDA ✨ (Giliran berikutnya dadu x2)!");
+      } else if (type === 2) {
+        myData.pos = Math.min(50, myData.pos + 3);
+        setLog("🎁 Kotak Misteri (?): TELEPORT KILAT 🚀! Maju 3 petak ke depan!");
+      } else if (type === 3) {
+        myData.pos = Math.max(1, myData.pos - 1);
+        setLog("🎁 Kotak Misteri (?): MUNDUR 1 PETAK ⏪! Kurang teliti, harus mundur satu langkah.");
       } else {
-        myData.score += 30;
-        setLog("🎁 Kotak Misteri (?): Bonus Spesial +30 Poin Pancasila!");
+        myData.skipTurn = true;
+        setLog("🎁 Kotak Misteri (?): ISTIRAHAT SEJENAK ⏸️! Melewatkan 1 giliran berikutnya.");
       }
       await syncMyState();
     }
