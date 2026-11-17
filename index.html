@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ular Tangga Pancasila - Kelas 5</title>
+  <title>Ular Tangga Pancasila (50 Petak) - Kelas 5</title>
   <link href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -63,7 +63,7 @@
     .game-layout { display: grid; grid-template-columns: 1.5fr 0.8fr; gap: 16px; align-items: start; }
     @media (max-width: 950px) { .game-layout { grid-template-columns: 1fr; } }
 
-    /* PAPAN 10x5 (50 PETAK) - AGAR TIDAK KEPOTONG */
+    /* PAPAN 10x5 (50 PETAK) UTUH */
     .board-wrapper {
       background: white; padding: 10px; border-radius: 20px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.06); border: 3px solid #BAE6FD;
@@ -160,9 +160,9 @@
 
   <!-- 1. HALAMAN JOIN -->
   <div id="joinScreen">
-    <div class="logo-badge">🇮🇩 Pendidikan Pancasila Kelas 5</div>
+    <div class="logo-badge">🇮🇩 PPKn Kelas 5 SD</div>
     <h1>Ular Tangga (50 Petak)</h1>
-    <p style="font-size:0.9rem; color:#64748B;">Pilih avatarmu dan masukkan PIN dari guru!</p>
+    <p style="font-size:0.9rem; color:#64748B;">Bebas bermain tanpa antre! Jawab soal & kocok dadumu kapan saja.</p>
 
     <div class="avatar-picker" id="avatarPicker">
       <div class="avatar-opt selected" data-avatar="🦁">🦁</div>
@@ -195,15 +195,15 @@
     <div id="statusBanner" class="status-banner">⏳ Menunggu Guru menekan tombol MULAI...</div>
 
     <div class="game-layout">
-      <!-- PAPAN 50 PETAK (UTUH TIDAK KEPOTONG) -->
+      <!-- PAPAN 50 PETAK UTUH -->
       <div class="board-wrapper">
         <div class="board" id="boardGrid"></div>
       </div>
 
-      <!-- PANEL KONTROL -->
+      <!-- PANEL KONTROL (BEBAS MAIN TANPA ANTRE) -->
       <div class="control-panel">
         <div class="dice-box">
-          <div style="font-size:0.82rem; font-weight:700; color:#0369A1;" id="turnIndicator">GILIRAN BERMAIN</div>
+          <div style="font-size:0.85rem; font-weight:700; color:#0369A1;" id="turnIndicator">⚡ ARENA BEBAS BERMAIN</div>
           <div class="dice-face" id="diceDisplay">🎯</div>
           <div id="powerupStatus" style="font-size:0.78rem; font-weight:700; color:#059669; min-height:18px; margin-bottom:6px;"></div>
           <button class="btn-action" id="actionBtn">❓ Jawab Soal & Kocok Dadu!</button>
@@ -211,7 +211,7 @@
 
         <div>
           <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">📢 Info Permainan:</div>
-          <div class="log-box" id="gameLog">Jawab soal Pancasila dengan benar untuk membuka kocokan dadu!</div>
+          <div class="log-box" id="gameLog">Silakan jawab soal dan kocok dadu sesukamu untuk mencapai petak 50!</div>
         </div>
 
         <div>
@@ -219,7 +219,7 @@
           <div style="font-size:0.75rem; color:#475569; line-height:1.5;">
             🪜 <b>6 Tangga:</b> Naik Cepat!<br>
             🐍 <b>10 Ular:</b> Merosot Panjang!<br>
-            🎁 <b>14 Kotak Misteri (?):</b> Tameng / Dadu Ganda / Teleport / Mundur / Istirahat
+            🎁 <b>14 Kotak Misteri (?):</b> Tameng / Dadu Ganda / Teleport / Mundur
           </div>
         </div>
 
@@ -269,12 +269,10 @@
     let roomPin = "";
     let playerId = "p_" + Math.random().toString(36).substring(2, 9);
     let myAvatar = "🦁";
-    let myData = { id: playerId, name: "", avatar: "🦁", pos: 1, score: 0, shield: false, doubleDice: false, skipTurn: false };
+    let myData = { id: playerId, name: "", avatar: "🦁", pos: 1, score: 0, shield: false, doubleDice: false };
     let allPlayers = {};
     let questionBank = [];
     let gameStatus = "waiting";
-    let turnPlayerId = "";
-    let isMyTurn = false;
     let pendingRoll = false;
 
     document.querySelectorAll(".avatar-opt").forEach(el => {
@@ -344,6 +342,18 @@
         myData.name = name;
         myData.avatar = myAvatar;
 
+        // Cegah user dobel dengan nama yang persis sama di room
+        const roomData = roomSnap.val();
+        if (roomData.players) {
+          const existingId = Object.keys(roomData.players).find(id => roomData.players[id].name.toLowerCase() === name.toLowerCase());
+          if (existingId && existingId !== playerId) {
+            // Jika nama sudah ada, pakai ID lama agar tidak dobel
+            playerId = existingId;
+            myData.pos = roomData.players[existingId].pos || 1;
+            myData.score = roomData.players[existingId].score || 0;
+          }
+        }
+
         await set(ref(db, `rooms/${roomPin}/players/${playerId}`), myData);
 
         document.getElementById("joinScreen").style.display = "none";
@@ -397,7 +407,6 @@
         if (!data) return;
 
         gameStatus = data.status;
-        turnPlayerId = data.turnPlayerId || "";
         if (data.questions) {
           questionBank = Array.isArray(data.questions) ? data.questions : Object.values(data.questions);
         }
@@ -419,32 +428,9 @@
           actionBtn.disabled = true;
         } else {
           banner.style.display = "none";
-          if (!turnPlayerId) {
-            const firstPId = Object.keys(data.players || {})[0];
-            if (firstPId) update(ref(db, `rooms/${roomPin}`), { turnPlayerId: firstPId });
-          }
-
-          isMyTurn = (turnPlayerId === playerId);
-          if (isMyTurn) {
-            if (myData.skipTurn) {
-              setLog("⏸️ Alhamdulillah, istirahat sejenak. Giliran dilewati dengan sabar!");
-              myData.skipTurn = false;
-              syncMyState();
-              passTurnToNext();
-              return;
-            }
-
-            document.getElementById("turnIndicator").innerText = "⭐ GILIRANMU BERMAIN!";
-            document.getElementById("turnIndicator").style.color = "#D97706";
-            actionBtn.disabled = false;
-            actionBtn.innerText = pendingRoll ? "🎲 Kocok Dadu Sekarang!" : "❓ Jawab Soal & Kocok Dadu!";
-          } else {
-            const currentP = data.players && data.players[turnPlayerId] ? data.players[turnPlayerId].name : "Teman";
-            document.getElementById("turnIndicator").innerText = `⏳ Giliran: ${currentP}`;
-            document.getElementById("turnIndicator").style.color = "#0369A1";
-            actionBtn.disabled = true;
-            actionBtn.innerText = `Menunggu ${currentP} bermain...`;
-          }
+          // Bebas main tanpa antre giliran
+          actionBtn.disabled = false;
+          actionBtn.innerText = pendingRoll ? "🎲 Kocok Dadu Sekarang!" : "❓ Jawab Soal & Kocok Dadu!";
         }
 
         if (data.players) {
@@ -489,7 +475,7 @@
     }
 
     document.getElementById("actionBtn").onclick = () => {
-      if (!isMyTurn || gameStatus !== "playing") return;
+      if (gameStatus !== "playing") return;
       if (!pendingRoll) {
         triggerQuizOrDare();
       } else {
@@ -540,7 +526,7 @@
               if (userChoice === correctChoice) {
                 resolveQuiz(true, "🎉 MasyaAllah Benar (+20 Poin)! Silakan kocok dadu.");
               } else {
-                resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Tetap semangat ya!`);
+                resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi pada giliran berikutnya!`);
               }
             };
             optArea.appendChild(btn);
@@ -555,7 +541,7 @@
             if (userAns === q.answer.trim().toLowerCase()) {
               resolveQuiz(true, "🎉 MasyaAllah Benar! Silakan kocok dadu.");
             } else {
-              resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Tetap semangat ya!`);
+              resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi ya!`);
             }
           };
         }
@@ -575,7 +561,7 @@
         await syncMyState();
       } else {
         pendingRoll = false;
-        passTurnToNext();
+        document.getElementById("actionBtn").disabled = false;
       }
     }
 
@@ -642,12 +628,12 @@
         triggerMysteryBox();
       }
 
-      passTurnToNext();
+      document.getElementById("actionBtn").disabled = false;
     }
 
     async function triggerMysteryBox() {
       sfx.mystery();
-      const type = Math.floor(Math.random() * 5);
+      const type = Math.floor(Math.random() * 4);
 
       if (type === 0) {
         myData.shield = true;
@@ -658,28 +644,11 @@
       } else if (type === 2) {
         myData.pos = Math.min(50, myData.pos + 3);
         setLog("🎁 Kotak Misteri (?): Allahu Akbar, TELEPORT KILAT 🚀! Maju 3 petak ke depan!");
-      } else if (type === 3) {
+      } else {
         myData.pos = Math.max(1, myData.pos - 1);
         setLog("🎁 Kotak Misteri (?): Aduh, harus MUNDUR 1 PETAK ⏪! Kurang teliti sedikit.");
-      } else {
-        myData.skipTurn = true;
-        setLog("🎁 Kotak Misteri (?): ISTIRAHAT SEJENAK ⏸️! Melewatkan 1 giliran untuk bersabar.");
       }
       await syncMyState();
-    }
-
-    async function passTurnToNext() {
-      const pIds = Object.keys(allPlayers);
-      if (pIds.length <= 1) {
-        document.getElementById("actionBtn").disabled = false;
-        return;
-      }
-      let currentIndex = pIds.indexOf(playerId);
-      let nextIndex = (currentIndex + 1) % pIds.length;
-      let nextId = pIds[nextIndex];
-
-      await update(ref(db, `rooms/${roomPin}`), { turnPlayerId: nextId });
-      document.getElementById("actionBtn").disabled = false;
     }
 
     async function syncMyState() {
