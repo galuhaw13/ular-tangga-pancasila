@@ -162,7 +162,7 @@
   <div id="joinScreen">
     <div class="logo-badge">🇮🇩 PPKn Kelas 5 SD</div>
     <h1>Ular Tangga (50 Petak)</h1>
-    <p style="font-size:0.9rem; color:#64748B;">Bebas bermain tanpa antre! Jawab soal & kocok dadumu kapan saja.</p>
+    <p style="font-size:0.9rem; color:#64748B;">Pilih avatarmu dan masukkan PIN dari guru!</p>
 
     <div class="avatar-picker" id="avatarPicker">
       <div class="avatar-opt selected" data-avatar="🦁">🦁</div>
@@ -195,15 +195,15 @@
     <div id="statusBanner" class="status-banner">⏳ Menunggu Guru menekan tombol MULAI...</div>
 
     <div class="game-layout">
-      <!-- PAPAN 50 PETAK UTUH -->
+      <!-- PAPAN 50 PETAK -->
       <div class="board-wrapper">
         <div class="board" id="boardGrid"></div>
       </div>
 
-      <!-- PANEL KONTROL (BEBAS MAIN TANPA ANTRE) -->
+      <!-- PANEL KONTROL -->
       <div class="control-panel">
         <div class="dice-box">
-          <div style="font-size:0.85rem; font-weight:700; color:#0369A1;" id="turnIndicator">⚡ ARENA BEBAS BERMAIN</div>
+          <div style="font-size:0.82rem; font-weight:700; color:#0369A1;" id="turnIndicator">SIAP BERMAIN</div>
           <div class="dice-face" id="diceDisplay">🎯</div>
           <div id="powerupStatus" style="font-size:0.78rem; font-weight:700; color:#059669; min-height:18px; margin-bottom:6px;"></div>
           <button class="btn-action" id="actionBtn">❓ Jawab Soal & Kocok Dadu!</button>
@@ -211,7 +211,7 @@
 
         <div>
           <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">📢 Info Permainan:</div>
-          <div class="log-box" id="gameLog">Silakan jawab soal dan kocok dadu sesukamu untuk mencapai petak 50!</div>
+          <div class="log-box" id="gameLog">Jawab soal Pancasila dengan benar untuk membuka kocokan dadu!</div>
         </div>
 
         <div>
@@ -219,7 +219,7 @@
           <div style="font-size:0.75rem; color:#475569; line-height:1.5;">
             🪜 <b>6 Tangga:</b> Naik Cepat!<br>
             🐍 <b>10 Ular:</b> Merosot Panjang!<br>
-            🎁 <b>14 Kotak Misteri (?):</b> Tameng / Dadu Ganda / Teleport / Mundur
+            🎁 <b>14 Kotak Misteri (?):</b> Tameng / Dadu Ganda / Teleport / Mundur / Istirahat
           </div>
         </div>
 
@@ -241,7 +241,7 @@
     </div>
   </div>
 
-  <!-- FIREBASE & GAME ENGINE -->
+  <!-- FIREBASE & GAME ENGINE (MANDIRI & TANPA TUNGGU GILIRAN ORANG LAIN) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getDatabase, ref, set, update, get, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
@@ -269,7 +269,7 @@
     let roomPin = "";
     let playerId = "p_" + Math.random().toString(36).substring(2, 9);
     let myAvatar = "🦁";
-    let myData = { id: playerId, name: "", avatar: "🦁", pos: 1, score: 0, shield: false, doubleDice: false };
+    let myData = { id: playerId, name: "", avatar: "🦁", pos: 1, score: 0, shield: false, doubleDice: false, skipTurn: false };
     let allPlayers = {};
     let questionBank = [];
     let gameStatus = "waiting";
@@ -341,18 +341,6 @@
         roomPin = pin;
         myData.name = name;
         myData.avatar = myAvatar;
-
-        // Cegah user dobel dengan nama yang persis sama di room
-        const roomData = roomSnap.val();
-        if (roomData.players) {
-          const existingId = Object.keys(roomData.players).find(id => roomData.players[id].name.toLowerCase() === name.toLowerCase());
-          if (existingId && existingId !== playerId) {
-            // Jika nama sudah ada, pakai ID lama agar tidak dobel
-            playerId = existingId;
-            myData.pos = roomData.players[existingId].pos || 1;
-            myData.score = roomData.players[existingId].score || 0;
-          }
-        }
 
         await set(ref(db, `rooms/${roomPin}/players/${playerId}`), myData);
 
@@ -428,7 +416,11 @@
           actionBtn.disabled = true;
         } else {
           banner.style.display = "none";
-          // Bebas main tanpa antre giliran
+          if (myData.skipTurn) {
+            setLog("⏸️ Alhamdulillah, istirahat sejenak. Silakan lanjut jawab soal berikutnya!");
+            myData.skipTurn = false;
+            syncMyState();
+          }
           actionBtn.disabled = false;
           actionBtn.innerText = pendingRoll ? "🎲 Kocok Dadu Sekarang!" : "❓ Jawab Soal & Kocok Dadu!";
         }
@@ -468,7 +460,7 @@
       });
 
       let statusInfo = [];
-      if (myData.shield) statusInfo.push("🛡️ Tameng");
+      if (myData.shield) statusInfo.push("🛡️ Tameng (1x Ular)");
       if (myData.doubleDice) statusInfo.push("✨ Dadu Ganda");
       document.getElementById("myStats").innerText = `${myData.avatar} ${myData.name} • Petak ${myData.pos} • ${myData.score} Poin`;
       document.getElementById("powerupStatus").innerText = statusInfo.join(" | ");
@@ -526,7 +518,7 @@
               if (userChoice === correctChoice) {
                 resolveQuiz(true, "🎉 MasyaAllah Benar (+20 Poin)! Silakan kocok dadu.");
               } else {
-                resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi pada giliran berikutnya!`);
+                resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi pada soal berikutnya!`);
               }
             };
             optArea.appendChild(btn);
@@ -541,7 +533,7 @@
             if (userAns === q.answer.trim().toLowerCase()) {
               resolveQuiz(true, "🎉 MasyaAllah Benar! Silakan kocok dadu.");
             } else {
-              resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi ya!`);
+              resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi pada soal berikutnya!`);
             }
           };
         }
@@ -561,7 +553,6 @@
         await syncMyState();
       } else {
         pendingRoll = false;
-        document.getElementById("actionBtn").disabled = false;
       }
     }
 
@@ -584,12 +575,29 @@
 
       setLog(`🎲 Melangkah sebanyak ${roll} petak...`);
 
-      let targetPos = Math.min(50, myData.pos + roll);
+      // Aturan Pantul Mundur jika Melebihi Petak 50 (Bikin Deg-Degan!)
+      let targetPos = myData.pos + roll;
+      if (targetPos > 50) {
+        let excess = targetPos - 50;
+        targetPos = 50 - excess;
+        setLog(`⚠️ Wah, kelebihan angka! Memantul mundur ${excess} petak ke nomor ${targetPos}!`);
+      }
+
       for (let step = myData.pos + 1; step <= targetPos; step++) {
         myData.pos = step;
         sfx.step();
         await syncMyState();
         await new Promise(r => setTimeout(r, 200));
+      }
+
+      // Jika memantul mundur karena kelebihan dari petak di atas 50
+      if (myData.pos < targetPos) {
+        for (let step = 50 - 1; step >= targetPos; step--) {
+          myData.pos = step;
+          sfx.step();
+          await syncMyState();
+          await new Promise(r => setTimeout(r, 200));
+        }
       }
 
       if (myData.pos === 50) {
@@ -609,8 +617,8 @@
         await syncMyState();
       } else if (snakes[myData.pos]) {
         if (myData.shield) {
-          myData.shield = false;
-          setLog("🛡️ Alhamdulillah! Tameng Melindungimu dari gigitan ular.");
+          myData.shield = false; // Tameng habis setelah melindungi 1 ular
+          setLog("🛡️ Alhamdulillah! Kartu Tameng melindungimu dari gigitan ular (Tameng habis dipakai).");
         } else {
           let startSnake = myData.pos;
           let destSnake = snakes[myData.pos];
@@ -633,20 +641,23 @@
 
     async function triggerMysteryBox() {
       sfx.mystery();
-      const type = Math.floor(Math.random() * 4);
+      const type = Math.floor(Math.random() * 5);
 
       if (type === 0) {
         myData.shield = true;
-        setLog("🎁 Kotak Misteri (?): Subhanallah! Mendapat KARTU TAMENG 🛡️ (Kebal gigitan ular)!");
+        setLog("🎁 Kotak Misteri (?): Subhanallah! Mendapat KARTU TAMENG 🛡️ (Melindungi 1x gigitan ular)!");
       } else if (type === 1) {
         myData.doubleDice = true;
         setLog("🎁 Kotak Misteri (?): Alhamdulillah! Mendapat DADU GANDA ✨ (Giliran berikutnya dadu x2)!");
       } else if (type === 2) {
         myData.pos = Math.min(50, myData.pos + 3);
         setLog("🎁 Kotak Misteri (?): Allahu Akbar, TELEPORT KILAT 🚀! Maju 3 petak ke depan!");
-      } else {
+      } else if (type === 3) {
         myData.pos = Math.max(1, myData.pos - 1);
         setLog("🎁 Kotak Misteri (?): Aduh, harus MUNDUR 1 PETAK ⏪! Kurang teliti sedikit.");
+      } else {
+        myData.skipTurn = true;
+        setLog("🎁 Kotak Misteri (?): ISTIRAHAT SEJENAK ⏸️! Istirahat sebentar sebelum lanjut menjawab soal.");
       }
       await syncMyState();
     }
