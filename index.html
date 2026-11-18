@@ -7,14 +7,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #FFFDF7;
-      --primary: #5B8FB9;
-      --mint: #B8E8FC;
-      --soft-green: #C8F2D6;
-      --soft-yellow: #FFF3B0;
-      --soft-pink: #FFD6E0;
-      --soft-purple: #E5D4FF;
-      --text: #334155;
+      --bg: #f8fafc;
+      --primary: #0284c7;
+      --secondary: #10b981;
+      --accent: #f59e0b;
+      --danger: #ef4444;
+      --text: #1e293b;
     }
     * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     body {
@@ -26,133 +24,133 @@
     /* LAYAR JOIN */
     #joinScreen {
       max-width: 420px; width: 92%; margin: auto; background: white;
-      padding: 28px 24px; border-radius: 24px; text-align: center;
-      box-shadow: 0 12px 30px rgba(91, 143, 185, 0.14); border: 3px solid #E0F2FE;
+      padding: 30px 24px; border-radius: 24px; text-align: center;
+      box-shadow: 0 15px 35px rgba(2, 132, 199, 0.15); border: 4px solid #bae6fd;
     }
     .logo-badge {
-      background: #FEF9C3; display: inline-block; padding: 6px 16px;
-      border-radius: 99px; font-weight: 700; color: #A16207; font-size: 0.8rem; margin-bottom: 8px;
+      background: #fef08a; display: inline-block; padding: 6px 16px;
+      border-radius: 99px; font-weight: 700; color: #854d0e; font-size: 0.82rem; margin-bottom: 8px;
     }
-    #joinScreen h1 { margin: 4px 0; font-size: 1.5rem; color: #1E3A8A; }
-    .avatar-picker { display: flex; justify-content: center; gap: 8px; margin: 12px 0; }
+    #joinScreen h1 { margin: 4px 0; font-size: 1.6rem; color: #0369a1; }
+    .avatar-picker { display: flex; justify-content: center; gap: 8px; margin: 14px 0; }
     .avatar-opt {
-      font-size: 1.7rem; padding: 6px; border-radius: 12px; cursor: pointer;
-      border: 2px solid transparent; background: #F8FAFC; transition: 0.2s;
+      font-size: 1.8rem; padding: 6px; border-radius: 12px; cursor: pointer;
+      border: 2px solid transparent; background: #f1f5f9; transition: 0.2s;
     }
-    .avatar-opt.selected { border-color: #5B8FB9; background: #E0F2FE; transform: scale(1.1); }
+    .avatar-opt.selected { border-color: #0284c7; background: #e0f2fe; transform: scale(1.1); }
 
     input.join-input {
-      width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #CBD5E1;
-      font-size: 1rem; text-align: center; font-weight: 700; margin-bottom: 10px;
+      width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #cbd5e1;
+      font-size: 1rem; text-align: center; font-weight: 700; margin-bottom: 12px;
     }
     .btn-play {
       width: 100%; padding: 14px; border: none; border-radius: 14px;
-      background: linear-gradient(135deg, #6BCB77 0%, #4D96FF 100%);
-      color: white; font-size: 1.05rem; font-weight: 800; cursor: pointer;
-      box-shadow: 0 5px 14px rgba(77, 150, 255, 0.3); transition: 0.2s;
+      background: linear-gradient(135deg, #38bdf8 0%, #10b981 100%);
+      color: white; font-size: 1.1rem; font-weight: 800; cursor: pointer;
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3); transition: 0.2s;
     }
     .btn-play:hover { transform: translateY(-2px); }
 
-    /* LAYAR ARENA PERMAINAN (FULL & RESPONSIF) */
-    #gameScreen { display: none; width: 100%; max-width: 1300px; padding: 8px; }
+    /* LAYAR ARENA PERMAINAN (FULL TANPA KEPOTONG & BISA SCROLL) */
+    #gameScreen { display: none; width: 100%; max-width: 1350px; padding: 6px; }
     .top-bar {
-      background: white; padding: 8px 16px; border-radius: 14px;
+      background: white; padding: 10px 18px; border-radius: 16px;
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.04); margin-bottom: 10px; border: 2px solid #F1F5F9;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 12px; border: 2px solid #e2e8f0;
     }
     .game-layout { display: grid; grid-template-columns: 1.6fr 0.8fr; gap: 14px; align-items: start; }
-    @media (max-width: 900px) { .game-layout { grid-template-columns: 1fr; } }
+    @media (max-width: 950px) { .game-layout { grid-template-columns: 1fr; } }
 
-    /* PAPAN 50 PETAK FULL (TIDAK KEPOTONG) */
+    /* PAPAN 50 PETAK FULL & SCROLL */
     .board-wrapper {
-      background: white; padding: 8px; border-radius: 18px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.06); border: 3px solid #BAE6FD;
-      width: 100%; overflow-x: auto;
+      background: white; padding: 10px; border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06); border: 4px solid #bae6fd;
+      width: 100%; overflow-x: auto; max-height: 85vh; overflow-y: auto;
     }
     .board {
-      display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px;
-      width: 100%; min-width: 520px;
+      display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px;
+      width: 100%; min-width: 540px;
     }
     .cell {
-      aspect-ratio: 1 / 1; border-radius: 5px; padding: 2px; position: relative;
+      aspect-ratio: 1 / 1; border-radius: 6px; padding: 2px; position: relative;
       display: flex; flex-direction: column; justify-content: space-between;
-      font-weight: 700; font-size: 0.65rem; border: 1px solid rgba(0,0,0,0.08);
+      font-weight: 700; font-size: 0.68rem; border: 1.5px solid rgba(0,0,0,0.08);
     }
-    .cell-num { font-size: 0.55rem; opacity: 0.8; font-weight: 800; }
-    .cell-icon { font-size: 0.85rem; text-align: center; }
-    .cell-tag { font-size: 0.45rem; text-align: center; font-weight: 700; border-radius: 2px; padding: 1px; }
+    .cell-num { font-size: 0.58rem; opacity: 0.85; font-weight: 800; }
+    .cell-icon { font-size: 0.9rem; text-align: center; }
+    .cell-tag { font-size: 0.48rem; text-align: center; font-weight: 700; border-radius: 2px; padding: 1px; }
 
-    .c-0 { background: #FFF3B0; }
-    .c-1 { background: #C8F2D6; }
-    .c-2 { background: #D7ECFF; }
-    .c-3 { background: #FFE3EC; }
-    .c-finish { background: linear-gradient(135deg, #FDE047, #FB923C); color: #7C2D12; }
+    .c-0 { background: #fef08a; } /* Kuning ceria */
+    .c-1 { background: #a7f3d0; } /* Hijau mint */
+    .c-2 { background: #bae6fd; } /* Biru langit */
+    .c-3 { background: #fbcfe8; } /* Pink lembut */
+    .c-finish { background: linear-gradient(135deg, #fde047, #f97316); color: #7c2d12; }
 
     /* BIDAK PEMAIN */
     .tokens-area {
       display: flex; flex-wrap: wrap; gap: 1px; justify-content: center; z-index: 5;
     }
     .token {
-      font-size: 0.95rem; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
+      font-size: 1rem; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     /* PANEL KONTROL KANAN */
     .control-panel {
-      background: white; border-radius: 18px; padding: 14px;
-      border: 2px solid #F1F5F9; box-shadow: 0 6px 16px rgba(0,0,0,0.04);
-      display: flex; flex-direction: column; gap: 10px;
+      background: white; border-radius: 20px; padding: 16px;
+      border: 2px solid #e2e8f0; box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+      display: flex; flex-direction: column; gap: 12px;
     }
     .dice-box {
-      background: #F0F9FF; border-radius: 14px; padding: 12px; text-align: center;
-      border: 2px dashed #7DD3FC;
+      background: #f0f9ff; border-radius: 16px; padding: 14px; text-align: center;
+      border: 2px dashed #38bdf8;
     }
     .dice-face {
-      font-size: 2.8rem; margin: 2px 0; display: inline-block;
+      font-size: 3rem; margin: 4px 0; display: inline-block;
     }
     .btn-action {
-      width: 100%; padding: 12px; border: none; border-radius: 12px;
-      background: #FFB84C; color: #78350F; font-weight: 800; font-size: 0.95rem;
-      cursor: pointer; box-shadow: 0 4px 0 #D97706; transition: 0.15s;
+      width: 100%; padding: 14px; border: none; border-radius: 14px;
+      background: #f59e0b; color: white; font-weight: 800; font-size: 1rem;
+      cursor: pointer; box-shadow: 0 4px 0 #d97706; transition: 0.15s;
     }
-    .btn-action:active { transform: translateY(2px); box-shadow: 0 2px 0 #D97706; }
-    .btn-action:disabled { background: #E2E8F0; color: #94A3B8; box-shadow: none; cursor: not-allowed; }
+    .btn-action:active { transform: translateY(2px); box-shadow: 0 2px 0 #d97706; }
+    .btn-action:disabled { background: #e2e8f0; color: #94a3b8; box-shadow: none; cursor: not-allowed; }
 
     .log-box {
-      background: #F8FAFC; border-radius: 10px; padding: 8px;
-      font-size: 0.8rem; min-height: 48px; border-left: 4px solid #7BC9A6;
+      background: #f8fafc; border-radius: 12px; padding: 10px;
+      font-size: 0.82rem; min-height: 52px; border-left: 4px solid #10b981;
     }
 
-    /* MODAL KUIS */
+    /* MODAL KUIS (ANDIKA) */
     .modal-overlay {
-      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65);
       display: none; align-items: center; justify-content: center; padding: 16px; z-index: 100;
     }
     .modal-card {
-      background: white; max-width: 540px; width: 100%; border-radius: 22px;
-      padding: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 4px solid #BAE6FD;
+      background: white; max-width: 560px; width: 100%; border-radius: 24px;
+      padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); border: 4px solid #38bdf8;
     }
     .modal-badge {
-      display: inline-block; padding: 4px 12px; border-radius: 99px;
-      font-weight: 700; font-size: 0.8rem; margin-bottom: 8px;
+      display: inline-block; padding: 5px 14px; border-radius: 99px;
+      font-weight: 700; font-size: 0.85rem; margin-bottom: 10px;
     }
     .quiz-andika, .quiz-andika * { font-family: 'Andika', sans-serif !important; }
     .stimulus-box {
-      background: #FFFBEB; border-left: 5px solid #F59E0B; padding: 12px;
-      border-radius: 10px; font-size: 0.98rem; line-height: 1.5; color: #1E293B; margin-bottom: 12px;
+      background: #fef3c7; border-left: 5px solid #f59e0b; padding: 14px;
+      border-radius: 12px; font-size: 1.02rem; line-height: 1.6; color: #1e293b; margin-bottom: 14px;
     }
     .question-text {
-      font-size: 1.05rem; font-weight: 700; color: #0F172A; margin-bottom: 12px; line-height: 1.4;
+      font-size: 1.12rem; font-weight: 700; color: #0f172a; margin-bottom: 14px; line-height: 1.5;
     }
     .opt-btn {
-      width: 100%; text-align: left; padding: 10px 14px; margin-bottom: 6px;
-      border-radius: 10px; border: 2px solid #E2E8F0; background: #F8FAFC;
-      font-size: 0.95rem; cursor: pointer; transition: 0.15s;
+      width: 100%; text-align: left; padding: 12px 16px; margin-bottom: 8px;
+      border-radius: 12px; border: 2px solid #cbd5e1; background: #f8fafc;
+      font-size: 1rem; cursor: pointer; transition: 0.15s;
     }
-    .opt-btn:hover { background: #E0F2FE; border-color: #38BDF8; }
+    .opt-btn:hover { background: #e0f2fe; border-color: #0284c7; }
     .status-banner {
-      background: #FEF3C7; color: #92400E; padding: 8px 14px; border-radius: 10px;
-      text-align: center; font-weight: 700; font-size: 0.85rem; margin-bottom: 10px; display: none;
+      background: #fef08a; color: #854d0e; padding: 10px 16px; border-radius: 12px;
+      text-align: center; font-weight: 700; font-size: 0.9rem; margin-bottom: 12px; display: none;
     }
   </style>
 </head>
@@ -162,7 +160,7 @@
   <div id="joinScreen">
     <div class="logo-badge">🇮🇩 PPKn Kelas 5 SD</div>
     <h1>Ular Tangga (50 Petak)</h1>
-    <p style="font-size:0.85rem; color:#64748B;">Pilih avatarmu dan masukkan PIN dari guru!</p>
+    <p style="font-size:0.9rem; color:#64748B;">Pilih avatarmu dan masukkan PIN dari guru!</p>
 
     <div class="avatar-picker" id="avatarPicker">
       <div class="avatar-opt selected" data-avatar="🦁">🦁</div>
@@ -181,42 +179,42 @@
   <div id="gameScreen">
     <div class="top-bar">
       <div>
-        <span style="font-weight:800; color:#1E3A8A; font-size:1rem;">🎲 Ular Tangga Pancasila (50 Petak)</span>
-        <span style="background:#E0F2FE; color:#0369A1; padding:2px 8px; border-radius:99px; font-size:0.75rem; font-weight:700; margin-left:6px;">
+        <span style="font-weight:800; color:#0369a1; font-size:1.1rem;">🎲 Ular Tangga Pancasila (50 Petak)</span>
+        <span style="background:#e0f2fe; color:#0284c7; padding:3px 10px; border-radius:99px; font-size:0.8rem; font-weight:700; margin-left:8px;">
           PIN: <span id="activePinLabel">-</span>
         </span>
       </div>
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span id="myStats" style="font-weight:700; font-size:0.8rem;">🦁 Pemain • Petak 1 • 0 Poin</span>
-        <button id="bgmBtn" style="border:none; background:#FEF3C7; padding:4px 8px; border-radius:6px; cursor:pointer; font-weight:700; font-size:0.75rem;">🔇 Musik</button>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span id="myStats" style="font-weight:700; font-size:0.85rem;">🦁 Pemain • Petak 1 • 0 Poin</span>
+        <button id="bgmBtn" style="border:none; background:#fef08a; padding:6px 12px; border-radius:10px; cursor:pointer; font-weight:700; font-size:0.8rem;">🎹 Musik Ghibli</button>
       </div>
     </div>
 
     <div id="statusBanner" class="status-banner">⏳ Menunggu Guru menekan tombol MULAI...</div>
 
     <div class="game-layout">
-      <!-- PAPAN 50 PETAK FULL -->
+      <!-- PAPAN 50 PETAK FULL & SCROLL -->
       <div class="board-wrapper">
         <div class="board" id="boardGrid"></div>
       </div>
 
-      <!-- PANEL KONTROL (BEBAS GILIRAN) -->
+      <!-- PANEL KONTROL -->
       <div class="control-panel">
         <div class="dice-box">
-          <div style="font-size:0.8rem; font-weight:700; color:#0369A1;">⚡ AREA AKSI KILAT (BEBAS JALAN)</div>
+          <div style="font-size:0.85rem; font-weight:700; color:#0369a1;" id="modeIndicator">⚡ JAWAB SOAL & KOCOK DADU</div>
           <div class="dice-face" id="diceDisplay">🎯</div>
-          <div id="powerupStatus" style="font-size:0.75rem; font-weight:700; color:#059669; min-height:16px; margin-bottom:4px;"></div>
+          <div id="powerupStatus" style="font-size:0.78rem; font-weight:700; color:#059669; min-height:18px; margin-bottom:6px;"></div>
           <button class="btn-action" id="actionBtn">❓ Jawab Soal & Kocok Dadu!</button>
         </div>
 
         <div>
-          <div style="font-weight:700; font-size:0.8rem; margin-bottom:3px;">📢 Info Permainan:</div>
-          <div class="log-box" id="gameLog">Siapa cepat dia dapat! Jawab soal untuk mengocok dadu.</div>
+          <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">📢 Info Permainan:</div>
+          <div class="log-box" id="gameLog">Jawab soal Pancasila dengan benar untuk membuka kocokan dadu!</div>
         </div>
 
         <div>
-          <div style="font-weight:700; font-size:0.8rem; margin-bottom:3px;">Legenda Papan:</div>
-          <div style="font-size:0.72rem; color:#475569; line-height:1.4;">
+          <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">Legenda Papan:</div>
+          <div style="font-size:0.75rem; color:#475569; line-height:1.5;">
             🪜 <b>6 Tangga:</b> Naik Cepat!<br>
             🐍 <b>10 Ular:</b> Merosot Panjang!<br>
             🎁 <b>14 Kotak Misteri (?):</b> Tameng / Dadu Ganda / Teleport / Mundur / Istirahat
@@ -224,8 +222,8 @@
         </div>
 
         <div>
-          <div style="font-weight:700; font-size:0.8rem; margin-bottom:3px;">👥 Pemain di Ruangan:</div>
-          <div id="playerChips" style="display:flex; flex-wrap:wrap; gap:4px;"></div>
+          <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">👥 Pemain di Ruangan:</div>
+          <div id="playerChips" style="display:flex; flex-wrap:wrap; gap:5px;"></div>
         </div>
       </div>
     </div>
@@ -272,7 +270,11 @@
     let myData = { id: playerId, name: "", avatar: "🦁", pos: 1, score: 0, shieldCount: 0, doubleDice: false, skipTurn: false };
     let allPlayers = {};
     let questionBank = [];
+    let unaskedIndices = []; // Untuk manajemen soal acak tidak berulang
+    let currentQuestionIndex = null;
     let gameStatus = "waiting";
+    let gameMode = "free";
+    let turnPlayerId = "";
     let pendingRoll = false;
 
     document.querySelectorAll(".avatar-opt").forEach(el => {
@@ -284,59 +286,63 @@
       };
     });
 
+    // ==========================================
+    // MUSIK PIANO KHAS GHIBLI (WEB AUDIO API)
+    // ==========================================
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    let bgmInterval = null;
+    let ghibliInterval = null;
 
-    function playTone(freq, type, duration, delay = 0) {
+    function playNote(freq, type, duration) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = type;
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
-      gain.gain.setValueAtTime(0.12, audioCtx.currentTime + delay);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + duration);
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
-      osc.start(audioCtx.currentTime + delay);
-      osc.stop(audioCtx.currentTime + delay + duration);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
     }
 
-    const sfx = {
-      dice: () => { for(let i=0; i<5; i++) playTone(200 + i*60, 'triangle', 0.06, i*0.06); },
-      step: () => playTone(520, 'sine', 0.08),
-      ladder: () => { [523, 659, 784, 1046].forEach((f, i) => playTone(f, 'triangle', 0.18, i*0.1)); },
-      snake: () => { [440, 370, 311, 220].forEach((f, i) => playTone(f, 'sawtooth', 0.2, i*0.12)); },
-      mystery: () => { [587, 740, 880, 1174].forEach((f, i) => playTone(f, 'sine', 0.15, i*0.08)); },
-      win: () => { [523, 659, 784, 1046, 784, 1046].forEach((f, i) => playTone(f, 'triangle', 0.22, i*0.14)); }
-    };
+    const ghibliNotes = [523.25, 587.33, 659.25, 783.99, 880, 783.99, 659.25, 587.33, 493.88, 523.25];
+    let noteStep = 0;
 
-    document.getElementById("bgmBtn").onclick = () => {
+    window.toggleGhibliMusic = () => {
       const btn = document.getElementById("bgmBtn");
-      if (bgmInterval) {
-        clearInterval(bgmInterval);
-        bgmInterval = null;
-        btn.innerText = "🔇 Musik";
+      if (ghibliInterval) {
+        clearInterval(ghibliInterval);
+        ghibliInterval = null;
+        btn.innerText = "🎹 Musik Ghibli";
       } else {
-        const notes = [523, 659, 784, 659, 587, 698, 880, 698];
-        let step = 0;
-        bgmInterval = setInterval(() => {
-          playTone(notes[step % notes.length], 'sine', 0.22);
-          step++;
-        }, 420);
-        btn.innerText = "🔊 Musik ON";
+        ghibliInterval = setInterval(() => {
+          playNote(ghibliNotes[noteStep % ghibliNotes.length], 'sine', 1.2);
+          noteStep++;
+        }, 650);
+        btn.innerText = "🎵 Musik ON";
       }
+    };
+    document.getElementById("bgmBtn").onclick = window.toggleGhibliMusic;
+
+    const sfx = {
+      dice: () => { for(let i=0; i<5; i++) playNote(200 + i*60, 'triangle', 0.06); },
+      step: () => playNote(520, 'sine', 0.08),
+      ladder: () => { [523, 659, 784, 1046].forEach((f) => playNote(f, 'triangle', 0.18)); },
+      snake: () => { [440, 370, 311, 220].forEach((f) => playNote(f, 'sawtooth', 0.2)); },
+      mystery: () => { [587, 740, 880, 1174].forEach((f) => playNote(f, 'sine', 0.15)); },
+      win: () => { [523, 659, 784, 1046, 784, 1046].forEach((f) => playNote(f, 'triangle', 0.22)); }
     };
 
     document.getElementById("btnJoinGame").onclick = async () => {
       const pin = document.getElementById("pinInput").value.trim();
       const name = document.getElementById("nameInput").value.trim();
-      if (pin.length < 4 || !name) return alert("Masukkan kode PIN 6 digit dan namamu terlebih dahulu ya!");
+      if (pin.length < 4 || !name) return alert("Masukkan PIN 6 digit dan namamu terlebih dahulu!");
 
       try {
         const roomRef = ref(db, `rooms/${pin}`);
         const roomSnap = await get(roomRef);
-        if (!roomSnap.exists()) {
-          return alert("Kode PIN tidak ditemukan! Pastikan gurumu sudah membuat room.");
-        }
+        if (!roomSnap.exists()) return alert("PIN tidak ditemukan! Pastikan guru sudah membuat room.");
 
         roomPin = pin;
         myData.name = name;
@@ -351,7 +357,7 @@
         buildBoard();
         listenRoomRealtime();
       } catch (err) {
-        alert("Gagal terhubung ke database. Periksa koneksi internet.");
+        alert("Gagal terhubung ke database.");
         console.error(err);
       }
     };
@@ -359,7 +365,6 @@
     function buildBoard() {
       const board = document.getElementById("boardGrid");
       board.innerHTML = "";
-
       for (let row = 4; row >= 0; row--) {
         let cellsInRow = [];
         for (let col = 0; col < 10; col++) {
@@ -367,7 +372,6 @@
           cellsInRow.push(num);
         }
         if (row % 2 === 1) cellsInRow.reverse();
-
         cellsInRow.forEach(num => {
           const cell = document.createElement("div");
           cell.className = `cell ${num === 50 ? 'c-finish' : 'c-' + (num % 4)}`;
@@ -375,15 +379,11 @@
 
           let specialHtml = "";
           if (num === 50) specialHtml = `<div class="cell-icon">🏆</div><div class="cell-tag">FINISH</div>`;
-          else if (ladders[num]) specialHtml = `<div class="cell-icon">🪜</div><div class="cell-tag" style="background:#DCFCE7;color:#166534;">Naik ${ladders[num]}</div>`;
-          else if (snakes[num]) specialHtml = `<div class="cell-icon">🐍</div><div class="cell-tag" style="background:#FEE2E2;color:#991B1B;">Turun ${snakes[num]}</div>`;
-          else if (mystery.includes(num)) specialHtml = `<div class="cell-icon">🎁</div><div class="cell-tag" style="background:#F3E8FF;color:#6B21A8;">Kotak (?)</div>`;
+          else if (ladders[num]) specialHtml = `<div class="cell-icon">🪜</div><div class="cell-tag" style="background:#a7f3d0;color:#065f46;">Naik ${ladders[num]}</div>`;
+          else if (snakes[num]) specialHtml = `<div class="cell-icon">🐍</div><div class="cell-tag" style="background:#fbcfe8;color:#991b1b;">Turun ${snakes[num]}</div>`;
+          else if (mystery.includes(num)) specialHtml = `<div class="cell-icon">🎁</div><div class="cell-tag" style="background:#e0f2fe;color:#0369a1;">Kotak (?)</div>`;
 
-          cell.innerHTML = `
-            <div class="cell-num">${num}</div>
-            ${specialHtml}
-            <div class="tokens-area" id="tokens-${num}"></div>
-          `;
+          cell.innerHTML = `<div class="cell-num">${num}</div>${specialHtml}<div class="tokens-area" id="tokens-${num}"></div>`;
           board.appendChild(cell);
         });
       }
@@ -395,8 +395,20 @@
         if (!data) return;
 
         gameStatus = data.status;
+        gameMode = data.gameMode || "free";
+        turnPlayerId = data.turnPlayerId || "";
+
         if (data.questions) {
           questionBank = Array.isArray(data.questions) ? data.questions : Object.values(data.questions);
+          // Inisialisasi antrean soal acak jika belum ada
+          if (unaskedIndices.length === 0) {
+            unaskedIndices = questionBank.map((_, idx) => idx);
+            // Acak urutan soal (Fisher-Yates shuffle)
+            for (let i = unaskedIndices.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [unaskedIndices[i], unaskedIndices[j]] = [unaskedIndices[j], unaskedIndices[i]];
+            }
+          }
         }
 
         const banner = document.getElementById("statusBanner");
@@ -421,7 +433,18 @@
             myData.skipTurn = false;
             syncMyState();
           } else {
-            actionBtn.disabled = false;
+            if (gameMode === "turn") {
+              if (!turnPlayerId) {
+                const firstId = Object.keys(data.players || {})[0];
+                if (firstId) update(ref(db, `rooms/${roomPin}`), { turnPlayerId: firstId });
+              }
+              const isMyTurn = (turnPlayerId === playerId);
+              actionBtn.disabled = !isMyTurn;
+              document.getElementById("modeIndicator").innerText = isMyTurn ? "⭐ GILIRANMU BERMAIN!" : "⏳ MENUNGGU GILIRAN TEMAN";
+            } else {
+              actionBtn.disabled = false;
+              document.getElementById("modeIndicator").innerText = "⚡ BEBAS BERMAIN (SIAPA CEPAT)";
+            }
             actionBtn.innerText = pendingRoll ? "🎲 Kocok Dadu Sekarang!" : "❓ Jawab Soal & Kocok Dadu!";
           }
         }
@@ -448,16 +471,10 @@
         if (targetSlot) {
           const span = document.createElement("span");
           span.className = "token";
-          span.title = `${p.name} (Petak ${p.pos})`;
           span.innerText = p.avatar;
           targetSlot.appendChild(span);
         }
-
-        chips.innerHTML += `
-          <span style="background:#F1F5F9; padding:3px 8px; border-radius:99px; font-size:0.72rem; font-weight:600;">
-            ${p.avatar} ${p.name} (${p.pos})
-          </span>
-        `;
+        chips.innerHTML += `<span style="background:#f1f5f9; padding:3px 8px; border-radius:99px; font-size:0.75rem; font-weight:600;">${p.avatar} ${p.name} (${p.pos})</span>`;
       });
 
       let statusInfo = [];
@@ -477,67 +494,60 @@
     };
 
     function triggerQuizOrDare() {
-      const q = questionBank[Math.floor(Math.random() * questionBank.length)];
+      if (questionBank.length === 0) return alert("Soal belum tersedia!");
+
+      // Ambil soal dari urutan acak tidak berulang
+      if (unaskedIndices.length === 0) {
+        unaskedIndices = questionBank.map((_, idx) => idx);
+        for (let i = unaskedIndices.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [unaskedIndices[i], unaskedIndices[j]] = [unaskedIndices[j], unaskedIndices[i]];
+        }
+        setLog("🔄 Semua soal sudah tampil. Bank soal diacak ulang kembali!");
+      }
+
+      currentQuestionIndex = unaskedIndices.pop();
+      const q = questionBank[currentQuestionIndex];
+
       const modal = document.getElementById("quizModal");
       const badge = document.getElementById("modalHeaderBadge");
       const optArea = document.getElementById("modalOptionsArea");
       optArea.innerHTML = "";
 
-      const isDare = Math.random() < 0.2;
+      badge.style.background = "#d1fae5"; badge.style.color = "#065f46";
+      badge.innerText = "❓ JAWAB SOAL UNTUK BUKA DADU!";
+      document.getElementById("modalStimulus").innerText = q.stimulus;
+      document.getElementById("modalQuestion").innerText = q.question;
 
-      if (isDare) {
-        badge.style.background = "#F3E8FF"; badge.style.color = "#6B21A8";
-        badge.innerText = "🎯 TRUTH OR DARE PANCASILA!";
-        document.getElementById("modalStimulus").innerText = "Tantangan Khusus Kelas 5!";
-        document.getElementById("modalQuestion").innerText = "Sebutkan bunyi Sila ke-4 Pancasila dan contoh sikap musyawarah! Pilih opsi yang benar:";
-        
-        const b1 = document.createElement("button");
-        b1.className = "opt-btn";
-        b1.innerText = "A. Kerakyatan yang dipimpin... - Mengutamakan mufakat dalam pemilihan ketua kelas";
-        b1.onclick = () => resolveQuiz(true, "🎉 Alhamdulillah! Tantangan berhasil! Silakan kocok dadu.");
-        optArea.appendChild(b1);
-
-        const b2 = document.createElement("button");
-        b2.className = "opt-btn";
-        b2.innerText = "B. Keadilan sosial... - Memaksakan pendapat sendiri kepada teman";
-        b2.onclick = () => resolveQuiz(false, "❌ Kurang tepat! Sila ke-4 berkaitan dengan musyawarah.");
-        optArea.appendChild(b2);
-      } else {
-        badge.style.background = "#DCFCE7"; badge.style.color = "#166534";
-        badge.innerText = "❓ JAWAB SOAL UNTUK BUKA DADU!";
-        document.getElementById("modalStimulus").innerText = q.stimulus;
-        document.getElementById("modalQuestion").innerText = q.question;
-
-        if (q.type === "pg" && q.options) {
-          q.options.forEach(optText => {
-            const btn = document.createElement("button");
-            btn.className = "opt-btn";
-            const userChoice = optText.charAt(0).toUpperCase();
-            const correctChoice = q.answer.toUpperCase();
-            btn.innerText = optText;
-            btn.onclick = () => {
-              if (userChoice === correctChoice) {
-                resolveQuiz(true, "🎉 MasyaAllah Benar (+20 Poin)! Silakan kocok dadu.");
-              } else {
-                resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi di kesempatan berikutnya!`);
-              }
-            };
-            optArea.appendChild(btn);
-          });
-        } else {
-          optArea.innerHTML = `
-            <input type="text" id="shortAnsInput" placeholder="Ketik kata kunci jawaban..." style="width:100%; padding:10px; border-radius:10px; border:2px solid #CBD5E1; font-size:0.95rem; margin-bottom:10px;">
-            <button class="btn-play" id="btnSubmitAns">Kirim Jawaban</button>
-          `;
-          document.getElementById("btnSubmitAns").onclick = () => {
-            const userAns = document.getElementById("shortAnsInput").value.trim().toLowerCase();
-            if (userAns === q.answer.trim().toLowerCase()) {
-              resolveQuiz(true, "🎉 MasyaAllah Benar! Silakan kocok dadu.");
+      if (q.type === "pg" && q.options) {
+        q.options.forEach(optText => {
+          const btn = document.createElement("button");
+          btn.className = "opt-btn";
+          const userChoice = optText.charAt(0).toUpperCase();
+          const correctChoice = q.answer.toUpperCase();
+          btn.innerText = optText;
+          btn.onclick = () => {
+            if (userChoice === correctChoice) {
+              resolveQuiz(true, "🎉 MasyaAllah Benar (+20 Poin)! Silakan kocok dadu.");
             } else {
-              resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi ya!`);
+              resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba soal berikutnya ya!`);
             }
           };
-        }
+          optArea.appendChild(btn);
+        });
+      } else {
+        optArea.innerHTML = `
+          <input type="text" id="shortAnsInput" placeholder="Ketik kata kunci jawaban..." style="width:100%; padding:10px; border-radius:10px; border:2px solid #cbd5e1; font-size:0.95rem; margin-bottom:10px;">
+          <button class="btn-play" id="btnSubmitAns">Kirim Jawaban</button>
+        `;
+        document.getElementById("btnSubmitAns").onclick = () => {
+          const userAns = document.getElementById("shortAnsInput").value.trim().toLowerCase();
+          if (userAns === q.answer.trim().toLowerCase()) {
+            resolveQuiz(true, "🎉 MasyaAllah Benar! Silakan kocok dadu.");
+          } else {
+            resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi ya!`);
+          }
+        };
       }
 
       modal.style.display = "flex";
@@ -574,30 +584,29 @@
       const diceIcons = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
       diceEl.innerText = roll <= 6 ? diceIcons[roll - 1] : "🎲";
 
-      setLog(`🎲 Melangkah sebanyak ${roll} petak... bikin deg-degan!`);
+      setLog(`🎲 Melangkah sebanyak ${roll} petak... Bikin deg-degan!`);
 
       // Mekanik Pantul Mundur Jika Melebihi Petak 50
       let targetPos = myData.pos + roll;
       if (targetPos > 50) {
         let excess = targetPos - 50;
         targetPos = 50 - excess;
-        setLog(`⚠️ Wah, kelebihan langkah! Memantul mundur ke petak ${targetPos}!`);
+        setLog(`⚠️ Kelebihan langkah! Memantul mundur ke petak ${targetPos}!`);
       }
 
       for (let step = myData.pos + 1; step <= Math.max(myData.pos, targetPos); step++) {
         myData.pos = step;
         sfx.step();
         await syncMyState();
-        await new Promise(r => setTimeout(r, 180));
+        await new Promise(r => setTimeout(r, 160));
       }
 
-      // Jika memantul mundur
       if (myData.pos > targetPos) {
         for (let step = myData.pos - 1; step >= targetPos; step--) {
           myData.pos = step;
           sfx.step();
           await syncMyState();
-          await new Promise(r => setTimeout(r, 180));
+          await new Promise(r => setTimeout(r, 160));
         }
       }
 
@@ -629,7 +638,7 @@
           for (let s = startSnake - 1; s >= destSnake; s--) {
             myData.pos = s;
             await syncMyState();
-            await new Promise(r => setTimeout(r, 120));
+            await new Promise(r => setTimeout(r, 110));
           }
           setLog(`📉 Terperosok turun sampai ke petak ${destSnake}. Tetap semangat ya!`);
         }
@@ -637,7 +646,11 @@
         triggerMysteryBox();
       }
 
-      document.getElementById("actionBtn").disabled = false;
+      if (gameMode === "turn") {
+        passTurnToNext();
+      } else {
+        document.getElementById("actionBtn").disabled = false;
+      }
     }
 
     async function triggerMysteryBox() {
@@ -646,7 +659,7 @@
 
       if (type === 0) {
         myData.shieldCount += 1;
-        setLog("🎁 Kotak Misteri (?): Subhanallah! Mendapat KARTU TAMENG 🛡️ (Melindungi 1x gigitan ular)!");
+        setLog("🎁 Kotak Misteri (?): Subhanallah! Mendapat KARTU TAMENG 🛡️ (Melindungi 1x ular)!");
       } else if (type === 1) {
         myData.doubleDice = true;
         setLog("🎁 Kotak Misteri (?): Alhamdulillah! Mendapat DADU GANDA ✨ (Giliran berikutnya dadu x2)!");
@@ -661,6 +674,14 @@
         setLog("🎁 Kotak Misteri (?): ISTIRAHAT SEJENAK ⏸️! Melewatkan 1 giliran untuk bersabar.");
       }
       await syncMyState();
+    }
+
+    async function passTurnToNext() {
+      const pIds = Object.keys(allPlayers);
+      if (pIds.length <= 1) return;
+      let currentIndex = pIds.indexOf(playerId);
+      let nextIndex = (currentIndex + 1) % pIds.length;
+      await update(ref(db, `rooms/${roomPin}`), { turnPlayerId: pIds[nextIndex] });
     }
 
     async function syncMyState() {
