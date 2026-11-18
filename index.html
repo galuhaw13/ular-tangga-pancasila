@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ular Tangga Pancasila</title>
+  <title>Ular Tangga Pancasila (50 Petak)</title>
   <link href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <!-- Library Confetti untuk Selebrasi Finish -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -77,9 +77,14 @@
 </head>
 <body>
 
+  <!-- PEMUTAR AUDIO YOUTUBE (TERSEMBUNYI DENGAN VOLUME DEFAULT 40%) -->
+  <div style="display:none;">
+    <iframe id="bgMusicFrame" width="300" height="150" src="https://www.youtube.com/embed/yhet_Y1r5YU?enablejsapi=1&autoplay=1&loop=1&playlist=yhet_Y1r5YU" allow="autoplay"></iframe>
+  </div>
+
   <!-- 1. HALAMAN LOGIN -->
   <div id="joinScreen">
-    <div class="logo-badge">🇮🇩 Pendidikan Pancasila Kelas 5</div>
+    <div class="logo-badge">🇮🇩 PP Kelas 5 SD</div>
     <h1>Ular Tangga Pancasila</h1>
     <p style="font-size:0.85rem; color:#64748B;">Pilih avatar, masukkan nama & PIN dari guru!</p>
 
@@ -107,7 +112,7 @@
       </div>
       <div style="display:flex; align-items:center; gap:8px;">
         <span id="myStats" style="font-weight:700; font-size:0.8rem;">🦁 Pemain • Petak 1 • 0 Poin</span>
-        <button id="bgmBtn" style="border:none; background:#FEF3C7; padding:4px 8px; border-radius:6px; cursor:pointer; font-weight:700; font-size:0.75rem;">🎵 Musik Anime (50%)</button>
+        <button id="bgmBtn" style="border:none; background:#FEF3C7; padding:4px 8px; border-radius:6px; cursor:pointer; font-weight:700; font-size:0.75rem;">🎵 Musik YouTube (40% Vol)</button>
       </div>
     </div>
 
@@ -218,19 +223,51 @@
       };
     });
 
-    // Web Audio API: Melodi Anime "Peace Sign" (My Hero Academia) & "Silhouette" (Naruto) dengan Volume 50%
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    let bgmInterval = null;
+    // Kontrol Pemutar Audio YouTube (Volume Default 40%[cite: 4])
+    let ytPlayer = null;
     let isMusicPlaying = false;
 
-    function playPianoNote(freq, duration) {
-      if(!isMusicPlaying) return;
+    // Memuat YouTube Iframe Player API secara dinamis
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    window.onYouTubeIframeAPIReady = function() {
+      ytPlayer = new YT.Player('bgMusicFrame', {
+        events: {
+          'onReady': (event) => {
+            event.target.setVolume(40); // Set volume default 40%[cite: 4]
+          }
+        }
+      });
+    };
+
+    document.getElementById("bgmBtn").onclick = () => {
+      const btn = document.getElementById("bgmBtn");
+      if (!ytPlayer) return;
+      if (isMusicPlaying) {
+        ytPlayer.pauseVideo();
+        isMusicPlaying = false;
+        btn.innerText = "🎵 Musik YouTube (OFF)";
+      } else {
+        ytPlayer.playVideo();
+        ytPlayer.setVolume(40); // Pastikan tetap 40%[cite: 4]
+        isMusicPlaying = true;
+        btn.innerText = "🎵 Musik YouTube ON (40%)";
+      }
+    };
+
+    // Web Audio API untuk Efek Suara Game (Dadu, Tangga, Ular, Misteri)
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playTone(freq, duration) {
       try {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.2, audioCtx.currentTime); // Volume pas 50%
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
@@ -239,38 +276,13 @@
       } catch(e) {}
     }
 
-    // Gabungan Nada Peace Sign (MHA) & Silhouette (Naruto)
-    const animeMelody = [
-      523.25, 659.25, 783.99, 880, 783.99, 659.25, 523.25, // Peace Sign intro
-      587.33, 698.46, 880, 1046.5, 880, 698.46, 587.33,     // Silhouette intro
-      783.99, 880, 1046.5, 1174.66, 1046.5, 880, 783.99
-    ];
-    let noteIdx = 0;
-
-    document.getElementById("bgmBtn").onclick = () => {
-      const btn = document.getElementById("bgmBtn");
-      if (isMusicPlaying) {
-        isMusicPlaying = false;
-        clearInterval(bgmInterval);
-        btn.innerText = "🎵 Musik Anime (50%)";
-      } else {
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        isMusicPlaying = true;
-        btn.innerText = "🎵 Musik Anime ON 🎶";
-        bgmInterval = setInterval(() => {
-          playPianoNote(animeMelody[noteIdx % animeMelody.length], 0.35);
-          noteIdx++;
-        }, 400);
-      }
-    };
-
     const sfx = {
-      dice: () => { for(let i=0; i<5; i++) playPianoNote(220 + i*70, 0.08); },
-      step: () => playPianoNote(540, 0.08),
-      ladder: () => { [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => playPianoNote(f, 0.15), i*100)); },
-      snake: () => { [440, 370, 311, 220].forEach((f, i) => setTimeout(() => playPianoNote(f, 0.18), i*120)); },
-      mysterySound: () => { [440, 554, 659, 880, 1108].forEach((f, i) => setTimeout(() => playPianoNote(f, 0.12), i*80)); },
-      win: () => { [523, 659, 784, 1046, 1174, 1318].forEach((f, i) => setTimeout(() => playPianoNote(f, 0.2), i*130)); }
+      dice: () => { for(let i=0; i<5; i++) playTone(220 + i*70, 0.08); },
+      step: () => playTone(540, 0.08),
+      ladder: () => { [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => playTone(f, 0.15), i*100)); },
+      snake: () => { [440, 370, 311, 220].forEach((f, i) => setTimeout(() => playTone(f, 0.18), i*120)); },
+      mysterySound: () => { [440, 554, 659, 880, 1108].forEach((f, i) => setTimeout(() => playTone(f, 0.12), i*80)); },
+      win: () => { [523, 659, 784, 1046, 1174, 1318].forEach((f, i) => setTimeout(() => playTone(f, 0.2), i*130)); }
     };
 
     document.getElementById("btnJoinGame").onclick = async () => {
@@ -550,7 +562,6 @@
     // Selebrasi Finish: Confetti & Meme Lucu Cortis Red Style
     function triggerWinCelebration() {
       document.getElementById("winModal").style.display = "flex";
-      // Ledakan Confetti Meriah
       var duration = 3 * 1000;
       var end = Date.now() + duration;
       (function frame() {
