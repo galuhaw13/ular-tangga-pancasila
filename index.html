@@ -3,164 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ular Tangga Pancasila (50 Petak) - Kelas 5</title>
+  <title>Ular Tangga Pancasila (50 Petak)</title>
   <link href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f8fafc;
-      --primary: #0284c7;
-      --secondary: #10b981;
-      --accent: #f59e0b;
-      --danger: #ef4444;
-      --text: #1e293b;
+      --bg: #F0FDF4; --primary: #3B82F6; --mint: #A7F3D0; --soft-yellow: #FEF08A; --soft-pink: #FECDD3; --text: #1E293B;
     }
     * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body {
-      margin: 0; background: var(--bg); color: var(--text);
-      min-height: 100vh; display: flex; flex-direction: column; align-items: center;
-      padding: 8px;
-    }
+    body { margin: 0; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 6px; }
 
-    /* LAYAR JOIN */
-    #joinScreen {
-      max-width: 420px; width: 92%; margin: auto; background: white;
-      padding: 30px 24px; border-radius: 24px; text-align: center;
-      box-shadow: 0 15px 35px rgba(2, 132, 199, 0.15); border: 4px solid #bae6fd;
-    }
-    .logo-badge {
-      background: #fef08a; display: inline-block; padding: 6px 16px;
-      border-radius: 99px; font-weight: 700; color: #854d0e; font-size: 0.82rem; margin-bottom: 8px;
-    }
-    #joinScreen h1 { margin: 4px 0; font-size: 1.6rem; color: #0369a1; }
-    .avatar-picker { display: flex; justify-content: center; gap: 8px; margin: 14px 0; }
-    .avatar-opt {
-      font-size: 1.8rem; padding: 6px; border-radius: 12px; cursor: pointer;
-      border: 2px solid transparent; background: #f1f5f9; transition: 0.2s;
-    }
-    .avatar-opt.selected { border-color: #0284c7; background: #e0f2fe; transform: scale(1.1); }
-
-    input.join-input {
-      width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #cbd5e1;
-      font-size: 1rem; text-align: center; font-weight: 700; margin-bottom: 12px;
-    }
-    .btn-play {
-      width: 100%; padding: 14px; border: none; border-radius: 14px;
-      background: linear-gradient(135deg, #38bdf8 0%, #10b981 100%);
-      color: white; font-size: 1.1rem; font-weight: 800; cursor: pointer;
-      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3); transition: 0.2s;
-    }
+    /* LAYAR LOGIN */
+    #joinScreen { max-width: 420px; width: 92%; margin: auto; background: white; padding: 26px 22px; border-radius: 24px; text-align: center; box-shadow: 0 10px 25px rgba(16,185,129,0.15); border: 3px solid #6EE7B7; }
+    .logo-badge { background: #FEF08A; display: inline-block; padding: 6px 16px; border-radius: 99px; font-weight: 700; color: #854D0E; font-size: 0.8rem; margin-bottom: 8px; }
+    #joinScreen h1 { margin: 4px 0; font-size: 1.5rem; color: #065F46; }
+    .avatar-picker { display: flex; justify-content: center; gap: 8px; margin: 12px 0; }
+    .avatar-opt { font-size: 1.7rem; padding: 6px; border-radius: 12px; cursor: pointer; border: 2px solid transparent; background: #F8FAFC; transition: 0.2s; }
+    .avatar-opt.selected { border-color: #10B981; background: #D1FAE5; transform: scale(1.1); }
+    input.join-input { width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #CBD5E1; font-size: 1rem; text-align: center; font-weight: 700; margin-bottom: 10px; }
+    .btn-play { width: 100%; padding: 14px; border: none; border-radius: 14px; background: linear-gradient(135deg, #10B981 0%, #3B82F6 100%); color: white; font-size: 1.05rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(16,185,129,0.3); transition: 0.2s; }
     .btn-play:hover { transform: translateY(-2px); }
 
-    /* LAYAR ARENA PERMAINAN (FULL TANPA KEPOTONG & BISA SCROLL) */
-    #gameScreen { display: none; width: 100%; max-width: 1350px; padding: 6px; }
-    .top-bar {
-      background: white; padding: 10px 18px; border-radius: 16px;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 12px; border: 2px solid #e2e8f0;
-    }
-    .game-layout { display: grid; grid-template-columns: 1.6fr 0.8fr; gap: 14px; align-items: start; }
-    @media (max-width: 950px) { .game-layout { grid-template-columns: 1fr; } }
+    /* LAYAR ARENA UTUH TIDAK KEPOTONG & BISA SCROLL */
+    #gameScreen { display: none; width: 100%; max-width: 1350px; padding: 4px; }
+    .top-bar { background: white; padding: 8px 14px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.04); margin-bottom: 8px; border: 2px solid #E2E8F0; }
+    .game-layout { display: grid; grid-template-columns: 1.6fr 0.8fr; gap: 12px; align-items: start; }
+    @media (max-width: 900px) { .game-layout { grid-template-columns: 1fr; } }
 
-    /* PAPAN 50 PETAK FULL & SCROLL */
-    .board-wrapper {
-      background: white; padding: 10px; border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06); border: 4px solid #bae6fd;
-      width: 100%; overflow-x: auto; max-height: 85vh; overflow-y: auto;
-    }
-    .board {
-      display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px;
-      width: 100%; min-width: 540px;
-    }
-    .cell {
-      aspect-ratio: 1 / 1; border-radius: 6px; padding: 2px; position: relative;
-      display: flex; flex-direction: column; justify-content: space-between;
-      font-weight: 700; font-size: 0.68rem; border: 1.5px solid rgba(0,0,0,0.08);
-    }
-    .cell-num { font-size: 0.58rem; opacity: 0.85; font-weight: 800; }
-    .cell-icon { font-size: 0.9rem; text-align: center; }
-    .cell-tag { font-size: 0.48rem; text-align: center; font-weight: 700; border-radius: 2px; padding: 1px; }
+    /* PAPAN 50 PETAK (5x10) */
+    .board-wrapper { background: white; padding: 8px; border-radius: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.06); border: 3px solid #6EE7B7; width: 100%; overflow-x: auto; max-height: 85vh; overflow-y: auto; }
+    .board { display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; width: 100%; min-width: 560px; }
+    .cell { aspect-ratio: 1 / 1; border-radius: 5px; padding: 2px; position: relative; display: flex; flex-direction: column; justify-content: space-between; font-weight: 700; font-size: 0.65rem; border: 1px solid rgba(0,0,0,0.1); }
+    .cell-num { font-size: 0.55rem; opacity: 0.85; font-weight: 800; }
+    .cell-icon { font-size: 0.85rem; text-align: center; }
+    .cell-tag { font-size: 0.45rem; text-align: center; font-weight: 700; border-radius: 2px; padding: 1px; }
 
-    .c-0 { background: #fef08a; } /* Kuning ceria */
-    .c-1 { background: #a7f3d0; } /* Hijau mint */
-    .c-2 { background: #bae6fd; } /* Biru langit */
-    .c-3 { background: #fbcfe8; } /* Pink lembut */
-    .c-finish { background: linear-gradient(135deg, #fde047, #f97316); color: #7c2d12; }
+    .c-0 { background: #FEF08A; }
+    .c-1 { background: #A7F3D0; }
+    .c-2 { background: #BAE6FD; }
+    .c-3 { background: #FECDD3; }
+    .c-finish { background: linear-gradient(135deg, #FDE047, #F97316); color: #7C2D12; }
 
-    /* BIDAK PEMAIN */
-    .tokens-area {
-      display: flex; flex-wrap: wrap; gap: 1px; justify-content: center; z-index: 5;
-    }
-    .token {
-      font-size: 1rem; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
+    /* TOKEN DENGAN USERNAME DI BAWAHNYA */
+    .tokens-area { display: flex; flex-wrap: wrap; gap: 2px; justify-content: center; z-index: 5; }
+    .token-item { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.85); padding: 1px 3px; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.15); }
+    .token-avatar { font-size: 0.9rem; }
+    .token-name { font-size: 0.45rem; font-weight: 800; color: #1E3A8A; max-width: 32px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     /* PANEL KONTROL KANAN */
-    .control-panel {
-      background: white; border-radius: 20px; padding: 16px;
-      border: 2px solid #e2e8f0; box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-      display: flex; flex-direction: column; gap: 12px;
-    }
-    .dice-box {
-      background: #f0f9ff; border-radius: 16px; padding: 14px; text-align: center;
-      border: 2px dashed #38bdf8;
-    }
-    .dice-face {
-      font-size: 3rem; margin: 4px 0; display: inline-block;
-    }
-    .btn-action {
-      width: 100%; padding: 14px; border: none; border-radius: 14px;
-      background: #f59e0b; color: white; font-weight: 800; font-size: 1rem;
-      cursor: pointer; box-shadow: 0 4px 0 #d97706; transition: 0.15s;
-    }
-    .btn-action:active { transform: translateY(2px); box-shadow: 0 2px 0 #d97706; }
-    .btn-action:disabled { background: #e2e8f0; color: #94a3b8; box-shadow: none; cursor: not-allowed; }
+    .control-panel { background: white; border-radius: 18px; padding: 14px; border: 2px solid #E2E8F0; box-shadow: 0 6px 16px rgba(0,0,0,0.04); display: flex; flex-direction: column; gap: 10px; }
+    .dice-box { background: #ECFDF5; border-radius: 14px; padding: 12px; text-align: center; border: 2px dashed #34D399; }
+    .dice-face { font-size: 2.8rem; margin: 2px 0; display: inline-block; }
+    .btn-action { width: 100%; padding: 12px; border: none; border-radius: 12px; background: #F59E0B; color: white; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 0 #B45309; transition: 0.15s; }
+    .btn-action:active { transform: translateY(2px); box-shadow: 0 2px 0 #B45309; }
+    .btn-action:disabled { background: #E2E8F0; color: #94A3B8; box-shadow: none; cursor: not-allowed; }
+    .log-box { background: #F8FAFC; border-radius: 10px; padding: 8px; font-size: 0.8rem; min-height: 48px; border-left: 4px solid #10B981; }
 
-    .log-box {
-      background: #f8fafc; border-radius: 12px; padding: 10px;
-      font-size: 0.82rem; min-height: 52px; border-left: 4px solid #10b981;
-    }
-
-    /* MODAL KUIS (ANDIKA) */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65);
-      display: none; align-items: center; justify-content: center; padding: 16px; z-index: 100;
-    }
-    .modal-card {
-      background: white; max-width: 560px; width: 100%; border-radius: 24px;
-      padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); border: 4px solid #38bdf8;
-    }
-    .modal-badge {
-      display: inline-block; padding: 5px 14px; border-radius: 99px;
-      font-weight: 700; font-size: 0.85rem; margin-bottom: 10px;
-    }
+    /* MODAL KUIS */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 100; }
+    .modal-card { background: white; max-width: 540px; width: 100%; border-radius: 22px; padding: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 4px solid #34D399; }
+    .modal-badge { display: inline-block; padding: 4px 12px; border-radius: 99px; font-weight: 700; font-size: 0.8rem; margin-bottom: 8px; }
     .quiz-andika, .quiz-andika * { font-family: 'Andika', sans-serif !important; }
-    .stimulus-box {
-      background: #fef3c7; border-left: 5px solid #f59e0b; padding: 14px;
-      border-radius: 12px; font-size: 1.02rem; line-height: 1.6; color: #1e293b; margin-bottom: 14px;
-    }
-    .question-text {
-      font-size: 1.12rem; font-weight: 700; color: #0f172a; margin-bottom: 14px; line-height: 1.5;
-    }
-    .opt-btn {
-      width: 100%; text-align: left; padding: 12px 16px; margin-bottom: 8px;
-      border-radius: 12px; border: 2px solid #cbd5e1; background: #f8fafc;
-      font-size: 1rem; cursor: pointer; transition: 0.15s;
-    }
-    .opt-btn:hover { background: #e0f2fe; border-color: #0284c7; }
-    .status-banner {
-      background: #fef08a; color: #854d0e; padding: 10px 16px; border-radius: 12px;
-      text-align: center; font-weight: 700; font-size: 0.9rem; margin-bottom: 12px; display: none;
-    }
+    .stimulus-box { background: #FFFBEB; border-left: 5px solid #F59E0B; padding: 12px; border-radius: 10px; font-size: 0.98rem; line-height: 1.5; color: #1E293B; margin-bottom: 12px; }
+    .question-text { font-size: 1.05rem; font-weight: 700; color: #0F172A; margin-bottom: 12px; line-height: 1.4; }
+    .opt-btn { width: 100%; text-align: left; padding: 10px 14px; margin-bottom: 6px; border-radius: 10px; border: 2px solid #E2E8F0; background: #F8FAFC; font-size: 0.95rem; cursor: pointer; transition: 0.15s; }
+    .opt-btn:hover { background: #E0F2FE; border-color: #38BDF8; }
+    .status-banner { background: #FEF3C7; color: #92400E; padding: 8px 14px; border-radius: 10px; text-align: center; font-weight: 700; font-size: 0.85rem; margin-bottom: 8px; display: none; }
   </style>
 </head>
 <body>
 
-  <!-- 1. HALAMAN JOIN -->
+  <!-- 1. HALAMAN LOGIN -->
   <div id="joinScreen">
-    <div class="logo-badge">🇮🇩 PPKn Kelas 5 SD</div>
-    <h1>Ular Tangga (50 Petak)</h1>
-    <p style="font-size:0.9rem; color:#64748B;">Pilih avatarmu dan masukkan PIN dari guru!</p>
+    <div class="logo-badge">🇮🇩 Pendidikan Pancasila Kelas 5</div>
+    <h1>Ular Tangga Pancasila</h1>
+    <p style="font-size:0.85rem; color:#64748B;">Pilih avatar, masukkan nama & PIN dari guru!</p>
 
     <div class="avatar-picker" id="avatarPicker">
       <div class="avatar-opt selected" data-avatar="🦁">🦁</div>
@@ -179,21 +95,21 @@
   <div id="gameScreen">
     <div class="top-bar">
       <div>
-        <span style="font-weight:800; color:#0369a1; font-size:1.1rem;">🎲 Ular Tangga Pancasila (50 Petak)</span>
-        <span style="background:#e0f2fe; color:#0284c7; padding:3px 10px; border-radius:99px; font-size:0.8rem; font-weight:700; margin-left:8px;">
+        <span style="font-weight:800; color:#065F46; font-size:1rem;">🎲 Ular Tangga Pancasila (50 Petak)</span>
+        <span style="background:#D1FAE5; color:#065F46; padding:2px 8px; border-radius:99px; font-size:0.75rem; font-weight:700; margin-left:6px;">
           PIN: <span id="activePinLabel">-</span>
         </span>
       </div>
-      <div style="display:flex; align-items:center; gap:10px;">
-        <span id="myStats" style="font-weight:700; font-size:0.85rem;">🦁 Pemain • Petak 1 • 0 Poin</span>
-        <button id="bgmBtn" style="border:none; background:#fef08a; padding:6px 12px; border-radius:10px; cursor:pointer; font-weight:700; font-size:0.8rem;">🎹 Musik Ghibli</button>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span id="myStats" style="font-weight:700; font-size:0.8rem;">🦁 Pemain • Petak 1 • 0 Poin</span>
+        <button id="bgmBtn" style="border:none; background:#FEF3C7; padding:4px 8px; border-radius:6px; cursor:pointer; font-weight:700; font-size:0.75rem;">🎵 Musik (50%)</button>
       </div>
     </div>
 
     <div id="statusBanner" class="status-banner">⏳ Menunggu Guru menekan tombol MULAI...</div>
 
     <div class="game-layout">
-      <!-- PAPAN 50 PETAK FULL & SCROLL -->
+      <!-- PAPAN 50 PETAK -->
       <div class="board-wrapper">
         <div class="board" id="boardGrid"></div>
       </div>
@@ -201,35 +117,26 @@
       <!-- PANEL KONTROL -->
       <div class="control-panel">
         <div class="dice-box">
-          <div style="font-size:0.85rem; font-weight:700; color:#0369a1;" id="modeIndicator">⚡ JAWAB SOAL & KOCOK DADU</div>
+          <div style="font-size:0.8rem; font-weight:700; color:#065F46;" id="modeStatusLabel">⚡ AREA AKSI KILAT</div>
           <div class="dice-face" id="diceDisplay">🎯</div>
-          <div id="powerupStatus" style="font-size:0.78rem; font-weight:700; color:#059669; min-height:18px; margin-bottom:6px;"></div>
+          <div id="powerupStatus" style="font-size:0.75rem; font-weight:700; color:#059669; min-height:16px; margin-bottom:4px;"></div>
           <button class="btn-action" id="actionBtn">❓ Jawab Soal & Kocok Dadu!</button>
         </div>
 
         <div>
-          <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">📢 Info Permainan:</div>
-          <div class="log-box" id="gameLog">Jawab soal Pancasila dengan benar untuk membuka kocokan dadu!</div>
+          <div style="font-weight:700; font-size:0.8rem; margin-bottom:3px;">📢 Info Permainan:</div>
+          <div class="log-box" id="gameLog">Jawab soal dengan benar untuk membuka kocokan dadu yang menegangkan!</div>
         </div>
 
         <div>
-          <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">Legenda Papan:</div>
-          <div style="font-size:0.75rem; color:#475569; line-height:1.5;">
-            🪜 <b>6 Tangga:</b> Naik Cepat!<br>
-            🐍 <b>10 Ular:</b> Merosot Panjang!<br>
-            🎁 <b>14 Kotak Misteri (?):</b> Tameng / Dadu Ganda / Teleport / Mundur / Istirahat
-          </div>
-        </div>
-
-        <div>
-          <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">👥 Pemain di Ruangan:</div>
-          <div id="playerChips" style="display:flex; flex-wrap:wrap; gap:5px;"></div>
+          <div style="font-weight:700; font-size:0.8rem; margin-bottom:3px;">👥 Pemain di Ruangan:</div>
+          <div id="playerChips" style="display:flex; flex-wrap:wrap; gap:4px;"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 3. MODAL KUIS -->
+  <!-- 3. MODAL KUIS STIMULUS -->
   <div class="modal-overlay" id="quizModal">
     <div class="modal-card quiz-andika">
       <div id="modalHeaderBadge" class="modal-badge">❓ TANTANGAN SOAL PANCASILA</div>
@@ -244,9 +151,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getDatabase, ref, set, update, get, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-    // ==========================================
-    // TEMPEL KONFIGURASI FIREBASE KAMU DI SINI
-    // ==========================================
     const firebaseConfig = {
       apiKey: "AIzaSyBzmaKuR6FoK97Zk86pRaZBv8JiknBieHI",
       authDomain: "ular-tangga-pancasila-9b4d0.firebaseapp.com",
@@ -270,10 +174,10 @@
     let myData = { id: playerId, name: "", avatar: "🦁", pos: 1, score: 0, shieldCount: 0, doubleDice: false, skipTurn: false };
     let allPlayers = {};
     let questionBank = [];
-    let unaskedIndices = []; // Untuk manajemen soal acak tidak berulang
-    let currentQuestionIndex = null;
+    let myUnusedQuestionIndices = []; // Untuk memastikan soal muncul 1x sampai habis baru diacak ulang
+    let currentQuestionObj = null;
     let gameStatus = "waiting";
-    let gameMode = "free";
+    let turnMode = "free";
     let turnPlayerId = "";
     let pendingRoll = false;
 
@@ -286,284 +190,243 @@
       };
     });
 
-    // ==========================================
-    // MUSIK PIANO KHAS GHIBLI (WEB AUDIO API)
-    // ==========================================
+    // Web Audio API: Musik Piano Ceria Khas Ghibli (Volume Default 50%)
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    let ghibliInterval = null;
+    let bgmInterval = null;
+    let isMusicPlaying = false;
 
-    function playNote(freq, type, duration) {
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + duration);
+    function playPianoNote(freq, duration) {
+      if(!isMusicPlaying) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.25, audioCtx.currentTime); // Volume 50% (terdengar jelas)
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch(e) {}
     }
 
-    const ghibliNotes = [523.25, 587.33, 659.25, 783.99, 880, 783.99, 659.25, 587.33, 493.88, 523.25];
-    let noteStep = 0;
+    const ghibliMelody = [523.25, 587.33, 659.25, 783.99, 880, 783.99, 659.25, 587.33, 523.25, 659.25, 783.99, 1046.5, 880, 783.99];
+    let noteIdx = 0;
 
-    window.toggleGhibliMusic = () => {
+    document.getElementById("bgmBtn").onclick = () => {
       const btn = document.getElementById("bgmBtn");
-      if (ghibliInterval) {
-        clearInterval(ghibliInterval);
-        ghibliInterval = null;
-        btn.innerText = "🎹 Musik Ghibli";
+      if (isMusicPlaying) {
+        isMusicPlaying = false;
+        clearInterval(bgmInterval);
+        btn.innerText = "🎵 Musik (OFF)";
       } else {
-        ghibliInterval = setInterval(() => {
-          playNote(ghibliNotes[noteStep % ghibliNotes.length], 'sine', 1.2);
-          noteStep++;
-        }, 650);
-        btn.innerText = "🎵 Musik ON";
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        isMusicPlaying = true;
+        btn.innerText = "🎵 Musik (ON 50%)";
+        bgmInterval = setInterval(() => {
+          playPianoNote(ghibliMelody[noteIdx % ghibliMelody.length], 0.35);
+          noteIdx++;
+        }, 450);
       }
     };
-    document.getElementById("bgmBtn").onclick = window.toggleGhibliMusic;
 
     const sfx = {
-      dice: () => { for(let i=0; i<5; i++) playNote(200 + i*60, 'triangle', 0.06); },
-      step: () => playNote(520, 'sine', 0.08),
-      ladder: () => { [523, 659, 784, 1046].forEach((f) => playNote(f, 'triangle', 0.18)); },
-      snake: () => { [440, 370, 311, 220].forEach((f) => playNote(f, 'sawtooth', 0.2)); },
-      mystery: () => { [587, 740, 880, 1174].forEach((f) => playNote(f, 'sine', 0.15)); },
-      win: () => { [523, 659, 784, 1046, 784, 1046].forEach((f) => playNote(f, 'triangle', 0.22)); }
+      dice: () => { for(let i=0; i<5; i++) playPianoNote(200 + i*60, 0.08); },
+      step: () => playPianoNote(520, 0.08),
+      ladder: () => { [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => playPianoNote(f, 0.15), i*100)); },
+      snake: () => { [440, 370, 311, 220].forEach((f, i) => setTimeout(() => playPianoNote(f, 0.18), i*120)); },
+      win: () => { [523, 659, 784, 1046, 1174].forEach((f, i) => setTimeout(() => playPianoNote(f, 0.2), i*140)); }
     };
 
     document.getElementById("btnJoinGame").onclick = async () => {
       const pin = document.getElementById("pinInput").value.trim();
       const name = document.getElementById("nameInput").value.trim();
-      if (pin.length < 4 || !name) return alert("Masukkan PIN 6 digit dan namamu terlebih dahulu!");
+      if(pin.length < 4 || !name) return alert("Masukkan PIN dan nama panggilanmu!");
 
-      try {
-        const roomRef = ref(db, `rooms/${pin}`);
-        const roomSnap = await get(roomRef);
-        if (!roomSnap.exists()) return alert("PIN tidak ditemukan! Pastikan guru sudah membuat room.");
+      const roomRef = ref(db, `rooms/${pin}`);
+      const snap = await get(roomRef);
+      if(!snap.exists()) return alert("PIN Room tidak ditemukan!");
 
-        roomPin = pin;
-        myData.name = name;
-        myData.avatar = myAvatar;
+      roomPin = pin;
+      myData.name = name;
+      myData.avatar = myAvatar;
 
-        await set(ref(db, `rooms/${roomPin}/players/${playerId}`), myData);
+      await set(ref(db, `rooms/${roomPin}/players/${playerId}`), myData);
 
-        document.getElementById("joinScreen").style.display = "none";
-        document.getElementById("gameScreen").style.display = "block";
-        document.getElementById("activePinLabel").innerText = roomPin;
+      document.getElementById("joinScreen").style.display = "none";
+      document.getElementById("gameScreen").style.display = "block";
+      document.getElementById("activePinLabel").innerText = roomPin;
 
-        buildBoard();
-        listenRoomRealtime();
-      } catch (err) {
-        alert("Gagal terhubung ke database.");
-        console.error(err);
-      }
+      buildBoard();
+      listenRoomRealtime();
     };
 
     function buildBoard() {
       const board = document.getElementById("boardGrid");
       board.innerHTML = "";
       for (let row = 4; row >= 0; row--) {
-        let cellsInRow = [];
-        for (let col = 0; col < 10; col++) {
-          let num = row * 10 + col + 1;
-          cellsInRow.push(num);
-        }
-        if (row % 2 === 1) cellsInRow.reverse();
-        cellsInRow.forEach(num => {
+        let cells = [];
+        for (let col = 0; col < 10; col++) cells.push(row * 10 + col + 1);
+        if (row % 2 === 1) cells.reverse();
+        cells.forEach(num => {
           const cell = document.createElement("div");
           cell.className = `cell ${num === 50 ? 'c-finish' : 'c-' + (num % 4)}`;
           cell.id = `cell-${num}`;
-
-          let specialHtml = "";
-          if (num === 50) specialHtml = `<div class="cell-icon">🏆</div><div class="cell-tag">FINISH</div>`;
-          else if (ladders[num]) specialHtml = `<div class="cell-icon">🪜</div><div class="cell-tag" style="background:#a7f3d0;color:#065f46;">Naik ${ladders[num]}</div>`;
-          else if (snakes[num]) specialHtml = `<div class="cell-icon">🐍</div><div class="cell-tag" style="background:#fbcfe8;color:#991b1b;">Turun ${snakes[num]}</div>`;
-          else if (mystery.includes(num)) specialHtml = `<div class="cell-icon">🎁</div><div class="cell-tag" style="background:#e0f2fe;color:#0369a1;">Kotak (?)</div>`;
-
-          cell.innerHTML = `<div class="cell-num">${num}</div>${specialHtml}<div class="tokens-area" id="tokens-${num}"></div>`;
+          let sp = "";
+          if (num === 50) sp = `<div class="cell-icon">🏆</div><div class="cell-tag">FINISH</div>`;
+          else if (ladders[num]) sp = `<div class="cell-icon">🪜</div><div class="cell-tag" style="background:#D1FAE5;color:#065F46;">Naik ${ladders[num]}</div>`;
+          else if (snakes[num]) sp = `<div class="cell-icon">🐍</div><div class="cell-tag" style="background:#FEE2E2;color:#991B1B;">Turun ${snakes[num]}</div>`;
+          else if (mystery.includes(num)) sp = `<div class="cell-icon">🎁</div><div class="cell-tag" style="background:#F3E8FF;color:#6B21A8;">Misteri</div>`;
+          
+          cell.innerHTML = `<div class="cell-num">${num}</div>${sp}<div class="tokens-area" id="tokens-${num}"></div>`;
           board.appendChild(cell);
         });
       }
     }
 
     function listenRoomRealtime() {
-      onValue(ref(db, `rooms/${roomPin}`), (snapshot) => {
-        const data = snapshot.val();
-        if (!data) return;
+      onValue(ref(db, `rooms/${roomPin}`), (snap) => {
+        const data = snap.val();
+        if(!data) return;
 
         gameStatus = data.status;
-        gameMode = data.gameMode || "free";
+        turnMode = data.turnMode || "free";
         turnPlayerId = data.turnPlayerId || "";
 
-        if (data.questions) {
+        if(data.questions) {
           questionBank = Array.isArray(data.questions) ? data.questions : Object.values(data.questions);
-          // Inisialisasi antrean soal acak jika belum ada
-          if (unaskedIndices.length === 0) {
-            unaskedIndices = questionBank.map((_, idx) => idx);
-            // Acak urutan soal (Fisher-Yates shuffle)
-            for (let i = unaskedIndices.length - 1; i > 0; i--) {
-              const j = Math.floor(Math.random() * (i + 1));
-              [unaskedIndices[i], unaskedIndices[j]] = [unaskedIndices[j], unaskedIndices[i]];
-            }
+          if(myUnusedQuestionIndices.length === 0 && questionBank.length > 0) {
+            myUnusedQuestionIndices = questionBank.map((_, i) => i);
+            myUnusedQuestionIndices.sort(() => Math.random() - 0.5); // Diacak per user
           }
         }
 
         const banner = document.getElementById("statusBanner");
         const actionBtn = document.getElementById("actionBtn");
 
-        if (gameStatus === "waiting") {
+        if(gameStatus === "waiting") {
           banner.style.display = "block";
           banner.innerText = "⏳ Menunggu Guru memulai permainan...";
           actionBtn.disabled = true;
-        } else if (gameStatus === "paused") {
+        } else if(gameStatus === "paused") {
           banner.style.display = "block";
-          banner.innerText = "⏸️ Permainan sedang dijeda oleh Guru.";
+          banner.innerText = "⏸️ Permainan dijeda oleh Guru.";
           actionBtn.disabled = true;
-        } else if (gameStatus === "ended") {
+        } else if(gameStatus === "ended") {
           banner.style.display = "block";
           banner.innerText = "🏁 Permainan telah selesai!";
           actionBtn.disabled = true;
         } else {
           banner.style.display = "none";
-          if (myData.skipTurn) {
-            setLog("⏸️ Alhamdulillah, istirahat sejenak. Giliran dilewati dengan sabar!");
-            myData.skipTurn = false;
-            syncMyState();
-          } else {
-            if (gameMode === "turn") {
-              if (!turnPlayerId) {
-                const firstId = Object.keys(data.players || {})[0];
-                if (firstId) update(ref(db, `rooms/${roomPin}`), { turnPlayerId: firstId });
-              }
-              const isMyTurn = (turnPlayerId === playerId);
-              actionBtn.disabled = !isMyTurn;
-              document.getElementById("modeIndicator").innerText = isMyTurn ? "⭐ GILIRANMU BERMAIN!" : "⏳ MENUNGGU GILIRAN TEMAN";
-            } else {
-              actionBtn.disabled = false;
-              document.getElementById("modeIndicator").innerText = "⚡ BEBAS BERMAIN (SIAPA CEPAT)";
+          if(turnMode === "turn") {
+            if(!turnPlayerId) {
+              const firstId = Object.keys(data.players || {})[0];
+              if(firstId) update(ref(db, `rooms/${roomPin}`), { turnPlayerId: firstId });
             }
-            actionBtn.innerText = pendingRoll ? "🎲 Kocok Dadu Sekarang!" : "❓ Jawab Soal & Kocok Dadu!";
+            let isMyTurn = (turnPlayerId === playerId);
+            actionBtn.disabled = !isMyTurn;
+            document.getElementById("modeStatusLabel").innerText = isMyTurn ? "⭐ GILIRANMU!" : "⏳ MENUNGGU GILIRAN";
+          } else {
+            document.getElementById("modeStatusLabel").innerText = "⚡ BEBAS BERGERAK (SERENTAK)";
+            actionBtn.disabled = false;
           }
         }
 
-        if (data.players) {
+        if(data.players) {
           allPlayers = data.players;
-          if (allPlayers[playerId]) myData = allPlayers[playerId];
-          renderAllTokens();
+          if(allPlayers[playerId]) myData = allPlayers[playerId];
+          renderTokens();
         }
       });
     }
 
-    function renderAllTokens() {
-      for (let i = 1; i <= 50; i++) {
-        const slot = document.getElementById(`tokens-${i}`);
-        if (slot) slot.innerHTML = "";
+    function renderTokens() {
+      for(let i=1; i<=50; i++) {
+        let slot = document.getElementById(`tokens-${i}`);
+        if(slot) slot.innerHTML = "";
       }
-
       const chips = document.getElementById("playerChips");
       chips.innerHTML = "";
 
       Object.values(allPlayers).forEach(p => {
-        const targetSlot = document.getElementById(`tokens-${p.pos}`);
-        if (targetSlot) {
-          const span = document.createElement("span");
-          span.className = "token";
-          span.innerText = p.avatar;
-          targetSlot.appendChild(span);
+        let slot = document.getElementById(`tokens-${p.pos}`);
+        if(slot) {
+          slot.innerHTML += `
+            <div class="token-item">
+              <span class="token-avatar">${p.avatar}</span>
+              <span class="token-name">${p.name}</span>
+            </div>
+          `;
         }
-        chips.innerHTML += `<span style="background:#f1f5f9; padding:3px 8px; border-radius:99px; font-size:0.75rem; font-weight:600;">${p.avatar} ${p.name} (${p.pos})</span>`;
+        chips.innerHTML += `<span style="background:#F1F5F9; padding:3px 8px; border-radius:99px; font-size:0.75rem; font-weight:600;">${p.avatar} ${p.name} (${p.pos})</span>`;
       });
 
-      let statusInfo = [];
-      if (myData.shieldCount > 0) statusInfo.push(`🛡️ Tameng (${myData.shieldCount})`);
-      if (myData.doubleDice) statusInfo.push("✨ Dadu Ganda");
+      let status = [];
+      if(myData.shieldCount > 0) status.push(`🛡️ Tameng (${myData.shieldCount})`);
+      if(myData.doubleDice) status.push("✨ Dadu Ganda");
       document.getElementById("myStats").innerText = `${myData.avatar} ${myData.name} • Petak ${myData.pos} • ${myData.score} Poin`;
-      document.getElementById("powerupStatus").innerText = statusInfo.join(" | ");
+      document.getElementById("powerupStatus").innerText = status.join(" | ");
     }
 
     document.getElementById("actionBtn").onclick = () => {
-      if (gameStatus !== "playing") return;
-      if (!pendingRoll) {
-        triggerQuizOrDare();
-      } else {
-        executeRollDice();
-      }
+      if(gameStatus !== "playing") return;
+      if(!pendingRoll) triggerQuiz();
+      else executeRollDice();
     };
 
-    function triggerQuizOrDare() {
-      if (questionBank.length === 0) return alert("Soal belum tersedia!");
-
-      // Ambil soal dari urutan acak tidak berulang
-      if (unaskedIndices.length === 0) {
-        unaskedIndices = questionBank.map((_, idx) => idx);
-        for (let i = unaskedIndices.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [unaskedIndices[i], unaskedIndices[j]] = [unaskedIndices[j], unaskedIndices[i]];
-        }
-        setLog("🔄 Semua soal sudah tampil. Bank soal diacak ulang kembali!");
+    function triggerQuiz() {
+      if(questionBank.length === 0) return alert("Belum ada soal!");
+      if(myUnusedQuestionIndices.length === 0) {
+        myUnusedQuestionIndices = questionBank.map((_, i) => i);
+        myUnusedQuestionIndices.sort(() => Math.random() - 0.5);
       }
 
-      currentQuestionIndex = unaskedIndices.pop();
-      const q = questionBank[currentQuestionIndex];
+      const qIdx = myUnusedQuestionIndices.pop();
+      currentQuestionObj = questionBank[qIdx];
 
       const modal = document.getElementById("quizModal");
-      const badge = document.getElementById("modalHeaderBadge");
       const optArea = document.getElementById("modalOptionsArea");
       optArea.innerHTML = "";
 
-      badge.style.background = "#d1fae5"; badge.style.color = "#065f46";
-      badge.innerText = "❓ JAWAB SOAL UNTUK BUKA DADU!";
-      document.getElementById("modalStimulus").innerText = q.stimulus;
-      document.getElementById("modalQuestion").innerText = q.question;
+      document.getElementById("modalStimulus").innerText = currentQuestionObj.stimulus;
+      document.getElementById("modalQuestion").innerText = currentQuestionObj.question;
 
-      if (q.type === "pg" && q.options) {
-        q.options.forEach(optText => {
-          const btn = document.createElement("button");
+      if(currentQuestionObj.type === 'pg' && currentQuestionObj.options) {
+        currentQuestionObj.options.forEach(opt => {
+          let btn = document.createElement("button");
           btn.className = "opt-btn";
-          const userChoice = optText.charAt(0).toUpperCase();
-          const correctChoice = q.answer.toUpperCase();
-          btn.innerText = optText;
-          btn.onclick = () => {
-            if (userChoice === correctChoice) {
-              resolveQuiz(true, "🎉 MasyaAllah Benar (+20 Poin)! Silakan kocok dadu.");
-            } else {
-              resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba soal berikutnya ya!`);
-            }
-          };
+          btn.innerText = opt;
+          let userChoice = opt.charAt(0).toUpperCase();
+          let correctChoice = currentQuestionObj.answer.toUpperCase();
+          btn.onclick = () => checkAnswer(userChoice === correctChoice);
           optArea.appendChild(btn);
         });
       } else {
         optArea.innerHTML = `
-          <input type="text" id="shortAnsInput" placeholder="Ketik kata kunci jawaban..." style="width:100%; padding:10px; border-radius:10px; border:2px solid #cbd5e1; font-size:0.95rem; margin-bottom:10px;">
-          <button class="btn-play" id="btnSubmitAns">Kirim Jawaban</button>
+          <input type="text" id="shortIn" placeholder="Ketik jawaban..." style="width:100%; padding:10px; border-radius:10px; border:2px solid #CBD5E1; margin-bottom:10px;">
+          <button class="btn-play" id="btnSub">Kirim</button>
         `;
-        document.getElementById("btnSubmitAns").onclick = () => {
-          const userAns = document.getElementById("shortAnsInput").value.trim().toLowerCase();
-          if (userAns === q.answer.trim().toLowerCase()) {
-            resolveQuiz(true, "🎉 MasyaAllah Benar! Silakan kocok dadu.");
-          } else {
-            resolveQuiz(false, `❌ Belum tepat. Kunci: ${q.answer}. Coba lagi ya!`);
-          }
+        document.getElementById("btnSub").onclick = () => {
+          let val = document.getElementById("shortIn").value.trim().toLowerCase();
+          let corr = currentQuestionObj.answer.trim().toLowerCase();
+          checkAnswer(val === corr);
         };
       }
-
       modal.style.display = "flex";
     }
 
-    async function resolveQuiz(isCorrect, message) {
+    async function checkAnswer(isCorrect) {
       document.getElementById("quizModal").style.display = "none";
-      setLog(message);
-
-      if (isCorrect) {
+      if(isCorrect) {
         myData.score += 20;
         pendingRoll = true;
         document.getElementById("actionBtn").innerText = "🎲 Kocok Dadu Sekarang!";
-        await syncMyState();
+        setLog("✅ MasyaAllah Benar (+20 Poin)! Silakan kocok dadu.");
+        await syncState();
       } else {
         pendingRoll = false;
+        setLog("❌ Belum tepat. Jawab soal lagi untuk bisa jalan!");
       }
     }
 
@@ -571,126 +434,86 @@
       pendingRoll = false;
       document.getElementById("actionBtn").disabled = true;
 
-      const diceEl = document.getElementById("diceDisplay");
       sfx.dice();
-
       let roll = Math.floor(Math.random() * 6) + 1;
-      if (myData.doubleDice) {
-        roll = roll * 2;
+      if(myData.doubleDice) {
+        roll *= 2;
         myData.doubleDice = false;
-        setLog(`✨ Alhamdulillah Dadu Ganda aktif! Dadu dikali dua menjadi ${roll}!`);
+        setLog(`✨ Dadu Ganda aktif! Angka dadu menjadi ${roll}!`);
+      }
+      document.getElementById("diceDisplay").innerText = roll <= 6 ? ["⚀","⚁","⚂","⚃","⚄","⚅"][roll-1] : "🎲";
+
+      // Aturan Pantul Mundur jika melebihi 50
+      let target = myData.pos + roll;
+      if(target > 50) {
+        let excess = target - 50;
+        target = 50 - excess;
+        setLog(`⚠️ Kelebihan langkah! Memantul mundur ke petak ${target}!`);
       }
 
-      const diceIcons = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
-      diceEl.innerText = roll <= 6 ? diceIcons[roll - 1] : "🎲";
-
-      setLog(`🎲 Melangkah sebanyak ${roll} petak... Bikin deg-degan!`);
-
-      // Mekanik Pantul Mundur Jika Melebihi Petak 50
-      let targetPos = myData.pos + roll;
-      if (targetPos > 50) {
-        let excess = targetPos - 50;
-        targetPos = 50 - excess;
-        setLog(`⚠️ Kelebihan langkah! Memantul mundur ke petak ${targetPos}!`);
+      for(let s = myData.pos + 1; s <= Math.max(myData.pos, target); s++) {
+        myData.pos = s; sfx.step(); await syncState(); await new Promise(r => setTimeout(r, 160));
       }
-
-      for (let step = myData.pos + 1; step <= Math.max(myData.pos, targetPos); step++) {
-        myData.pos = step;
-        sfx.step();
-        await syncMyState();
-        await new Promise(r => setTimeout(r, 160));
-      }
-
-      if (myData.pos > targetPos) {
-        for (let step = myData.pos - 1; step >= targetPos; step--) {
-          myData.pos = step;
-          sfx.step();
-          await syncMyState();
-          await new Promise(r => setTimeout(r, 160));
+      if(myData.pos > target) {
+        for(let s = myData.pos - 1; s >= target; s--) {
+          myData.pos = s; sfx.step(); await syncState(); await new Promise(r => setTimeout(r, 160));
         }
       }
 
-      if (myData.pos === 50) {
-        sfx.win();
-        myData.score += 100;
-        await syncMyState();
-        setLog("🏆 Alhamdulillah! Kamu Menang Mencapai Petak 50!");
-        alert("🎉 Luar biasa! Kamu berhasil mencapai garis akhir petak 50 dan MENANG!");
+      if(myData.pos === 50) {
+        sfx.win(); myData.score += 100; await syncState();
+        alert("🎉 Luar biasa! Kamu mencapai petak 50 dan MENANG!");
         return;
       }
 
-      if (ladders[myData.pos]) {
-        let dest = ladders[myData.pos];
-        sfx.ladder();
-        myData.pos = dest;
-        setLog(`🪜 Alhamdulillah! Menemukan Tangga, melesat naik ke petak ${dest}!`);
-        await syncMyState();
-      } else if (snakes[myData.pos]) {
-        if (myData.shieldCount > 0) {
+      if(ladders[myData.pos]) {
+        myData.pos = ladders[myData.pos]; sfx.ladder();
+        setLog(`🪜 Naik tangga ke petak ${myData.pos}!`);
+        await syncState();
+      } else if(snakes[myData.pos]) {
+        if(myData.shieldCount > 0) {
           myData.shieldCount -= 1;
-          setLog(`🛡️ Alhamdulillah! Tameng Melindungimu (Sisa tameng: ${myData.shieldCount}).`);
+          setLog("🛡️ Tameng aktif! Gigitan ular berhasil ditangkis.");
         } else {
-          let startSnake = myData.pos;
-          let destSnake = snakes[myData.pos];
+          let dest = snakes[myData.pos];
           sfx.snake();
-          setLog(`🐍 Aduh, terkena ular! Merosot turun dari petak ${startSnake}...`);
-          
-          for (let s = startSnake - 1; s >= destSnake; s--) {
-            myData.pos = s;
-            await syncMyState();
-            await new Promise(r => setTimeout(r, 110));
+          for(let s = myData.pos - 1; s >= dest; s--) {
+            myData.pos = s; await syncState(); await new Promise(r => setTimeout(r, 100));
           }
-          setLog(`📉 Terperosok turun sampai ke petak ${destSnake}. Tetap semangat ya!`);
+          setLog(`🐍 Terkena ular, merosot ke petak ${dest}.`);
         }
-      } else if (mystery.includes(myData.pos)) {
+      } else if(mystery.includes(myData.pos)) {
         triggerMysteryBox();
       }
 
-      if (gameMode === "turn") {
-        passTurnToNext();
-      } else {
-        document.getElementById("actionBtn").disabled = false;
-      }
+      if(turnMode === "turn") passTurn();
+      else document.getElementById("actionBtn").disabled = false;
     }
 
     async function triggerMysteryBox() {
-      sfx.mystery();
-      const type = Math.floor(Math.random() * 5);
-
-      if (type === 0) {
-        myData.shieldCount += 1;
-        setLog("🎁 Kotak Misteri (?): Subhanallah! Mendapat KARTU TAMENG 🛡️ (Melindungi 1x ular)!");
-      } else if (type === 1) {
-        myData.doubleDice = true;
-        setLog("🎁 Kotak Misteri (?): Alhamdulillah! Mendapat DADU GANDA ✨ (Giliran berikutnya dadu x2)!");
-      } else if (type === 2) {
-        myData.pos = Math.min(50, myData.pos + 3);
-        setLog("🎁 Kotak Misteri (?): Allahu Akbar, TELEPORT KILAT 🚀! Maju 3 petak ke depan!");
-      } else if (type === 3) {
-        myData.pos = Math.max(1, myData.pos - 1);
-        setLog("🎁 Kotak Misteri (?): Aduh, harus MUNDUR 1 PETAK ⏪! Kurang teliti sedikit.");
-      } else {
-        myData.skipTurn = true;
-        setLog("🎁 Kotak Misteri (?): ISTIRAHAT SEJENAK ⏸️! Melewatkan 1 giliran untuk bersabar.");
-      }
-      await syncMyState();
+      sfx.win();
+      let type = Math.floor(Math.random() * 5);
+      if(type === 0) { myData.shieldCount++; setLog("🎁 Kotak Misteri: Mendapat 1x Kartu Tameng 🛡️!"); }
+      else if(type === 1) { myData.doubleDice = true; setLog("🎁 Kotak Misteri: Dadu Ganda ✨ untuk giliran berikutnya!"); }
+      else if(type === 2) { myData.pos = Math.min(50, myData.pos + 3); setLog("🎁 Kotak Misteri: Teleport 🚀 maju 3 petak!"); }
+      else if(type === 3) { myData.pos = Math.max(1, myData.pos - 1); setLog("🎁 Kotak Misteri: Mundur 1 petak ⏪."); }
+      else { setLog("🎁 Kotak Misteri: Bonus Bonus +30 Poin!"); myData.score += 30; }
+      await syncState();
     }
 
-    async function passTurnToNext() {
+    async function passTurn() {
       const pIds = Object.keys(allPlayers);
-      if (pIds.length <= 1) return;
-      let currentIndex = pIds.indexOf(playerId);
-      let nextIndex = (currentIndex + 1) % pIds.length;
-      await update(ref(db, `rooms/${roomPin}`), { turnPlayerId: pIds[nextIndex] });
+      if(pIds.length <= 1) { document.getElementById("actionBtn").disabled = false; return; }
+      let idx = pIds.indexOf(playerId);
+      let nextId = pIds[(idx + 1) % pIds.length];
+      await update(ref(db, `rooms/${roomPin}`), { turnPlayerId: nextId });
     }
 
-    async function syncMyState() {
+    async function syncState() {
       await update(ref(db, `rooms/${roomPin}/players/${playerId}`), myData);
     }
 
-    function setLog(msg) {
-      document.getElementById("gameLog").innerText = msg;
-    }
+    function setLog(msg) { document.getElementById("gameLog").innerText = msg; }
   </script>
 </body>
 </html>
