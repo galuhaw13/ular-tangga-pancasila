@@ -7,88 +7,42 @@
   <link href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #F0Fdf4;
-      --card: #FFFFFF;
-      --primary: #0284c7;
-      --secondary: #10b981;
-      --accent: #f59e0b;
-      --danger: #ef4444;
-      --text: #1e293b;
-      --muted: #64748b;
-      --border: #cbd5e1;
+      --bg: #FFFDF7; --card: #FFFFFF; --primary: #3B82F6; --secondary: #10B981; --accent: #F59E0B; --danger: #EF4444; --text: #1E293B; --border: #E2E8F0;
     }
     * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { background: var(--bg); color: var(--text); margin: 0; padding: 16px; }
-    .container { max-width: 1250px; margin: 0 auto; }
-    
-    header {
-      background: linear-gradient(135deg, #38bdf8 0%, #34d399 100%);
-      padding: 18px 24px; border-radius: 20px; display: flex;
-      justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
-      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.15); margin-bottom: 20px; color: white;
-    }
-    header h1 { margin: 0; font-size: 1.4rem; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    header p { margin: 4px 0 0; font-size: 0.88rem; opacity: 0.95; }
-
-    .grid-dashboard { display: grid; grid-template-columns: 1.1fr 1.3fr; gap: 18px; }
-    @media (max-width: 950px) { .grid-dashboard { grid-template-columns: 1fr; } }
-
-    .card {
-      background: var(--card); border-radius: 20px; padding: 20px;
-      border: 3px solid #e2e8f0; box-shadow: 0 6px 16px rgba(0,0,0,0.04);
-      margin-bottom: 18px;
-    }
-    .card h2 { margin-top: 0; font-size: 1.1rem; color: #0f172a; display: flex; align-items: center; gap: 8px; }
-
-    .pin-box {
-      background: #fef08a; border: 3px dashed #eab308; border-radius: 16px;
-      padding: 14px; text-align: center; margin: 12px 0;
-    }
-    .pin-code { font-size: 2.4rem; font-weight: 800; letter-spacing: 6px; color: #854d0e; }
-
-    .btn {
-      border: none; padding: 10px 16px; border-radius: 12px; font-weight: 700;
-      cursor: pointer; transition: 0.2s; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px;
-    }
+    body { background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    header { background: linear-gradient(135deg, #93C5FD 0%, #60A5FA 100%); padding: 20px 24px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(59,130,246,0.15); }
+    header h1 { margin: 0; font-size: 1.4rem; color: #1E3A8A; }
+    header p { margin: 2px 0 0; font-size: 0.85rem; color: #1E293B; }
+    .grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 20px; }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+    .card { background: var(--card); border-radius: 18px; padding: 20px; border: 2px solid #F1F5F9; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin-bottom: 16px; }
+    .card h2 { margin-top: 0; font-size: 1.1rem; color: #1E293B; display: flex; align-items: center; gap: 8px; }
+    .pin-box { background: #FEF9C3; border: 2px dashed #FACC15; border-radius: 14px; padding: 14px; text-align: center; margin: 12px 0; }
+    .pin-code { font-size: 2.2rem; font-weight: 800; letter-spacing: 6px; color: #CA8A04; }
+    .btn { border: none; padding: 10px 16px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; }
     .btn:hover { transform: translateY(-2px); filter: brightness(0.95); }
     .btn-primary { background: var(--primary); color: white; }
     .btn-success { background: var(--secondary); color: white; }
     .btn-warning { background: var(--accent); color: white; }
     .btn-danger { background: var(--danger); color: white; }
-    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-
-    .badge {
-      padding: 6px 14px; border-radius: 99px; font-size: 0.8rem; font-weight: 700;
-    }
-    .badge-waiting { background: #fef08a; color: #854d0e; }
-    .badge-playing { background: #d1fae5; color: #065f46; }
-    .badge-paused { background: #fee2e2; color: #991b1b; }
-
+    .badge { padding: 4px 12px; border-radius: 99px; font-size: 0.78rem; font-weight: 700; }
+    .badge-waiting { background: #FEF3C7; color: #B45309; }
+    .badge-playing { background: #DCFCE7; color: #15803D; }
+    .badge-paused { background: #FEE2E2; color: #B91C1C; }
     table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    th, td { padding: 10px 8px; text-align: left; border-bottom: 2px solid #f1f5f9; font-size: 0.85rem; }
-    th { background: #f8fafc; color: var(--muted); font-weight: 700; }
-
-    .mini-board-wrapper {
-      background: #f8fafc; padding: 8px; border-radius: 14px; border: 2px solid #cbd5e1;
-      overflow-x: auto; margin-bottom: 12px;
-    }
-    .mini-board {
-      display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px;
-      min-width: 480px;
-    }
-    .mini-cell {
-      aspect-ratio: 1/1; background: white; border-radius: 4px; padding: 2px;
-      font-size: 0.55rem; font-weight: 700; border: 1px solid #cbd5e1;
-      display: flex; flex-direction: column; justify-content: space-between; position: relative;
-    }
-    .mini-cell-num { opacity: 0.6; font-size: 0.5rem; }
-    .mini-tokens { display: flex; flex-wrap: wrap; gap: 1px; justify-content: center; }
-
-    input, textarea, select {
-      width: 100%; padding: 10px 12px; border: 2px solid var(--border);
-      border-radius: 12px; margin-top: 4px; margin-bottom: 12px; font-size: 0.9rem;
-    }
+    th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+    th { background: #F8FAFC; color: #64748B; font-weight: 600; }
+    input, textarea, select { width: 100%; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: 10px; margin-top: 4px; margin-bottom: 10px; font-size: 0.85rem; }
     .andika-preview { font-family: 'Andika', sans-serif; }
+    .q-list { max-height: 300px; overflow-y: auto; padding-right: 4px; }
+    .q-item { background: #F8FAFC; padding: 10px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid var(--primary); position: relative; }
+    .q-item * { font-family: 'Andika', sans-serif; }
+    .q-actions { display: flex; gap: 6px; margin-top: 6px; }
+    .q-actions button { padding: 4px 8px; font-size: 0.7rem; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
+    .btn-edit { background: #E0F2FE; color: #0369A1; }
+    .btn-del { background: #FEE2E2; color: #991B1B; }
   </style>
 </head>
 <body>
@@ -96,32 +50,30 @@
 <div class="container">
   <header>
     <div>
-      <h1>📡 Live Monitor Guru: Ular Tangga Pancasila</h1>
-      <p>Kelola Sesi, Mode Giliran, Hapus User Dobel, & Pantau Progres Siswa</p>
+      <h1>🎲 Portal Guru: Ular Tangga Pancasila</h1>
+      <p>Manajemen Sesi, Pengaturan Mode Main, & Edit 50 Soal Bank Data</p>
     </div>
-    <div>
-      Status: <span id="statusBadge" class="badge badge-waiting">BELUM DIBUAT</span>
-    </div>
+    <div>Status Room: <span id="statusBadge" class="badge badge-waiting">BELUM DIBUAT</span></div>
   </header>
 
-  <div class="grid-dashboard">
-    <!-- KOLOM KIRI: KONTROL ROOM & PENGATURAN -->
+  <div class="grid">
+    <!-- KOLOM KIRI -->
     <div>
       <div class="card">
-        <h2>🔑 Manajemen Sesi & Kontrol Game</h2>
+        <h2>🔑 Manajemen Sesi & Mode Main</h2>
         <button class="btn btn-primary" id="btnCreateRoom">✨ Buat Room & PIN Baru</button>
         
         <div class="pin-box">
-          <div style="font-size:0.8rem; color:#854d0e; font-weight:700;">KODE PIN UNTUK SISWA</div>
+          <div style="font-size:0.78rem; color:#854D0E; font-weight:600;">KODE PIN SISWA</div>
           <div class="pin-code" id="pinDisplay">------</div>
         </div>
 
-        <label style="font-weight:700; font-size:0.85rem;">⚙️ Pengaturan Mode Giliran Bermain:</label>
-        <select id="selectGameMode">
-          <option value="free">Bebas / Siapa Cepat Dia Dapat (Tanpa Menunggu)</option>
-          <option value="turn">Bergiliran Teratur (Satu per Satu)</option>
+        <label><b>Pengaturan Giliran Main:</b></label>
+        <select id="settingTurnMode">
+          <option value="free">Bebas / Siapa Cepat Dia Dapat (Serentak)</option>
+          <option value="turn">Bergantian Berurutan (Turn-Based)</option>
         </select>
-        <button class="btn btn-warning" id="btnSaveMode" style="width:100%; justify-content:center; margin-bottom:10px;">💾 Simpan Pengaturan Mode</button>
+        <button class="btn btn-success" id="btnUpdateMode" style="width:100%; justify-content:center; margin-bottom:10px;">💾 Simpan Pengaturan Mode</button>
 
         <div class="btn-group">
           <button class="btn btn-success" id="btnPlay">▶️ Mulai</button>
@@ -131,45 +83,36 @@
       </div>
 
       <div class="card">
-        <h2>➕ Tambah Soal ke Bank Soal</h2>
+        <h2 id="formTitle">➕ Tambah / Edit Soal</h2>
+        <input type="hidden" id="editIndex" value="-1">
         <label>Teks Stimulus (Cerita / Kasus)</label>
-        <textarea id="inStimulus" rows="2" class="andika-preview" placeholder="Tulis cerita stimulus..."></textarea>
-        
+        <textarea id="inStimulus" rows="2" class="andika-preview" placeholder="Tulis stimulus..."></textarea>
         <label>Pertanyaan</label>
         <input type="text" id="inQuestion" class="andika-preview" placeholder="Tulis pertanyaan...">
-
         <label>Tipe Soal</label>
         <select id="inType">
           <option value="pg">Pilihan Ganda</option>
           <option value="isian">Isian Singkat</option>
         </select>
-
         <div id="pgFields">
           <input type="text" id="optA" class="andika-preview" placeholder="Pilihan A">
           <input type="text" id="optB" class="andika-preview" placeholder="Pilihan B">
           <input type="text" id="optC" class="andika-preview" placeholder="Pilihan C">
           <input type="text" id="optD" class="andika-preview" placeholder="Pilihan D">
         </div>
-
-        <label>Kunci Jawaban (PG: A/B/C/D atau Isian: Kata Kunci)</label>
+        <label>Kunci Jawaban (A/B/C/D atau Kata Kunci)</label>
         <input type="text" id="inAnswer" class="andika-preview" placeholder="Contoh: A atau Musyawarah">
-
-        <button class="btn btn-primary" id="btnSaveQ" style="width:100%; justify-content:center;">💾 Simpan Soal</button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-primary" style="flex:1;" id="btnSaveQ">💾 Simpan Soal</button>
+          <button class="btn" style="background:#E2E8F0; display:none;" id="btnCancelEdit">Batal</button>
+        </div>
       </div>
     </div>
 
-    <!-- KOLOM KANAN: LIVE MONITORING & HAPUS USER DOBEL -->
+    <!-- KOLOM KANAN -->
     <div>
       <div class="card">
-        <h2>🗺️ Live Mini Papan Pantau (50 Petak)</h2>
-        <div class="mini-board-wrapper">
-          <div class="mini-board" id="miniBoardGrid"></div>
-        </div>
-      </div>
-
-      <div class="card">
         <h2>👥 Daftar Siswa & Hapus User Dobel</h2>
-        <p style="font-size:0.78rem; color:var(--muted); margin-top:-4px;">Jika ada nama siswa yang masuk dua kali, klik tombol Hapus untuk membersihkannya.</p>
         <table>
           <thead>
             <tr>
@@ -179,23 +122,24 @@
               <th>Aksi</th>
             </tr>
           </thead>
-          <tbody id="leaderboardBody">
-            <tr><td colspan="4" style="text-align:center; color:#94a3b8;">Menunggu siswa bergabung...</td></tr>
+          <tbody id="playerTableBody">
+            <tr><td colspan="4" style="text-align:center; color:#94A3B8;">Belum ada siswa bergabung...</td></tr>
           </tbody>
         </table>
+      </div>
+
+      <div class="card">
+        <h2>📚 Bank Soal Terpasang (<span id="qCount">50</span> Soal)</h2>
+        <div class="q-list" id="questionList"></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- FIREBASE SDK & GURU LOGIC -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getDatabase, ref, set, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-  // ==========================================
-  // TEMPEL KONFIGURASI FIREBASE KAMU DI SINI
-  // ==========================================
   const firebaseConfig = {
     apiKey: "AIzaSyBzmaKuR6FoK97Zk86pRaZBv8JiknBieHI",
     authDomain: "ular-tangga-pancasila-9b4d0.firebaseapp.com",
@@ -209,134 +153,192 @@
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
   let currentPin = null;
-  let activeQuestions = [
-    { type:"pg", stimulus:"Sidang BPUPKI pertama membahas dasar negara Indonesia merdeka.", question:"Siapakah tokoh yang menyampaikan gagasan dasar negara dengan istilah 'Pancasila' pada tanggal 1 Juni 1945?", options:["A. Drs. Moh. Hatta","B. Ir. Soekarno","C. Mr. Soepomo","D. Moh. Yamin"], answer:"B" },
-    { type:"pg", stimulus:"Panitia Sembilan berhasil menyusun Piagam Jakarta.", question:"Kapan Piagam Jakarta disahkan oleh Panitia Sembilan?", options:["A. 1 Juni 1945","B. 22 Juni 1945","C. 17 Agustus 1945","D. 18 Agustus 1945"], answer:"B" },
-    { type:"isian", stimulus:"BPUPKI diketuai oleh seorang tokoh pejuang bangsa.", question:"Siapa nama ketua BPUPKI? (Tulis nama belakangnya saja)", answer:"Radjiman" }
+
+  // 50 Soal Lengkap Materi Pancasila Kelas 5 SD
+  const defaultQuestions = [
+    {type:"pg", stimulus:"Sidang BPUPKI pertama membahas rancangan dasar negara.", question:"Siapa tokoh yang menyampaikan usulan dasar negara pada tanggal 1 Juni 1945?", options:["A. Moh. Hatta","B. Ir. Soekarno","C. Soepomo","D. Moh. Yamin"], answer:"B"},
+    {type:"pg", stimulus:"Panitia Sembilan berhasil merumuskan naskah piagam kemerdekaan.", question:"Nama dokumen rumusan Panitia Sembilan tanggal 22 Juni 1945 adalah...", options:["A. Piagam Jakarta","B. Supersemar","C. Sumpah Pemuda","D. Dekrit Presiden"], answer:"A"},
+    {type:"pg", stimulus:"Sila pertama awalnya berisi kalimat kewajiban syariat Islam bagi pemeluknya.", question:"Tokoh yang mengusulkan pengubahan kalimat sila pertama demi persatuan adalah...", options:["A. Agus Salim","B. Moh. Hatta","C. Soekarno","D. Soepomo"], answer:"B"},
+    {type:"pg", stimulus:"Sidang PPKI mengesahkan UUD 1945 dan dasar negara.", question:"Tanggal disahkannya Pancasila secara sah dan final adalah...", options:["A. 1 Juni 1945","B. 22 Juni 1945","C. 17 Agustus 1945","D. 18 Agustus 1945"], answer:"D"},
+    {type:"pg", stimulus:"Para perumus dasar negara berasal dari berbagai latar belakang suku dan agama.", question:"Sikap teladan utama para perumus Pancasila adalah...", options:["A. Memaksakan kehendak","B. Mengutamakan persatuan bangsa","C. Mencari keuntungan pribadi","D. Menolak perbedaan"], answer:"B"},
+    {type:"isian", stimulus:"Lembaga penyidik persiapan kemerdekaan dipimpin oleh dr. K.R.T. Radjiman Wedyodiningrat.", question:"Apa nama lembaga tersebut? (Ketik singkatan)", answer:"BPUPKI"},
+    {type:"pg", stimulus:"Ir. Soekarno menyebutkan asas lima dasar negara yang dinamakan Pancasila.", question:"Arti kata 'Panca' dalam istilah Pancasila adalah...", options:["A. Lima","B. Dasar","C. Aturan","D. Rakyat"], answer:"A"},
+    {type:"pg", stimulus:"Mr. Soepomo menyampaikan gagasan negara integralistik pada 31 Mei 1945.", question:"Mr. Soepomo dikenal sebagai seorang ahli di bidang...", options:["A. Ekonomi","B. Hukum / Ketatanegaraan","C. Pertanian","D. Pendidikan"], answer:"B"},
+    {type:"pg", stimulus:"Setiap tanggal 1 Juni bangsa Indonesia memperingati hari bersejarah.", question:"Hari apakah yang diperingati setiap tanggal 1 Juni?", options:["A. Hari Kesaktian Pancasila","B. Hari Lahir Pancasila","C. Hari Sumpah Pemuda","D. Hari Pahlawan"], answer:"B"},
+    {type:"isian", stimulus:"Panitia persiapan kemerdekaan dibentuk untuk meneruskan tugas BPUPKI.", question:"Apa kepanjangan PPKI? (Cukup ketik singkatannya)", answer:"PPKI"},
+    // 11-20 Nilai Pancasila
+    {type:"pg", stimulus:"Rudi tidak mengganggu temannya yang sedang beribadah di sekolah.", question:"Sikap tersebut mencerminkan pengamalan Pancasila sila ke-...", options:["A. Pertama","B. Kedua","C. Ketiga","D. Kelima"], answer:"A"},
+    {type:"pg", stimulus:"Siswa kelas 5 mengumpulkan sumbangan untuk korban bencana alam.", question:"Kegiatan kemanusiaan ini sesuai dengan sila ke-...", options:["A. Pertama","B. Kedua","C. Ketiga","D. Keempat"], answer:"B"},
+    {type:"pg", stimulus:"Siti bangga mengenakan produk buatan dalam negeri.", question:"Perilaku cinta tanah air ini mencerminkan sila ke-...", options:["A. Pertama","B. Kedua","C. Ketiga","D. Keempat"], answer:"C"},
+    {type:"pg", stimulus:"Warga desa bermusyawarah mufakat menentukan jadwal kerja bakti.", question:"Cara pengambilan keputusan tersebut sesuai sila ke-...", options:["A. Kedua","B. Ketiga","C. Keempat","D. Kelima"], answer:"C"},
+    {type:"pg", stimulus:"Ibu membagi kue secara adil kepada seluruh anggota keluarga.", question:"Sikap adil ini merupakan pengamalan sila ke-...", options:["A. Kedua","B. Ketiga","C. Keempat","D. Kelima"], answer:"D"},
+    {type:"pg", stimulus:"Bima membantu teman yang terjatuh saat bermain bola di lapangan.", question:"Sikap tenggang rasa dan tolong-menolong sesuai dengan sila...", options:["A. Pertama","B. Kedua","C. Keempat","D. Kelima"], answer:"B"},
+    {type:"isian", stimulus:"Lambang sila keempat Pancasila adalah kepala banteng.", question:"Keputusan bersama yang diambil melalui rapat disebut...", answer:"Musyawarah"},
+    {type:"pg", stimulus:"Nadia rajin menabung dan hidup sederhana tidak pamer barang mewah.", question:"Sikap hidup hemat ini mencerminkan sila ke-...", options:["A. Pertama","B. Ketiga","C. Keempat","D. Kelima"], answer:"D"},
+    {type:"pg", stimulus:"Pancasila menjadi pedoman hidup seluruh warga negara Indonesia.", question:"Kedudukan Pancasila bagi negara adalah sebagai...", options:["A. Hiasan dinding","B. Dasar negara dan pandangan hidup","C. Aturan permainan","D. Lagu kebangsaan"], answer:"B"},
+    {type:"pg", stimulus:"Mengikuti upacara bendera dengan tertib setiap hari Senin.", question:"Tindakan tersebut menunjukkan perwujudan sila ke-...", options:["A. Pertama","B. Kedua","C. Ketiga","D. Keempat"], answer:"C"},
+    // 21-30 Norma
+    {type:"pg", stimulus:"Dafa selalu berpamitan dan mencium tangan orang tua sebelum berangkat sekolah.", question:"Perilaku tersebut merupakan contoh norma...", options:["A. Hukum","B. Kesopanan","C. Agama","D. Kebiasaan"], answer:"B"},
+    {type:"pg", stimulus:"Pengendara motor ditilang polisi karena menerobos lampu merah.", question:"Aturan lalu lintas tersebut bersumber dari norma...", options:["A. Kesusilaan","B. Kesopanan","C. Hukum","D. Agama"], answer:"C"},
+    {type:"pg", stimulus:"Riko tidak jadi berbuat curang saat ujian karena mendengarkan suara hatinya.", question:"Suara hati nurani yang jujur bersumber dari norma...", options:["A. Kesusilaan","B. Hukum","C. Kesopanan","D. Adat"], answer:"A"},
+    {type:"pg", stimulus:"Warga wajib melapor kepada RT jika ada tamu menginap 1x24 jam.", question:"Manfaat adanya norma di masyarakat adalah menciptakan...", options:["A. Kekacauan","B. Ketertiban dan keamanan","C. Keributan","D. Persaingan"], answer:"B"},
+    {type:"pg", stimulus:"Sanksi bagi pelanggar norma agama berupa dosa dan balasan di akhirat.", question:"Norma agama bersumber dari...", options:["A. Aturan pemerintah","B. Wahyu Tuhan Yang Maha Esa","C. Kebiasaan suku","D. Kesepakatan kelas"], answer:"B"},
+    {type:"isian", stimulus:"Norma yang memiliki sanksi paling tegas berupa penjara atau denda.", question:"Norma apakah itu? (Norma ...)", answer:"Hukum"},
+    {type:"pg", stimulus:"Fajar mengucapkan permisi saat berjalan melewati orang yang lebih tua.", question:"Sanksi pelanggaran norma kesopanan di masyarakat biasanya berupa...", options:["A. Hukuman penjara","B. Teguran atau cemoohan","C. Denda uang","D. Hukuman fisik"], answer:"B"},
+    {type:"pg", stimulus:"Sekolah melarang siswa membuang sampah sembarangan di laci meja.", question:"Jika tata tertib dipatuhi, lingkungan sekolah menjadi...", options:["A. Kotor dan kumuh","B. Bersih dan sehat","C. Sempit","D. Berisik"], answer:"B"},
+    {type:"pg", stimulus:"Masyarakat Bali melestarikan sistem pengairan Subak secara turun-temurun.", question:"Aturan tidak tertulis warisan leluhur ini disebut...", options:["A. Undang-undang","B. Adat istiadat","C. Peraturan daerah","D. Keputusan menteri"], answer:"B"},
+    {type:"pg", stimulus:"Berbicara jujur dan tidak mengambil barang milik orang lain.", question:"Perilaku terpuji ini berasal dari norma...", options:["A. Kesusilaan","B. Hukum","C. Lalu lintas","D. Organisasi"], answer:"B"},
+    // 31-40 Hak & Kewajiban
+    {type:"pg", stimulus:"Siswa berhak mendapat penjelasan pelajaran dan meminjam buku perpustakaan.", question:"Hal tersebut merupakan contoh...", options:["A. Kewajiban siswa","B. Hak siswa di sekolah","C. Hukuman","D. Tugas piket"], answer:"B"},
+    {type:"pg", stimulus:"Putri merapikan tempat tidur sebelum meminta waktu bermain game.", question:"Sikap Putri menunjukkan pemahaman bahwa...", options:["A. Hak dituntut terus","B. Kewajiban didahulukan sebelum menuntut hak","C. Kewajiban diabaikan","D. Hak tidak penting"], answer:"B"},
+    {type:"pg", stimulus:"Warga bersama-sama merawat kebersihan fasilitas taman bermain umum.", question:"Kewajiban anak terhadap fasilitas umum adalah...", options:["A. Merusak","B. Menjaga dan merawat","C. Membiarkan kotor","D. Mengotori"], answer:"B"},
+    {type:"pg", stimulus:"Anak berhak mendapat kasih sayang, sandang, pangan, dan perlindungan orang tua.", question:"Kewajiban anak di rumah kepada orang tua adalah...", options:["A. Menghormati dan membantu orang tua","B. Membantah perintah","C. Membiarkan rumah kotor","D. Acuh tak acuh"], answer:"A"},
+    {type:"pg", stimulus:"Petugas piket menyapu lantai kelas sebelum bel masuk berbunyi.", question:"Melaksanakan tugas piket kelas merupakan contoh...", options:["A. Hak siswa","B. Kewajiban siswa","C. Hadiah guru","D. Pelanggaran"], answer:"B"},
+    {type:"isian", stimulus:"Sesuatu yang mutlak menjadi milik kita setelah melaksanakan aturan disebut...", question:"Sesuatu yang harus kita terima disebut...", answer:"Hak"},
+    {type:"pg", stimulus:"Siswa menuntut nilai rapor bagus tetapi tidak pernah mau belajar.", question:"Tindakan tersebut adalah contoh...", options:["A. Menjalankan kewajiban","B. Menuntut hak tanpa melaksanakan kewajiban","C. Sikap teladan","D. Prestasi"], answer:"B"},
+    {type:"pg", stimulus:"Pejalan kaki berhak berjalan aman di atas trotoar jalan.", question:"Kewajiban pejalan kaki saat menyeberang jalan adalah...", options:["A. Menyeberang di zebra cross dengan hati-hati","B. Berlari sembarangan","C. Menghadang kendaraan","D. Bermain di tengah jalan"], answer:"A"},
+    {type:"pg", stimulus:"Siswa berhak mendapat perlakuan adil dari guru di sekolah.", question:"Kewajiban siswa saat guru menjelaskan materi di depan kelas adalah...", options:["A. Mengobrol", "B. Mendengarkan dengan tertib dan tenang", "C. Tidur", "D. Bermain mainan"], answer:"B"},
+    {type:"pg", stimulus:"Air bersih merupakan sumber kehidupan bagi seluruh warga.", question:"Kewajiban kita terhadap ketersediaan air bersih di rumah adalah...", options:["A. Membiarkan keran terbuka terus", "B. Menghemat penggunaan air", "C. Membuang sampah ke sumur", "D. Menghamburkan air"], answer:"B"},
+    // 41-50 Musyawarah & Pendapat
+    {type:"pg", stimulus:"Kelas 5 mengadakan musyawarah mufakat untuk memilih ketua kelas.", question:"Cara menyampaikan pendapat dalam rapat yang sopan adalah...", options:["A. Berteriak keras", "B. Mengangkat tangan dan berbicara santun", "C. Memotong pembicaraan", "D. Memaksa kehendak"], answer:"B"},
+    {type:"pg", stimulus:"Usul Bayu tidak terpilih dalam pemungutan suara pemilihan tujuan karya wisata.", question:"Sikap Bayu yang sportif terhadap hasil keputusan musyawarah adalah...", options:["A. Marah dan ngambek", "B. Menerima keputusan dengan lapang dada", "C. Membenci ketua kelas", "D. Membatalkan acara"], answer:"B"},
+    {type:"pg", stimulus:"Kebebasan berpendapat di muka umum dijamin oleh UUD 1945.", question:"Batasan utama saat kita menyampaikan pendapat di depan umum adalah...", options:["A. Harus disetujui semua orang", "B. Disertai tanggung jawab dan menghormati hak orang lain", "C. Boleh menghina orang", "D. Hanya boleh oleh orang dewasa"], answer:"B"},
+    {type:"pg", stimulus:"Tono sedang menyampaikan usul dalam diskusi kelompok IPA.", question:"Sikap Rina saat Tono sedang berbicara adalah...", options:["A. Menyela dengan kasar", "B. Mendengarkan sampai selesai baru menanggapi", "C. Pergi meninggalkan kelompok", "D. Menertawakan"], answer:"B"},
+    {type:"pg", stimulus:"Musyawarah dilakukan untuk mencari penyelesaian masalah bersama.", question:"Tujuan utama musyawarah adalah tercapainya...", options:["A. Kemenangan kelompok", "B. Mufakat atau kesepakatan bersama", "C. Perdebatan panjang", "D. Perpecahan"], answer:"B"},
+    {type:"isian", stimulus:"Jika musyawarah mufakat belum tercapai, pemungutan suara dapat dilakukan.", question:"Istilah pemungutan suara terbanyak disebut...", answer:"Voting"},
+    {type:"pg", stimulus:"Ayah mengajak anggota keluarga berdiskusi merencanakan liburan.", question:"Hal ini membuktikan bahwa anak-anak juga memiliki...", options:["A. Hak berpendapat di dalam keluarga", "B. Kewajiban mencari nafkah", "C. Hak memimpin rumah", "D. Hak melarang orang tua"], answer:"A"},
+    {type:"pg", stimulus:"Kita ingin memberikan masukan atau kritik terhadap kebijakan sekolah.", question:"Kritik yang baik dan membangun sebaiknya disampaikan dengan cara...", options:["A. Marah-marah di gerbang", "B. Santun, objektif, dan memberi solusi", "C. Mencorat-coret dinding", "D. Memboikot sekolah"], answer:"B"},
+    {type:"pg", stimulus:"Mading sekolah menyediakan kotak saran untuk menampung aspirasi siswa.", question:"Mengirimkan saran lewat mading merupakan wujud hak...", options:["A. Berpendapat secara tertib", "B. Melanggar aturan", "C. Merusak fasilitas", "D. Berbuat usil"], answer:"A"},
+    {type:"pg", stimulus:"Hasil rapat kelas memutuskan setiap Jumat siswa wajib membawa botol minum.", question:"Keputusan bersama yang sudah disepakati wajib dilaksanakan oleh...", options:["A. Guru saja", "B. Seluruh warga kelas dengan penuh tanggung jawab", "C. Ketua kelas saja", "D. Siswa yang setuju saja"], answer:"C"}
   ];
 
-  function buildMiniBoard() {
-    const board = document.getElementById("miniBoardGrid");
-    board.innerHTML = "";
-    for (let row = 4; row >= 0; row--) {
-      let cellsInRow = [];
-      for (let col = 0; col < 10; col++) {
-        let num = row * 10 + col + 1;
-        cellsInRow.push(num);
-      }
-      if (row % 2 === 1) cellsInRow.reverse();
-      cellsInRow.forEach(num => {
-        const cell = document.createElement("div");
-        cell.className = "mini-cell";
-        cell.innerHTML = `<div class="mini-cell-num">${num}</div><div class="mini-tokens" id="mini-tokens-${num}"></div>`;
-        board.appendChild(cell);
-      });
-    }
-  }
-  buildMiniBoard();
+  let activeQuestions = [...defaultQuestions];
 
-  async function handleCreateRoom() {
+  function renderQuestions() {
+    const container = document.getElementById("questionList");
+    document.getElementById("qCount").innerText = activeQuestions.length;
+    container.innerHTML = activeQuestions.map((q, idx) => `
+      <div class="q-item">
+        <div style="font-size:0.75rem; color:#64748B; font-weight:bold;">Soal #${idx + 1} (${q.type.toUpperCase()})</div>
+        <div style="font-weight:700; font-size:0.82rem;">${q.question}</div>
+        <div style="font-size:0.78rem; color:#15803D;">Kunci: <b>${q.answer}</b></div>
+        <div class="q-actions">
+          <button class="btn-edit" onclick="editQ(${idx})">✏️ Edit</button>
+          <button class="btn-del" onclick="delQ(${idx})">🗑️ Hapus</button>
+        </div>
+      </div>
+    `).join("");
+  }
+  renderQuestions();
+
+  window.editQ = (idx) => {
+    const q = activeQuestions[idx];
+    document.getElementById("editIndex").value = idx;
+    document.getElementById("inStimulus").value = q.stimulus;
+    document.getElementById("inQuestion").value = q.question;
+    document.getElementById("inType").value = q.type;
+    document.getElementById("inAnswer").value = q.answer;
+    document.getElementById("pgFields").style.display = q.type === 'pg' ? 'block' : 'none';
+    if(q.type === 'pg' && q.options) {
+      document.getElementById("optA").value = q.options[0]?.substring(3) || "";
+      document.getElementById("optB").value = q.options[1]?.substring(3) || "";
+      document.getElementById("optC").value = q.options[2]?.substring(3) || "";
+      document.getElementById("optD").value = q.options[3]?.substring(3) || "";
+    }
+    document.getElementById("formTitle").innerText = `✏️ Edit Soal #${idx+1}`;
+    window.scrollTo({top: 300, behavior:'smooth'});
+  };
+
+  window.delQ = async (idx) => {
+    if(activeQuestions.length <= 1) return alert("Minimal harus ada 1 soal!");
+    if(!confirm(`Hapus soal #${idx+1}?`)) return;
+    activeQuestions.splice(idx, 1);
+    renderQuestions();
+    if(currentPin) await update(ref(db, `rooms/${currentPin}`), {questions: activeQuestions});
+  };
+
+  document.getElementById("btnCreateRoom").onclick = async () => {
     const pin = Math.floor(100000 + Math.random() * 900000).toString();
     currentPin = pin;
     document.getElementById("pinDisplay").innerText = pin;
-    updateBadge("waiting");
+    document.getElementById("statusBadge").className = "badge badge-waiting";
+    document.getElementById("statusBadge").innerText = "MENUNGGU";
 
     await set(ref(db, `rooms/${pin}`), {
       status: "waiting",
-      gameMode: "free",
-      createdAt: Date.now(),
+      turnMode: "free",
       questions: activeQuestions,
       players: {}
     });
 
     listenToRoom(pin);
     alert(`Room berhasil dibuat dengan PIN: ${pin}`);
-  }
+  };
 
-  async function handleSetStatus(newStatus) {
-    if (!currentPin) return alert("Buat Room terlebih dahulu!");
-    await update(ref(db, `rooms/${currentPin}`), { status: newStatus });
-    updateBadge(newStatus);
-  }
+  document.getElementById("btnUpdateMode").onclick = async () => {
+    if(!currentPin) return alert("Buat room terlebih dahulu!");
+    const mode = document.getElementById("settingTurnMode").value;
+    await update(ref(db, `rooms/${currentPin}`), { turnMode: mode });
+    alert(`Mode giliran berhasil diatur ke: ${mode === 'free' ? 'Bebas (Serentak)' : 'Bergantian (Turn-Based)'}`);
+  };
 
-  async function handleSaveMode() {
-    if (!currentPin) return alert("Buat Room terlebih dahulu!");
-    const mode = document.getElementById("selectGameMode").value;
-    await update(ref(db, `rooms/${currentPin}`), { gameMode: mode });
-    alert(`Mode permainan berhasil diubah ke: ${mode === 'free' ? 'Bebas (Siapa Cepat)' : 'Bergiliran'}`);
-  }
+  document.getElementById("btnPlay").onclick = async () => {
+    if(!currentPin) return alert("Buat room dulu!");
+    await update(ref(db, `rooms/${currentPin}`), { status: "playing" });
+    document.getElementById("statusBadge").className = "badge badge-playing";
+    document.getElementById("statusBadge").innerText = "BERMAIN";
+  };
 
-  function updateBadge(status) {
-    const badge = document.getElementById("statusBadge");
-    badge.className = "badge";
-    if (status === "waiting") { badge.classList.add("badge-waiting"); badge.innerText = "MENUNGGU"; }
-    if (status === "playing") { badge.classList.add("badge-playing"); badge.innerText = "BERMAIN"; }
-    if (status === "paused")  { badge.classList.add("badge-paused"); badge.innerText = "DIJEDA"; }
-    if (status === "ended")   { badge.classList.add("badge-paused"); badge.innerText = "SELESAI"; }
-  }
+  document.getElementById("btnPause").onclick = async () => {
+    if(!currentPin) return;
+    await update(ref(db, `rooms/${currentPin}`), { status: "paused" });
+    document.getElementById("statusBadge").className = "badge badge-paused";
+    document.getElementById("statusBadge").innerText = "DIJEDA";
+  };
+
+  document.getElementById("btnEnd").onclick = async () => {
+    if(!currentPin) return;
+    await update(ref(db, `rooms/${currentPin}`), { status: "ended" });
+    document.getElementById("statusBadge").className = "badge badge-paused";
+    document.getElementById("statusBadge").innerText = "SELESAI";
+  };
 
   function listenToRoom(pin) {
-    onValue(ref(db, `rooms/${pin}`), (snapshot) => {
-      const data = snapshot.val();
-      if (!data) return;
-      updateBadge(data.status);
-
-      for (let i = 1; i <= 50; i++) {
-        const slot = document.getElementById(`mini-tokens-${i}`);
-        if (slot) slot.innerHTML = "";
-      }
-
-      const tbody = document.getElementById("leaderboardBody");
-      if (!data.players) {
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#94a3b8;">Menunggu siswa bergabung...</td></tr>`;
+    onValue(ref(db, `rooms/${pin}`), (snap) => {
+      const data = snap.val();
+      if(!data) return;
+      const tbody = document.getElementById("playerTableBody");
+      if(!data.players) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#94A3B8;">Belum ada siswa bergabung...</td></tr>`;
         return;
       }
-
-      const players = Object.entries(data.players).sort((a, b) => b[1].pos - a[1].pos);
-
-      tbody.innerHTML = players.map(([id, p]) => {
-        const miniSlot = document.getElementById(`mini-tokens-${p.pos}`);
-        if (miniSlot) {
-          const span = document.createElement("span");
-          span.style.fontSize = "0.75rem";
-          span.innerText = p.avatar;
-          miniSlot.appendChild(span);
-        }
-
-        return `
-          <tr>
-            <td>${p.avatar || '🦁'} <b>${p.name}</b></td>
-            <td>Petak <b>${p.pos}</b> / 50</td>
-            <td>${p.score} pts</td>
-            <td><button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="removePlayer('${id}')">🗑️ Hapus</button></td>
-          </tr>
-        `;
-      }).join("");
+      tbody.innerHTML = Object.entries(data.players).map(([id, p]) => `
+        <tr>
+          <td>${p.avatar || '🦁'} <b>${p.name}</b></td>
+          <td>Petak ${p.pos}</td>
+          <td>${p.score} pts</td>
+          <td><button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="kickUser('${pin}', '${id}')">🗑️ Hapus</button></td>
+        </tr>
+      `).join("");
     });
   }
 
-  window.removePlayer = async (pId) => {
-    if (!currentPin) return;
-    if (confirm("Yakin ingin menghapus siswa ini dari room?")) {
-      await remove(ref(db, `rooms/${currentPin}/players/${pId}`));
-    }
+  window.kickUser = async (pin, id) => {
+    if(!confirm("Yakin ingin menghapus siswa ini dari room?")) return;
+    await remove(ref(db, `rooms/${pin}/players/${id}`));
   };
 
-  document.getElementById("inType").onchange = () => {
-    const type = document.getElementById("inType").value;
-    document.getElementById("pgFields").style.display = type === "pg" ? "block" : "none";
-  };
-
-  async function handleSaveQuestion() {
+  document.getElementById("btnSaveQ").onclick = async () => {
     const stimulus = document.getElementById("inStimulus").value.trim();
     const question = document.getElementById("inQuestion").value.trim();
     const type = document.getElementById("inType").value;
     const answer = document.getElementById("inAnswer").value.trim();
+    const editIndex = parseInt(document.getElementById("editIndex").value);
 
-    if (!stimulus || !question || !answer) return alert("Lengkapi semua kolom soal!");
+    if(!stimulus || !question || !answer) return alert("Lengkapi semua data soal!");
 
-    const qData = { stimulus, question, type, answer };
-    if (type === "pg") {
+    let qData = { stimulus, question, type, answer };
+    if(type === 'pg') {
       qData.options = [
         "A. " + document.getElementById("optA").value.trim(),
         "B. " + document.getElementById("optB").value.trim(),
@@ -345,23 +347,21 @@
       ];
     }
 
-    activeQuestions.push(qData);
-    alert("Soal berhasil ditambahkan ke bank soal!");
+    if(editIndex > -1) {
+      activeQuestions[editIndex] = qData;
+      alert("Soal berhasil diperbarui!");
+    } else {
+      activeQuestions.push(qData);
+      alert("Soal baru berhasil ditambahkan!");
+    }
+    renderQuestions();
+    document.getElementById("editIndex").value = -1;
+    document.getElementById("formTitle").innerText = "➕ Tambah / Edit Soal";
     document.getElementById("inStimulus").value = "";
     document.getElementById("inQuestion").value = "";
     document.getElementById("inAnswer").value = "";
-
-    if (currentPin) {
-      await update(ref(db, `rooms/${currentPin}`), { questions: activeQuestions });
-    }
-  }
-
-  document.getElementById("btnCreateRoom").onclick = handleCreateRoom;
-  document.getElementById("btnPlay").onclick = () => handleSetStatus("playing");
-  document.getElementById("btnPause").onclick = () => handleSetStatus("paused");
-  document.getElementById("btnEnd").onclick = () => handleSetStatus("ended");
-  document.getElementById("btnSaveMode").onclick = handleSaveMode;
-  document.getElementById("btnSaveQ").onclick = handleSaveQuestion;
+    if(currentPin) await update(ref(db, `rooms/${currentPin}`), { questions: activeQuestions });
+  };
 </script>
 </body>
 </html>
