@@ -3,74 +3,73 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Live Monitor Guru - Ular Tangga Pancasila</title>
+  <title>Portal Guru - Ular Tangga Pancasila</title>
   <link href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #FFFDF7;
+      --bg: #F0Fdf4;
       --card: #FFFFFF;
-      --primary: #5B8FB9;
-      --secondary: #7BC9A6;
-      --accent: #FFB84C;
-      --danger: #F27878;
-      --text: #334155;
-      --muted: #64748B;
-      --border: #E2E8F0;
+      --primary: #0284c7;
+      --secondary: #10b981;
+      --accent: #f59e0b;
+      --danger: #ef4444;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #cbd5e1;
     }
     * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     body { background: var(--bg); color: var(--text); margin: 0; padding: 16px; }
     .container { max-width: 1250px; margin: 0 auto; }
     
     header {
-      background: linear-gradient(135deg, #AEE2FF 0%, #B9F3FC 100%);
-      padding: 16px 24px; border-radius: 18px; display: flex;
+      background: linear-gradient(135deg, #38bdf8 0%, #34d399 100%);
+      padding: 18px 24px; border-radius: 20px; display: flex;
       justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
-      box-shadow: 0 6px 15px rgba(91, 143, 185, 0.12); margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.15); margin-bottom: 20px; color: white;
     }
-    header h1 { margin: 0; font-size: 1.35rem; color: #1E3A8A; }
-    header p { margin: 2px 0 0; font-size: 0.85rem; color: #334155; }
+    header h1 { margin: 0; font-size: 1.4rem; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    header p { margin: 4px 0 0; font-size: 0.88rem; opacity: 0.95; }
 
-    .grid-dashboard { display: grid; grid-template-columns: 1fr 1.4fr; gap: 16px; }
+    .grid-dashboard { display: grid; grid-template-columns: 1.1fr 1.3fr; gap: 18px; }
     @media (max-width: 950px) { .grid-dashboard { grid-template-columns: 1fr; } }
 
     .card {
-      background: var(--card); border-radius: 18px; padding: 18px;
-      border: 2px solid #F1F5F9; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-      margin-bottom: 16px;
+      background: var(--card); border-radius: 20px; padding: 20px;
+      border: 3px solid #e2e8f0; box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+      margin-bottom: 18px;
     }
-    .card h2 { margin-top: 0; font-size: 1.05rem; color: #1E293B; display: flex; align-items: center; gap: 8px; }
+    .card h2 { margin-top: 0; font-size: 1.1rem; color: #0f172a; display: flex; align-items: center; gap: 8px; }
 
     .pin-box {
-      background: #FEF9C3; border: 2px dashed #FACC15; border-radius: 14px;
-      padding: 12px; text-align: center; margin: 10px 0;
+      background: #fef08a; border: 3px dashed #eab308; border-radius: 16px;
+      padding: 14px; text-align: center; margin: 12px 0;
     }
-    .pin-code { font-size: 2.2rem; font-weight: 800; letter-spacing: 5px; color: #CA8A04; }
+    .pin-code { font-size: 2.4rem; font-weight: 800; letter-spacing: 6px; color: #854d0e; }
 
     .btn {
       border: none; padding: 10px 16px; border-radius: 12px; font-weight: 700;
-      cursor: pointer; transition: 0.2s; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;
+      cursor: pointer; transition: 0.2s; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px;
     }
-    .btn:hover { transform: translateY(-2px); filter: brightness(0.97); }
+    .btn:hover { transform: translateY(-2px); filter: brightness(0.95); }
     .btn-primary { background: var(--primary); color: white; }
-    .btn-success { background: var(--secondary); color: #064E3B; }
-    .btn-warning { background: var(--accent); color: #78350F; }
+    .btn-success { background: var(--secondary); color: white; }
+    .btn-warning { background: var(--accent); color: white; }
     .btn-danger { background: var(--danger); color: white; }
-    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
 
     .badge {
-      padding: 4px 12px; border-radius: 99px; font-size: 0.78rem; font-weight: 700;
+      padding: 6px 14px; border-radius: 99px; font-size: 0.8rem; font-weight: 700;
     }
-    .badge-waiting { background: #FEF3C7; color: #B45309; }
-    .badge-playing { background: #DCFCE7; color: #15803D; }
-    .badge-paused { background: #FEE2E2; color: #B91C1C; }
+    .badge-waiting { background: #fef08a; color: #854d0e; }
+    .badge-playing { background: #d1fae5; color: #065f46; }
+    .badge-paused { background: #fee2e2; color: #991b1b; }
 
     table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
-    th { background: #F8FAFC; color: var(--muted); font-weight: 600; }
+    th, td { padding: 10px 8px; text-align: left; border-bottom: 2px solid #f1f5f9; font-size: 0.85rem; }
+    th { background: #f8fafc; color: var(--muted); font-weight: 700; }
 
-    /* MINI LIVE BOARD 50 PETAK UNTUK GURU */
     .mini-board-wrapper {
-      background: #F8FAFC; padding: 8px; border-radius: 14px; border: 2px solid #E2E8F0;
+      background: #f8fafc; padding: 8px; border-radius: 14px; border: 2px solid #cbd5e1;
       overflow-x: auto; margin-bottom: 12px;
     }
     .mini-board {
@@ -79,34 +78,17 @@
     }
     .mini-cell {
       aspect-ratio: 1/1; background: white; border-radius: 4px; padding: 2px;
-      font-size: 0.55rem; font-weight: 700; border: 1px solid #CBD5E1;
+      font-size: 0.55rem; font-weight: 700; border: 1px solid #cbd5e1;
       display: flex; flex-direction: column; justify-content: space-between; position: relative;
     }
     .mini-cell-num { opacity: 0.6; font-size: 0.5rem; }
     .mini-tokens { display: flex; flex-wrap: wrap; gap: 1px; justify-content: center; }
 
-    /* LIVE ACTIVITY FEED */
-    .activity-feed {
-      background: #F1F5F9; border-radius: 12px; padding: 10px; max-height: 140px; overflow-y: auto;
-      font-size: 0.8rem; font-family: 'Andika', sans-serif;
-    }
-    .activity-item { margin-bottom: 4px; border-bottom: 1px dashed #CBD5E1; padding-bottom: 3px; }
-
     input, textarea, select {
-      width: 100%; padding: 8px 10px; border: 1.5px solid var(--border);
-      border-radius: 10px; margin-top: 4px; margin-bottom: 10px; font-size: 0.85rem;
+      width: 100%; padding: 10px 12px; border: 2px solid var(--border);
+      border-radius: 12px; margin-top: 4px; margin-bottom: 12px; font-size: 0.9rem;
     }
     .andika-preview { font-family: 'Andika', sans-serif; }
-    .q-list { max-height: 260px; overflow-y: auto; padding-right: 4px; }
-    .q-item {
-      background: #F8FAFC; padding: 10px; border-radius: 10px; margin-bottom: 8px;
-      border-left: 4px solid var(--primary);
-    }
-    .q-item * { font-family: 'Andika', sans-serif; }
-    .q-actions { display: flex; gap: 6px; margin-top: 6px; }
-    .q-actions button { padding: 4px 8px; font-size: 0.7rem; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
-    .btn-edit { background: #E0F2FE; color: #0369A1; }
-    .btn-del { background: #FEE2E2; color: #991B1B; }
   </style>
 </head>
 <body>
@@ -115,25 +97,31 @@
   <header>
     <div>
       <h1>📡 Live Monitor Guru: Ular Tangga Pancasila</h1>
-      <p>Pantau Pergerakan Bidik Siswa, Papan Petak, & Aktivitas Real-Time secara Langsung</p>
+      <p>Kelola Sesi, Mode Giliran, Hapus User Dobel, & Pantau Progres Siswa</p>
     </div>
     <div>
-      Status Room: <span id="statusBadge" class="badge badge-waiting">BELUM DIBUAT</span>
+      Status: <span id="statusBadge" class="badge badge-waiting">BELUM DIBUAT</span>
     </div>
   </header>
 
   <div class="grid-dashboard">
-    <!-- KOLOM KIRI: KONTROL ROOM & BANK SOAL -->
+    <!-- KOLOM KIRI: KONTROL ROOM & PENGATURAN -->
     <div>
       <div class="card">
         <h2>🔑 Manajemen Sesi & Kontrol Game</h2>
         <button class="btn btn-primary" id="btnCreateRoom">✨ Buat Room & PIN Baru</button>
         
         <div class="pin-box">
-          <div style="font-size:0.78rem; color:#854D0E; font-weight:600;">KODE PIN UNTUK SISWA</div>
+          <div style="font-size:0.8rem; color:#854d0e; font-weight:700;">KODE PIN UNTUK SISWA</div>
           <div class="pin-code" id="pinDisplay">------</div>
-          <div style="font-size:0.75rem; color:#713F12;">Bagikan PIN ini agar siswa bergabung ke arena</div>
         </div>
+
+        <label style="font-weight:700; font-size:0.85rem;">⚙️ Pengaturan Mode Giliran Bermain:</label>
+        <select id="selectGameMode">
+          <option value="free">Bebas / Siapa Cepat Dia Dapat (Tanpa Menunggu)</option>
+          <option value="turn">Bergiliran Teratur (Satu per Satu)</option>
+        </select>
+        <button class="btn btn-warning" id="btnSaveMode" style="width:100%; justify-content:center; margin-bottom:10px;">💾 Simpan Pengaturan Mode</button>
 
         <div class="btn-group">
           <button class="btn btn-success" id="btnPlay">▶️ Mulai</button>
@@ -143,9 +131,7 @@
       </div>
 
       <div class="card">
-        <h2 id="formTitle">➕ Tambah Soal ke Bank Soal</h2>
-        <input type="hidden" id="editIndex" value="-1">
-        
+        <h2>➕ Tambah Soal ke Bank Soal</h2>
         <label>Teks Stimulus (Cerita / Kasus)</label>
         <textarea id="inStimulus" rows="2" class="andika-preview" placeholder="Tulis cerita stimulus..."></textarea>
         
@@ -168,55 +154,44 @@
         <label>Kunci Jawaban (PG: A/B/C/D atau Isian: Kata Kunci)</label>
         <input type="text" id="inAnswer" class="andika-preview" placeholder="Contoh: A atau Musyawarah">
 
-        <div style="display: flex; gap: 8px;">
-          <button class="btn btn-primary" style="flex:1;" id="btnSaveQ">💾 Simpan Soal</button>
-          <button class="btn" style="background:#E2E8F0; display:none;" id="btnCancelEdit">Batal</button>
-        </div>
+        <button class="btn btn-primary" id="btnSaveQ" style="width:100%; justify-content:center;">💾 Simpan Soal</button>
       </div>
     </div>
 
-    <!-- KOLOM KANAN: LIVE MONITORING PAPAN & LEADERBOARD -->
+    <!-- KOLOM KANAN: LIVE MONITORING & HAPUS USER DOBEL -->
     <div>
       <div class="card">
         <h2>🗺️ Live Mini Papan Pantau (50 Petak)</h2>
-        <p style="font-size:0.75rem; color:var(--muted); margin-top:-4px;">Melihat posisi avatar siswa di petak secara langsung.</p>
         <div class="mini-board-wrapper">
           <div class="mini-board" id="miniBoardGrid"></div>
         </div>
       </div>
 
       <div class="card">
-        <h2>🏆 Leaderboard & Status Siswa</h2>
+        <h2>👥 Daftar Siswa & Hapus User Dobel</h2>
+        <p style="font-size:0.78rem; color:var(--muted); margin-top:-4px;">Jika ada nama siswa yang masuk dua kali, klik tombol Hapus untuk membersihkannya.</p>
         <table>
           <thead>
             <tr>
-              <th>No</th>
               <th>Avatar & Nama</th>
               <th>Petak</th>
               <th>Skor</th>
-              <th>Status / Power-Up</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody id="leaderboardBody">
-            <tr><td colspan="5" style="text-align:center; color:#94A3B8;">Buat room terlebih dahulu untuk memantau siswa...</td></tr>
+            <tr><td colspan="4" style="text-align:center; color:#94a3b8;">Menunggu siswa bergabung...</td></tr>
           </tbody>
         </table>
-      </div>
-
-      <div class="card">
-        <h2>📜 Live Aktivitas & Log Permainan</h2>
-        <div class="activity-feed" id="activityFeed">
-          <div class="activity-item">Menunggu aktivitas permainan dimulai...</div>
-        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- FIREBASE SDK & LIVE MONITOR LOGIC -->
+<!-- FIREBASE SDK & GURU LOGIC -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getDatabase, ref, set, update, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+  import { getDatabase, ref, set, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
   // ==========================================
   // TEMPEL KONFIGURASI FIREBASE KAMU DI SINI
@@ -234,22 +209,15 @@
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
   let currentPin = null;
-
-  const defaultQuestions = [
-    { type:"pg", stimulus:"Pada tanggal 29 Mei hingga 1 Juni 1945, para tokoh bangsa berkumpul dalam sidang pertama BPUPKI.", question:"Siapakah tokoh yang menyampaikan gagasan dasar negara dengan istilah 'Pancasila' pada tanggal 1 Juni 1945?", options:["A. Drs. Moh. Hatta","B. Ir. Soekarno","C. Mr. Soepomo","D. Moh. Yamin"], answer:"B" },
-    { type:"pg", stimulus:"Sidang BPUPKI membentuk Panitia Sembilan yang menyusun rancangan pembukaan hukum dasar.", question:"Dokumen hasil rumusan Panitia Sembilan pada tanggal 22 Juni 1945 dikenal dengan nama...", options:["A. Piagam Jakarta","B. Dekrit Presiden","C. Sumpah Pemuda","D. Proklamasi"], answer:"A" },
-    { type:"pg", stimulus:"Dalam Piagam Jakarta terdapat rumusan sila pertama yang kemudian diubah demi persatuan bangsa.", question:"Siapakah tokoh yang mengusulkan perubahan kalimat sila pertama tersebut?", options:["A. Ahmad Soebardjo","B. Agus Salim","C. Drs. Moh. Hatta","D. Abikoesno"], answer:"C" },
-    { type:"pg", stimulus:"PPKI mengadakan sidang pada tanggal 18 Agustus 1945 untuk menetapkan Undang-Undang Dasar Negara.", question:"Pada tanggal berapakah rumusan Pancasila yang sah ditetapkan dalam Pembukaan UUD 1945?", options:["A. 1 Juni 1945","B. 22 Juni 1945","C. 17 Agustus 1945","D. 18 Agustus 1945"], answer:"D" },
-    { type:"pg", stimulus:"Para perumus Pancasila memiliki latar belakang yang berbeda namun tetap mengutamakan persatuan.", question:"Nilai keteladanan utama dari para tokoh perumus Pancasila adalah...", options:["A. Memaksakan kehendak","B. Rela berkorban dan mengutamakan persatuan","C. Mencari keuntungan pribadi","D. Menghindari diskusi"], answer:"B" },
-    { type:"isian", stimulus:"BPUPKI dibentuk untuk menyelidiki usaha persiapan kemerdekaan Indonesia.", question:"Siapa nama ketua BPUPKI? (Tulis nama belakangnya)", answer:"Radjiman" }
+  let activeQuestions = [
+    { type:"pg", stimulus:"Sidang BPUPKI pertama membahas dasar negara Indonesia merdeka.", question:"Siapakah tokoh yang menyampaikan gagasan dasar negara dengan istilah 'Pancasila' pada tanggal 1 Juni 1945?", options:["A. Drs. Moh. Hatta","B. Ir. Soekarno","C. Mr. Soepomo","D. Moh. Yamin"], answer:"B" },
+    { type:"pg", stimulus:"Panitia Sembilan berhasil menyusun Piagam Jakarta.", question:"Kapan Piagam Jakarta disahkan oleh Panitia Sembilan?", options:["A. 1 Juni 1945","B. 22 Juni 1945","C. 17 Agustus 1945","D. 18 Agustus 1945"], answer:"B" },
+    { type:"isian", stimulus:"BPUPKI diketuai oleh seorang tokoh pejuang bangsa.", question:"Siapa nama ketua BPUPKI? (Tulis nama belakangnya saja)", answer:"Radjiman" }
   ];
-
-  let activeQuestions = [...defaultQuestions];
 
   function buildMiniBoard() {
     const board = document.getElementById("miniBoardGrid");
     board.innerHTML = "";
-
     for (let row = 4; row >= 0; row--) {
       let cellsInRow = [];
       for (let col = 0; col < 10; col++) {
@@ -257,32 +225,15 @@
         cellsInRow.push(num);
       }
       if (row % 2 === 1) cellsInRow.reverse();
-
       cellsInRow.forEach(num => {
         const cell = document.createElement("div");
         cell.className = "mini-cell";
-        cell.id = `mini-cell-${num}`;
-        cell.innerHTML = `
-          <div class="mini-cell-num">${num}</div>
-          <div class="mini-tokens" id="mini-tokens-${num}"></div>
-        `;
+        cell.innerHTML = `<div class="mini-cell-num">${num}</div><div class="mini-tokens" id="mini-tokens-${num}"></div>`;
         board.appendChild(cell);
       });
     }
   }
   buildMiniBoard();
-
-  function renderQuestions() {
-    const container = document.getElementById("questionList");
-    if (!container) return;
-    container.innerHTML = activeQuestions.map((q, idx) => `
-      <div class="q-item">
-        <div style="font-size:0.7rem; color:#64748B; font-weight:bold;">Soal #${idx + 1} (${q.type === 'pg' ? 'PG' : 'Isian'})</div>
-        <div style="font-weight:700; font-size:0.8rem;">${q.question}</div>
-        <div style="font-size:0.75rem; color:#15803D;">Kunci: <b>${q.answer}</b></div>
-      </div>
-    `).join("");
-  }
 
   async function handleCreateRoom() {
     const pin = Math.floor(100000 + Math.random() * 900000).toString();
@@ -290,28 +241,29 @@
     document.getElementById("pinDisplay").innerText = pin;
     updateBadge("waiting");
 
-    try {
-      await set(ref(db, `rooms/${pin}`), {
-        status: "waiting",
-        createdAt: Date.now(),
-        questions: activeQuestions,
-        players: {}
-      });
+    await set(ref(db, `rooms/${pin}`), {
+      status: "waiting",
+      gameMode: "free",
+      createdAt: Date.now(),
+      questions: activeQuestions,
+      players: {}
+    });
 
-      listenToRoom(pin);
-      addActivityLog(`Room baru dibuat dengan PIN: ${pin}`);
-      alert(`Room berhasil dibuat! Bagikan PIN: ${pin} kepada siswa.`);
-    } catch (error) {
-      alert("Gagal membuat room. Periksa Rules Realtime Database Firebase Anda.");
-      console.error(error);
-    }
+    listenToRoom(pin);
+    alert(`Room berhasil dibuat dengan PIN: ${pin}`);
   }
 
   async function handleSetStatus(newStatus) {
     if (!currentPin) return alert("Buat Room terlebih dahulu!");
     await update(ref(db, `rooms/${currentPin}`), { status: newStatus });
     updateBadge(newStatus);
-    addActivityLog(`Status game diubah menjadi: ${newStatus.toUpperCase()}`);
+  }
+
+  async function handleSaveMode() {
+    if (!currentPin) return alert("Buat Room terlebih dahulu!");
+    const mode = document.getElementById("selectGameMode").value;
+    await update(ref(db, `rooms/${currentPin}`), { gameMode: mode });
+    alert(`Mode permainan berhasil diubah ke: ${mode === 'free' ? 'Bebas (Siapa Cepat)' : 'Bergiliran'}`);
   }
 
   function updateBadge(status) {
@@ -329,7 +281,6 @@
       if (!data) return;
       updateBadge(data.status);
 
-      // Bersihkan mini token di mini board
       for (let i = 1; i <= 50; i++) {
         const slot = document.getElementById(`mini-tokens-${i}`);
         if (slot) slot.innerHTML = "";
@@ -337,48 +288,39 @@
 
       const tbody = document.getElementById("leaderboardBody");
       if (!data.players) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#94A3B8;">Menunggu siswa bergabung dengan PIN <b>${pin}</b>...</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#94a3b8;">Menunggu siswa bergabung...</td></tr>`;
         return;
       }
 
-      const players = Object.values(data.players).sort((a, b) => {
-        if (b.pos !== a.pos) return b.pos - a.pos;
-        return b.score - a.score;
-      });
+      const players = Object.entries(data.players).sort((a, b) => b[1].pos - a[1].pos);
 
-      tbody.innerHTML = players.map((p, i) => {
-        // Tempatkan avatar di mini board guru
+      tbody.innerHTML = players.map(([id, p]) => {
         const miniSlot = document.getElementById(`mini-tokens-${p.pos}`);
         if (miniSlot) {
           const span = document.createElement("span");
-          span.style.fontSize = "0.8rem";
+          span.style.fontSize = "0.75rem";
           span.innerText = p.avatar;
           miniSlot.appendChild(span);
         }
 
-        let powerDesc = "Bermain";
-        if (p.shield) powerDesc = "🛡️ Tameng";
-        if (p.doubleDice) powerDesc = "✨ Dadu Ganda";
-        if (p.pos >= 50) powerDesc = "🏆 JUARA!";
-
         return `
           <tr>
-            <td><b>#${i + 1}</b></td>
             <td>${p.avatar || '🦁'} <b>${p.name}</b></td>
             <td>Petak <b>${p.pos}</b> / 50</td>
             <td>${p.score} pts</td>
-            <td>${powerDesc}</td>
+            <td><button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="removePlayer('${id}')">🗑️ Hapus</button></td>
           </tr>
         `;
       }).join("");
     });
   }
 
-  function addActivityLog(text) {
-    const feed = document.getElementById("activityFeed");
-    const time = new Date().toLocaleTimeString();
-    feed.innerHTML = `<div class="activity-item">[${time}] ${text}</div>` + feed.innerHTML;
-  }
+  window.removePlayer = async (pId) => {
+    if (!currentPin) return;
+    if (confirm("Yakin ingin menghapus siswa ini dari room?")) {
+      await remove(ref(db, `rooms/${currentPin}/players/${pId}`));
+    }
+  };
 
   document.getElementById("inType").onchange = () => {
     const type = document.getElementById("inType").value;
@@ -390,9 +332,8 @@
     const question = document.getElementById("inQuestion").value.trim();
     const type = document.getElementById("inType").value;
     const answer = document.getElementById("inAnswer").value.trim();
-    const editIndex = parseInt(document.getElementById("editIndex").value);
 
-    if (!stimulus || !question || !answer) return alert("Lengkapi stimulus, pertanyaan, dan kunci jawaban!");
+    if (!stimulus || !question || !answer) return alert("Lengkapi semua kolom soal!");
 
     const qData = { stimulus, question, type, answer };
     if (type === "pg") {
@@ -404,35 +345,22 @@
       ];
     }
 
-    if (editIndex > -1) {
-      activeQuestions[editIndex] = qData;
-      alert("Soal diperbarui!");
-    } else {
-      activeQuestions.push(qData);
-      alert("Soal baru ditambahkan!");
-    }
-
-    resetForm();
-    if (currentPin) {
-      await update(ref(db, `rooms/${currentPin}`), { questions: activeQuestions });
-    }
-  }
-
-  function resetForm() {
-    document.getElementById("editIndex").value = "-1";
+    activeQuestions.push(qData);
+    alert("Soal berhasil ditambahkan ke bank soal!");
     document.getElementById("inStimulus").value = "";
     document.getElementById("inQuestion").value = "";
     document.getElementById("inAnswer").value = "";
-    document.getElementById("optA").value = "";
-    document.getElementById("optB").value = "";
-    document.getElementById("optC").value = "";
-    document.getElementById("optD").value = "";
+
+    if (currentPin) {
+      await update(ref(db, `rooms/${currentPin}`), { questions: activeQuestions });
+    }
   }
 
   document.getElementById("btnCreateRoom").onclick = handleCreateRoom;
   document.getElementById("btnPlay").onclick = () => handleSetStatus("playing");
   document.getElementById("btnPause").onclick = () => handleSetStatus("paused");
   document.getElementById("btnEnd").onclick = () => handleSetStatus("ended");
+  document.getElementById("btnSaveMode").onclick = handleSaveMode;
   document.getElementById("btnSaveQ").onclick = handleSaveQuestion;
 </script>
 </body>
